@@ -6,6 +6,7 @@ abstract class Routes {
   static const HOME = _Paths.HOME;
   static const MAPS_WASTE_COLLECTIONS = _Paths.MAPS_WASTE_COLLECTIONS;
   static const MAPS_STREET_CLEANING = _Paths.MAPS_STREET_CLEANING;
+  static const BOTTOM_NAVIGATION = _Paths.BOTTOM_NAVIGATION;
 }
 
 abstract class _Paths {
@@ -13,4 +14,5 @@ abstract class _Paths {
   static const HOME = '/home';
   static const MAPS_WASTE_COLLECTIONS = '/maps-waste-collections';
   static const MAPS_STREET_CLEANING = '/maps-street-cleaning';
+  static const BOTTOM_NAVIGATION = '/bottom-navigation';
 }

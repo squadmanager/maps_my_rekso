@@ -1,5 +1,7 @@
 import 'package:get/get.dart';
 
+import '../modules/bottom_navigation/bindings/bottom_navigation_binding.dart';
+import '../modules/bottom_navigation/views/bottom_navigation_view.dart';
 import '../modules/home/bindings/home_binding.dart';
 import '../modules/home/views/home_view.dart';
 import '../modules/maps_street_cleaning/bindings/maps_street_cleaning_binding.dart';
@@ -30,6 +32,11 @@ class AppPages {
       name: _Paths.MAPS_STREET_CLEANING,
       page: () => const MapsStreetCleaningView(),
       binding: MapsStreetCleaningBinding(),
+    ),
+    GetPage(
+      name: _Paths.BOTTOM_NAVIGATION,
+      page: () => BottomNavigationView(),
+      binding: BottomNavigationBinding(),
     ),
   ];
 }

@@ -5,15 +5,15 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:intl/intl.dart';
-import 'package:maps_my_rekso/app/modules/maps_waste_collections/controllers/maps_waste_collections_controller.dart';
-import 'package:maps_my_rekso/app/widgets/color_widget.dart';
-import 'package:maps_my_rekso/app/widgets/detail_widget.dart';
+import 'package:maps_my_rekso/app/modules/maps_street_cleaning/controllers/maps_street_cleaning_controller.dart';
 
+import '../../../../widgets/color_widget.dart';
+import '../../../../widgets/detail_widget.dart';
 import '../../../../widgets/photo_view_widget.dart';
 
-class DetailPinWidget extends GetView<MapsWasteCollectionsController> {
+class DetailPinSc extends GetView<MapsStreetCleaningController> {
   final element;
-  const DetailPinWidget({required this.element, super.key});
+  const DetailPinSc({required this.element, super.key});
 
   Widget listImage(context) {
     return CarouselSlider(
@@ -30,14 +30,16 @@ class DetailPinWidget extends GetView<MapsWasteCollectionsController> {
             child: ClipRRect(
               borderRadius: const BorderRadius.all(Radius.circular(5.0)),
               child: InkWell(
-                onTap: () => Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => PhotoViewWidget(
-                      image: controller.attachmentList[i].url,
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => PhotoViewWidget(
+                        image: controller.attachmentList[i].url,
+                      ),
                     ),
-                  ),
-                ),
+                  );
+                },
                 child: Stack(
                   children: [
                     Image.network(
@@ -85,23 +87,18 @@ class DetailPinWidget extends GetView<MapsWasteCollectionsController> {
                                 fontSize: 20.0,
                                 fontWeight: FontWeight.bold,
                                 color: HexColor(
-                                    ColorWidget().primaryWasteCollections),
+                                    ColorWidget().primarySC),
                               ),
                             ),
                             Text(
-                              controller.attachmentList[i].createdAt != null ||
-                                      controller.attachmentList[i].createdAt !=
-                                          ''
-                                  ? 'Created : ${DateFormat("d MMMM y hh:mm", "id_ID").format(
-                                      DateTime.parse(controller
-                                          .attachmentList[i].createdAt),
-                                    )}'
-                                  : 'Created : -',
+                              'Created : ${DateFormat("d MMMM y hh:mm", "id_ID").format(
+                                controller.attachmentList[i].createdAt,
+                              )}',
                               style: GoogleFonts.poppins(
                                 fontSize: 12.0,
                                 fontWeight: FontWeight.normal,
                                 color: HexColor(
-                                    ColorWidget().primaryWasteCollections),
+                                    ColorWidget().primarySC),
                               ),
                             ),
                           ],
@@ -165,9 +162,9 @@ class DetailPinWidget extends GetView<MapsWasteCollectionsController> {
                 height: 10.0,
               ),
               DetailWidget(
-                title: 'Team',
+                title: 'Location Name',
                 isStatus: false,
-                textContent: element[0]['userAssigment'],
+                textContent: '${element[0]['userAssigment']}',
               ),
               const SizedBox(
                 height: 10.0,

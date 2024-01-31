@@ -22,7 +22,8 @@ import '../../../data/models/attachment_daily_task_model.dart';
 import '../../../widgets/snackbar_widget.dart';
 import '../../../widgets/time_covert_widget.dart';
 
-class MapsWasteCollectionsController extends GetxController with GetTickerProviderStateMixin {
+class MapsWasteCollectionsController extends GetxController
+    with GetTickerProviderStateMixin {
   final formKey = GlobalKey<FormState>().obs;
   final TextEditingController filterDateC = TextEditingController();
   final TextEditingController firstTimeC = TextEditingController();
@@ -71,7 +72,7 @@ class MapsWasteCollectionsController extends GetxController with GetTickerProvid
   var lngCurrentLocation = 0.0.obs;
 
   @override
-  void onInit() {
+  void onInit() async {
     final box = GetStorage();
 
     if (box.read('dataUser') != null) {
@@ -85,8 +86,8 @@ class MapsWasteCollectionsController extends GetxController with GetTickerProvid
       roleString.value = 'Administrator';
     }
 
-    typeForm.value = Get.arguments['typeForm'];
-    titleForm.value = Get.arguments['titleForm'];
+    typeForm.value = 'dragonfly';
+    // titleForm.value = Get.arguments['titleForm'];
 
     DateTime dateTimeNow = DateTime.now();
     singleDateFilter.value = DateFormat('yyyy-MM-dd').format(dateTimeNow);
@@ -100,6 +101,11 @@ class MapsWasteCollectionsController extends GetxController with GetTickerProvid
     );
 
     super.onInit();
+  }
+
+  void changeFilterTypeForm(String name) {
+    typeForm.value = name;
+    refreshData();
   }
 
   Future<void> getCurrentLocation() async {
@@ -337,53 +343,12 @@ class MapsWasteCollectionsController extends GetxController with GetTickerProvid
           'lat': element['lat'],
         });
 
-        // show directions
-        // latLng.add({
-        //   element['lng'],
-        //   element['lat'],
-        // });
         routePoints.add(LatLng(element['lat'], element['lng']));
       }
     }
 
     animateMapMove(routePoints[0], 15);
     isLoading.value = false;
-
-    // var stringList = latLng.join(";");
-    // var removeObject =
-    //     stringList.toString().replaceAll('{', '').replaceAll('}', '');
-    // var dataDriving =
-    //     removeObject.toString().replaceAll(' ', '').replaceAll(' ', '');
-
-    // var responseDirections =
-    //     await DirectionsProvider().getDirections(dataDriving);
-
-    // if (responseDirections.statusCode == 200) {
-    //   isLoading.value = false;
-    //   routePoints = [];
-    //   var ruter = jsonDecode(responseDirections.body)['routes'][0]['geometry']
-    //       ['coordinates'];
-    //   for (int i = 0; i < ruter.length; i++) {
-    //     var reep = ruter[i].toString();
-    //     reep = reep.replaceAll("[", "");
-    //     reep = reep.replaceAll("]", "");
-    //     var lat1 = reep.split(',');
-    //     var long1 = reep.split(",");
-    //     routePoints.add(LatLng(double.parse(lat1[1]), double.parse(long1[0])));
-    //   }
-    //   // refreshData();
-    // } else if (responseDirections.statusCode == 400) {
-    //   refreshData();
-    //   isLoading.value = false;
-    //   WarningWidget().dialog('There is no route at that time');
-    //   return;
-    // } else {
-    //   refreshData();
-    //   isLoading.value = false;
-    //   WarningWidget()
-    //       .dialog('The time is too long, please reduce the time period');
-    //   return;
-    // }
   }
 
   void animateMapMove(LatLng destLocation, double destZoom) {
@@ -452,8 +417,8 @@ class MapsWasteCollectionsController extends GetxController with GetTickerProvid
         isLoadingImage.value = false;
       } catch (e) {
         isLoadingImage.value = false;
-        SnackbarWidget()
-              .getSnackbar('Something went wrong', 'Please Reload this page ', 'error');
+        SnackbarWidget().getSnackbar(
+            'Something went wrong', 'Please Reload this page ', 'error');
       }
     } else if (typeForm.value == 'compactor') {
       try {
@@ -466,8 +431,8 @@ class MapsWasteCollectionsController extends GetxController with GetTickerProvid
         isLoadingImage.value = false;
       } catch (e) {
         isLoadingImage.value = false;
-        SnackbarWidget()
-              .getSnackbar('Something went wrong', 'Please Reload this page ', 'error');
+        SnackbarWidget().getSnackbar(
+            'Something went wrong', 'Please Reload this page ', 'error');
       }
     } else if (typeForm.value == 'pruning') {
       try {
@@ -480,8 +445,8 @@ class MapsWasteCollectionsController extends GetxController with GetTickerProvid
         isLoadingImage.value = false;
       } catch (e) {
         isLoadingImage.value = false;
-        SnackbarWidget()
-              .getSnackbar('Something went wrong', 'Please Reload this page ', 'error');
+        SnackbarWidget().getSnackbar(
+            'Something went wrong', 'Please Reload this page ', 'error');
       }
     }
   }

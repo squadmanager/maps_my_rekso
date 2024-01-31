@@ -22,15 +22,14 @@ class AttachmentProvider {
     );
 
     if (jsonDecode(response.body)['message'] == 'Unauthenticated.') {
-      loginC.logout();
-      SnackbarWidget()
-              .getSnackbar('Something went wrong', 'Please Reload this page ', 'error');
+      SnackbarWidget().getSnackbar(
+          'Something went wrong', 'Please Reload this page ', 'error');
     }
 
     var responseBody = attachmentDailyTaskModelFromJson(response.body).data;
 
     return responseBody;
-  }  
+  }
 
   // task compactor
   Future<List<DataAttachmentDailyTaskModel>> getImageCompactor(
@@ -44,9 +43,8 @@ class AttachmentProvider {
     );
 
     if (jsonDecode(response.body)['message'] == 'Unauthenticated.') {
-      loginC.logout();
-      SnackbarWidget()
-              .getSnackbar('Something went wrong', 'Please Reload this page ', 'error');
+      SnackbarWidget().getSnackbar(
+          'Something went wrong', 'Please Reload this page ', 'error');
     }
 
     var responseBody = attachmentDailyTaskModelFromJson(response.body).data;
@@ -65,9 +63,8 @@ class AttachmentProvider {
     );
 
     if (jsonDecode(response.body)['message'] == 'Unauthenticated.') {
-      loginC.logout();
-      SnackbarWidget()
-              .getSnackbar('Something went wrong', 'Please Reload this page ', 'error');
+      SnackbarWidget().getSnackbar(
+          'Something went wrong', 'Please Reload this page ', 'error');
     }
 
     var responseBody = attachmentDailyTaskModelFromJson(response.body).data;
