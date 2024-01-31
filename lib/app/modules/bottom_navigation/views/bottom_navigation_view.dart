@@ -73,7 +73,7 @@ class BottomNavigationView extends GetView<BottomNavigationController> {
                               controller.tabIndex(1);
                             },
                             child: SvgPicture.asset(
-                              'assets/icons/garbage-truck.svg',
+                              'assets/icons/road-sweeper.svg',
                               color: HexColor(controller.tabIndex.value == 1
                                   ? ColorWidget().primary
                                   : ColorWidget().grey),

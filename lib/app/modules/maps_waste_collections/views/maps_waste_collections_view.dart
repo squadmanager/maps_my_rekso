@@ -35,28 +35,28 @@ class MapsWasteCollectionsView extends GetView<MapsWasteCollectionsController> {
                 : Stack(
                     children: [
                       const ListLocationWidget(),
-                      Container(
-                        alignment: Alignment.topLeft,
-                        child: Container(
-                          margin: const EdgeInsets.only(left: 20.0, top: 20.0),
-                          width: 40,
-                          height: 40,
-                          child: ElevatedButton(
-                            onPressed: () => Get.back(),
-                            style: ElevatedButton.styleFrom(
-                              shape: const CircleBorder(),
-                              padding: const EdgeInsets.all(5),
-                              backgroundColor: HexColor(
-                                  ColorWidget().primaryWasteCollections),
-                            ),
-                            child: SvgPicture.asset(
-                              'assets/icons/arrow-left.svg',
-                              color: HexColor(ColorWidget().white),
-                              fit: BoxFit.scaleDown,
-                            ),
-                          ),
-                        ),
-                      ),
+                      // Container(
+                      //   alignment: Alignment.topLeft,
+                      //   child: Container(
+                      //     margin: const EdgeInsets.only(left: 20.0, top: 20.0),
+                      //     width: 40,
+                      //     height: 40,
+                      //     child: ElevatedButton(
+                      //       onPressed: () => Get.back(),
+                      //       style: ElevatedButton.styleFrom(
+                      //         shape: const CircleBorder(),
+                      //         padding: const EdgeInsets.all(5),
+                      //         backgroundColor: HexColor(
+                      //             ColorWidget().primaryWasteCollections),
+                      //       ),
+                      //       child: SvgPicture.asset(
+                      //         'assets/icons/arrow-left.svg',
+                      //         color: HexColor(ColorWidget().white),
+                      //         fit: BoxFit.scaleDown,
+                      //       ),
+                      //     ),
+                      //   ),
+                      // ),
                       Container(
                         alignment: Alignment.topRight,
                         child: Column(
