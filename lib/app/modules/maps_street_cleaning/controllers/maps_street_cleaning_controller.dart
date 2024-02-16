@@ -281,7 +281,7 @@ class MapsStreetCleaningController extends GetxController
 
   Future<void> getDirectionRoute() async {
     isLoading.value = true;
-    try {
+    // try {
       List dataLatLng = [];
       if (typeForm.value == 'road_sweeper') {
         // road sweeper
@@ -342,13 +342,13 @@ class MapsStreetCleaningController extends GetxController
         WarningWidget().dialog('Please contact the administrator!');
       }
       isLoading.value = false;
-    } catch (e) {
-      isLoading.value = false;
-      // SnackbarWidget().getSnackbar(
-      //     'Something went wrong', 'Please Reload this page ', 'error');
-      SnackbarWidget().getSnackbar(
-          'Something went wrong', '${e.toString}', 'error');
-    }
+    // } catch (e) {
+    //   isLoading.value = false;
+    //   // SnackbarWidget().getSnackbar(
+    //   //     'Something went wrong', 'Please Reload this page ', 'error');
+    //   SnackbarWidget().getSnackbar(
+    //       'Something went wrong', '${e.toString}', 'error');
+    // }
   }
 
   Future<void> getTaskGroupTeams() async {
