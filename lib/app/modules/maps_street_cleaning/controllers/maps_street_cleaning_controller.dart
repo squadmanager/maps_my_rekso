@@ -281,7 +281,7 @@ class MapsStreetCleaningController extends GetxController
 
   Future<void> getDirectionRoute() async {
     isLoading.value = true;
-    // try {
+    try {
       List dataLatLng = [];
       if (typeForm.value == 'road_sweeper') {
         // road sweeper
@@ -314,41 +314,41 @@ class MapsStreetCleaningController extends GetxController
         }
       }
 
-      // var stringList = dataLatLng.join(";");
-      // var removeObject =
-      //     stringList.toString().replaceAll('{', '').replaceAll('}', '');
-      // var dataRoute =
-      //     removeObject.toString().replaceAll(' ', '').replaceAll(' ', '');
+      var stringList = dataLatLng.join(";");
+      var removeObject =
+          stringList.toString().replaceAll('{', '').replaceAll('}', '');
+      var dataRoute =
+          removeObject.toString().replaceAll(' ', '').replaceAll(' ', '');
 
-      // var responseDirections =
-      //     await DirectionsProvider().getDirections(dataRoute);
+      var responseDirections =
+          await DirectionsProvider().getDirections(dataRoute);
 
-      // if (responseDirections.statusCode == 200) {
-      //   routePoints = [];
-      //   var ruter = jsonDecode(responseDirections.body)['routes'][0]['geometry']
-      //       ['coordinates'];
-      //   for (int i = 0; i < ruter.length; i++) {
-      //     var reep = ruter[i].toString();
-      //     reep = reep.replaceAll("[", "");
-      //     reep = reep.replaceAll("]", "");
-      //     var lat1 = reep.split(',');
-      //     var long1 = reep.split(",");
-      //     routePoints
-      //         .add(LatLng(double.parse(lat1[1]), double.parse(long1[0])));
-      //   }
-      // } else {
-      //   refreshData();
-      //   isLoading.value = false;
-      //   WarningWidget().dialog('Please contact the administrator!');
-      // }
+      if (responseDirections.statusCode == 200) {
+        routePoints = [];
+        var ruter = jsonDecode(responseDirections.body)['routes'][0]['geometry']
+            ['coordinates'];
+        for (int i = 0; i < ruter.length; i++) {
+          var reep = ruter[i].toString();
+          reep = reep.replaceAll("[", "");
+          reep = reep.replaceAll("]", "");
+          var lat1 = reep.split(',');
+          var long1 = reep.split(",");
+          routePoints
+              .add(LatLng(double.parse(lat1[1]), double.parse(long1[0])));
+        }
+      } else {
+        refreshData();
+        isLoading.value = false;
+        WarningWidget().dialog('Please contact the administrator!');
+      }
       isLoading.value = false;
-    // } catch (e) {
-    //   isLoading.value = false;
-    //   // SnackbarWidget().getSnackbar(
-    //   //     'Something went wrong', 'Please Reload this page ', 'error');
-    //   SnackbarWidget().getSnackbar(
-    //       'Something went wrong', '${e.toString}', 'error');
-    // }
+    } catch (e) {
+      isLoading.value = false;
+      // SnackbarWidget().getSnackbar(
+      //     'Something went wrong', 'Please Reload this page ', 'error');
+      SnackbarWidget()
+          .getSnackbar('Something went wrong', '${e.toString}', 'error');
+    }
   }
 
   Future<void> getTaskGroupTeams() async {

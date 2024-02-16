@@ -14,16 +14,15 @@ class HomeController extends GetxController {
 
   var isLightTheme = false.obs;
 
-  Future<void> autoLogin() async {   
-
+  Future<void> autoLogin() async {
     await GetStorage.init();
     final box = GetStorage();
 
-    if (box.read('dataUser') != null) {
-      isAuth.value = true;
-    } else {
-      submitLogin('sysadmin', '111111');
-    }
+    // if (box.read('dataUser') != null) {
+    //   isAuth.value = true;
+    // } else {
+    submitLogin('sysadmin', '111111');
+    // }
   }
 
   Future<void> submitLogin(String username, String password) async {
@@ -33,8 +32,7 @@ class HomeController extends GetxController {
       if (dataLogin['status']) {
         var profile = await AuthProvider().getProfile(dataLogin['token']);
 
-        if (profile.status) {        
-
+        if (profile.status) {
           if (profile.status) {
             final box = GetStorage();
             box.write(
