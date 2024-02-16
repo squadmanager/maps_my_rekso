@@ -54,7 +54,7 @@ class HomeController extends GetxController {
 
           loading.value = false;
           isAuth.value = true;
-          Get.offAllNamed(Routes.MAPS_WASTE_COLLECTIONS);
+          Get.offAllNamed(Routes.BOTTOM_NAVIGATION);
         } else {
           loading.value = false;
           SnackbarWidget()
