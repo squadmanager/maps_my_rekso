@@ -276,6 +276,7 @@ class MapsStreetCleaningController extends GetxController
     //   routePoints[0],
     //   15,
     // );
+    getTaskGroupTeams();
     getDirectionRoute();
   }
 

@@ -13,51 +13,53 @@ class ListTeamSc extends GetView<MapsStreetCleaningController> {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      scrollDirection: Axis.vertical,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            'Select Team',
-            style: GoogleFonts.poppins(
-              fontSize: 15.0,
-              fontWeight: FontWeight.w600,
-              color: HexColor(ColorWidget().black),
-            ),
-          ),
-          for (var element in data) ...[
-            Padding(
-              padding: const EdgeInsets.only(top: 10),
-              child: CardNoElevationWidget(
-                onLongPress: () {},
-                backgroundColor: HexColor(ColorWidget().background),
-                borderRadiusCircular: 10.0,
-                onTap: () {
-                  controller.latLngFilter.clear();
-                  controller.listElement.clear();
-                  controller.tracking.clear();
-                  controller.listLatLng.clear();
-                  Get.back();
-
-                  controller.submitFilterTeam(element.userId);
-                },
-                title: element.fullName,
-                widgetLeftTop: Container(),
-                widgetLeft: Text(
-                  'All Route Team ${element.fullName}',
-                  style: GoogleFonts.poppins(
-                    fontSize: 12.0,
-                    fontWeight: FontWeight.w500,
-                    color: HexColor(ColorWidget().black),
-                  ),
-                ),
-                widgetRight: Container(),
-                widgetBottom: Container(),
+    return Obx(
+      () => SingleChildScrollView(
+        scrollDirection: Axis.vertical,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'Select Team ${controller.typeForm.value}',
+              style: GoogleFonts.poppins(
+                fontSize: 15.0,
+                fontWeight: FontWeight.w600,
+                color: HexColor(ColorWidget().black),
               ),
             ),
+            for (var element in data) ...[
+              Padding(
+                padding: const EdgeInsets.only(top: 10),
+                child: CardNoElevationWidget(
+                  onLongPress: () {},
+                  backgroundColor: HexColor(ColorWidget().background),
+                  borderRadiusCircular: 10.0,
+                  onTap: () {
+                    controller.latLngFilter.clear();
+                    controller.listElement.clear();
+                    controller.tracking.clear();
+                    controller.listLatLng.clear();
+                    Get.back();
+
+                    controller.submitFilterTeam(element.userId);
+                  },
+                  title: element.fullName,
+                  widgetLeftTop: Container(),
+                  widgetLeft: Text(
+                    'All Route Team ${element.fullName}',
+                    style: GoogleFonts.poppins(
+                      fontSize: 12.0,
+                      fontWeight: FontWeight.w500,
+                      color: HexColor(ColorWidget().black),
+                    ),
+                  ),
+                  widgetRight: Container(),
+                  widgetBottom: Container(),
+                ),
+              ),
+            ],
           ],
-        ],
+        ),
       ),
     );
   }
