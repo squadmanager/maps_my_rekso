@@ -344,8 +344,10 @@ class MapsStreetCleaningController extends GetxController
       isLoading.value = false;
     } catch (e) {
       isLoading.value = false;
+      // SnackbarWidget().getSnackbar(
+      //     'Something went wrong', 'Please Reload this page ', 'error');
       SnackbarWidget().getSnackbar(
-          'Something went wrong', 'Please Reload this page ', 'error');
+          'Something went wrong', '${e.toString}', 'error');
     }
   }
 
