@@ -22,7 +22,6 @@ class HomeController extends GetxController {
       final data = box.read('dataUser') as Map<String, dynamic>;
       AuthProvider().logout(data['token']).then(
         (value) {
-          print('$value ===============');
           submitLogin('sysadmin', '111111');
         },
       );
