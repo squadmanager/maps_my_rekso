@@ -3,6 +3,7 @@ class UrlApi {
 
   late String login = '$url/api/login';
   late String profile = '$url/api/profile';
+  late String logout = '$url/api/logout';
 
   // hr
   // employee

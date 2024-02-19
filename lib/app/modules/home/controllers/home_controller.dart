@@ -18,11 +18,18 @@ class HomeController extends GetxController {
     await GetStorage.init();
     final box = GetStorage();
 
-    // if (box.read('dataUser') != null) {
-    //   isAuth.value = true;
-    // } else {
-    submitLogin('sysadmin', '111111');
-    // }
+    if (box.read('dataUser') != null) {
+      final data = box.read('dataUser') as Map<String, dynamic>;
+      AuthProvider().logout(data['token']).then(
+        (value) {
+          print('$value ===============');
+          submitLogin('sysadmin', '111111');
+        },
+      );
+      // isAuth.value = true;
+    } else {
+      submitLogin('sysadmin', '111111');
+    }
   }
 
   Future<void> submitLogin(String username, String password) async {

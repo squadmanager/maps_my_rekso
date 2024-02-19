@@ -40,4 +40,16 @@ class AuthProvider {
 
     return responseBody;
   }
+
+  Future<dynamic> logout(token) async {
+    final response = await http.get(
+      Uri.parse(UrlApi().logout),
+      headers: {
+        'Accept': 'application/json',
+        'Authorization': 'Bearer $token',
+      },
+    );
+
+    return jsonDecode(response.body);
+  }
 }
