@@ -73,6 +73,11 @@ class MapsStreetCleaningController extends GetxController
   var allTracking = [].obs;
   var tracking = [].obs;
 
+  // vehicle
+  var vehicleProfile = [].obs;
+  var detailVehicle = [].obs;
+  var justShowCar = false.obs;
+
   var firstHourFilter = 0.obs;
   var firstMinuteFilter = 0.obs;
   var lastHourFilter = 0.obs;
@@ -269,6 +274,9 @@ class MapsStreetCleaningController extends GetxController
     singleDateFilter.value = DateFormat('yyyy-MM-dd').format(dateTimeNow);
     singleDateView.value = DateFormat("d MMMM y", "id_ID").format(dateTimeNow);
     filterDateC.text = singleDateView.value;
+
+    justShowCar(false);
+    detailVehicle.clear();
 
     // routePoints = [const LatLng(-7.2875894, 112.632185)];
 

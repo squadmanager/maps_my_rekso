@@ -121,6 +121,7 @@ class ListLocationWidget extends GetView<MapsWasteCollectionsController> {
           controller.vehicleName.clear();
           controller.latLngNow.clear();
           controller.allTracking.clear();
+          controller.vehicleProfile.clear();
 
           dataEsp.forEach((key, value) {
             if (value['lat'] != null && value['lat'] != '') {
@@ -129,6 +130,9 @@ class ListLocationWidget extends GetView<MapsWasteCollectionsController> {
                 controller.vehicleName.add(key);
                 controller.latLngNow.add(
                   {'lat': value['lat']['float'], 'lng': value['lng']['float']},
+                );
+                controller.vehicleProfile.add(
+                  value['profile'],
                 );
 
                 controller.allTracking.add({
@@ -143,6 +147,7 @@ class ListLocationWidget extends GetView<MapsWasteCollectionsController> {
             data: data,
             vehicleName: controller.vehicleName,
             latLngNow: controller.latLngNow,
+            vehicleProfile: controller.vehicleProfile,
           );
         } else {
           return Container();

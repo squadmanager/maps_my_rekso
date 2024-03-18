@@ -10,6 +10,7 @@ import '../../../widgets/color_widget.dart';
 import '../../../widgets/modal_bottom_sheet_widget.dart';
 import '../controllers/maps_waste_collections_controller.dart';
 import 'layouts/detail_pin_widget.dart';
+import 'layouts/detail_vehicle_widget.dart';
 import 'layouts/list_directions_widget.dart';
 import 'layouts/list_location_widget.dart';
 
@@ -160,6 +161,28 @@ class MapsWasteCollectionsView extends GetView<MapsWasteCollectionsController> {
                               height: 40,
                               child: ElevatedButton(
                                 onPressed: () {
+                                  controller.justShowCar.value = true;
+                                },
+                                style: ElevatedButton.styleFrom(
+                                  shape: const CircleBorder(),
+                                  padding: const EdgeInsets.all(5),
+                                  backgroundColor: HexColor(
+                                      ColorWidget().primaryWasteCollections),
+                                ),
+                                child: SvgPicture.asset(
+                                  'assets/icons/car.svg',
+                                  color: HexColor(ColorWidget().white),
+                                  fit: BoxFit.scaleDown,
+                                ),
+                              ),
+                            ),
+                            Container(
+                              margin:
+                                  const EdgeInsets.only(top: 10.0, right: 20.0),
+                              width: 40,
+                              height: 40,
+                              child: ElevatedButton(
+                                onPressed: () {
                                   controller.changeFilterTypeForm('dragonfly');
                                 },
                                 style: ElevatedButton.styleFrom(
@@ -278,7 +301,56 @@ class MapsWasteCollectionsView extends GetView<MapsWasteCollectionsController> {
                             ),
                           ),
                         ]
-                      ]
+                      ],
+                      // detail vehicle
+                      if (controller.detailVehicle.isNotEmpty) ...[
+                        if (controller.isDevice.value == 'phone') ...[
+                          Container(
+                            alignment:
+                                MediaQuery.of(context).size.height < 500.0
+                                    ? Alignment.centerLeft
+                                    : Alignment.bottomCenter,
+                            child: Container(
+                              height: MediaQuery.of(context).size.height < 500.0
+                                  ? MediaQuery.of(context).size.height
+                                  : MediaQuery.of(context).size.height / 2,
+                              width: MediaQuery.of(context).size.height < 500.0
+                                  ? MediaQuery.of(context).size.width / 3
+                                  : MediaQuery.of(context).size.width,
+                              margin: const EdgeInsets.symmetric(
+                                horizontal: 20.0,
+                                vertical: 10.0,
+                              ),
+                              child: DetailVehicleWidget(
+                                element: controller.detailVehicle,
+                              ),
+                            ),
+                          ),
+                        ] else ...[
+                          Container(
+                            alignment:
+                                MediaQuery.of(context).size.height < 1000.0
+                                    ? Alignment.centerLeft
+                                    : Alignment.bottomCenter,
+                            child: Container(
+                              height:
+                                  MediaQuery.of(context).size.height < 1000.0
+                                      ? MediaQuery.of(context).size.height
+                                      : MediaQuery.of(context).size.height / 3,
+                              width: MediaQuery.of(context).size.height < 1000.0
+                                  ? MediaQuery.of(context).size.width / 3
+                                  : MediaQuery.of(context).size.width,
+                              margin: const EdgeInsets.symmetric(
+                                horizontal: 20.0,
+                                vertical: 10.0,
+                              ),
+                              child: DetailVehicleWidget(
+                                element: controller.detailVehicle,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ],
                     ],
                   ),
             floatingActionButton: FloatingActionButton(

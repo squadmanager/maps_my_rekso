@@ -13,10 +13,12 @@ class MapsSc extends GetView<MapsStreetCleaningController> {
   final data;
   final List vehicleName;
   final List latLngNow;
+  final List vehicleProfile;
   const MapsSc(
       {required this.data,
       required this.vehicleName,
       required this.latLngNow,
+      required this.vehicleProfile,
       super.key});
 
   @override
@@ -45,16 +47,17 @@ class MapsSc extends GetView<MapsStreetCleaningController> {
               ],
             ),
           ] else ...[
-            PolylineLayer(
-              polylineCulling: false,
-              polylines: [
-                Polyline(
-                  points: controller.routePoints,
-                  color: HexColor(ColorWidget().green),
-                  strokeWidth: 9,
-                ),
-              ],
-            ),
+            if (controller.justShowCar.isFalse)
+              PolylineLayer(
+                polylineCulling: false,
+                polylines: [
+                  Polyline(
+                    points: controller.routePoints,
+                    color: HexColor(ColorWidget().green),
+                    strokeWidth: 9,
+                  ),
+                ],
+              ),
           ],
           MarkerLayer(
             markers: [
@@ -128,248 +131,253 @@ class MapsSc extends GetView<MapsStreetCleaningController> {
                 ),
               ],
               // collection point
-              for (var element in data) ...[
-                if (data.last['detail_dailytask_id'] ==
-                    element['detail_dailytask_id']) ...[
-                  // start last index
-                  Marker(
-                    alignment: Alignment.topCenter,
-                    rotate: true,
-                    width: 200,
-                    height: 45,
-                    point: LatLng(
-                      double.parse(
-                            data.last['lat_start'],
-                          ) -
-                          0.00005,
-                      double.parse(data.last['lng_start']),
-                    ),
-                    child: InkWell(
-                      onTap: () {
-                        controller.attachmentList.clear();
-                        controller.getImage(data.last['trans_dtsc_id']);
-                        controller.listElement.clear();
+              if (controller.justShowCar.isFalse) ...[
+                for (var element in data) ...[
+                  if (data.last['detail_dailytask_id'] ==
+                      element['detail_dailytask_id']) ...[
+                    // start last index
+                    Marker(
+                      alignment: Alignment.topCenter,
+                      rotate: true,
+                      width: 200,
+                      height: 45,
+                      point: LatLng(
+                        double.parse(
+                              data.last['lat_start'],
+                            ) -
+                            0.00005,
+                        double.parse(data.last['lng_start']),
+                      ),
+                      child: InkWell(
+                        onTap: () {
+                          controller.attachmentList.clear();
+                          controller.getImage(data.last['trans_dtsc_id']);
+                          controller.listElement.clear();
+                          controller.detailVehicle.clear();
 
-                        controller.gotoLocation(
-                          double.parse(
-                            data.last['lat_start'],
-                          ),
-                          double.parse(data.last['lng_start']),
-                          17,
-                        );
-
-                        controller.listElement.add({
-                          'lat': double.parse(
-                            data.last['lat_start'],
-                          ),
-                          'lng': double.parse(data.last['lng_start']),
-                          'userAssigment':
-                              '${data.last['location_start']} - ${data.last['location_end']}',
-                          'status': data.last['status'],
-                        });
-                      },
-                      child: Column(
-                        children: [
-                          Container(
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(5.0),
-                              color: HexColor(
-                                data.last['status'] == '1'
-                                    ? ColorWidget().green
-                                    : data.last['colour_user'],
-                              ),
+                          controller.gotoLocation(
+                            double.parse(
+                              data.last['lat_start'],
                             ),
-                            child: Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 5.0),
-                              child: Text(
-                                data.last['location_start'].length > 20
-                                    ? '${data.last['location_start'].substring(0, 20)}...'
-                                    : data.last['location_start'],
-                                style: GoogleFonts.poppins(
-                                  fontSize: 8.0,
-                                  fontWeight: FontWeight.bold,
-                                  color: HexColor(ColorWidget().white),
+                            double.parse(data.last['lng_start']),
+                            17,
+                          );
+
+                          controller.listElement.add({
+                            'lat': double.parse(
+                              data.last['lat_start'],
+                            ),
+                            'lng': double.parse(data.last['lng_start']),
+                            'userAssigment':
+                                '${data.last['location_start']} - ${data.last['location_end']}',
+                            'status': data.last['status'],
+                          });
+                        },
+                        child: Column(
+                          children: [
+                            Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(5.0),
+                                color: HexColor(
+                                  data.last['status'] == '1'
+                                      ? ColorWidget().green
+                                      : data.last['colour_user'],
                                 ),
-                                textAlign: TextAlign.center,
+                              ),
+                              child: Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 5.0),
+                                child: Text(
+                                  data.last['location_start'].length > 20
+                                      ? '${data.last['location_start'].substring(0, 20)}...'
+                                      : data.last['location_start'],
+                                  style: GoogleFonts.poppins(
+                                    fontSize: 8.0,
+                                    fontWeight: FontWeight.bold,
+                                    color: HexColor(ColorWidget().white),
+                                  ),
+                                  textAlign: TextAlign.center,
+                                ),
                               ),
                             ),
-                          ),
-                          const SizedBox(
-                            height: 2.0,
-                          ),
-                          Center(
-                            child: SvgPicture.asset(
-                              'assets/icons/map-marker.svg',
-                              width: 30.0,
-                              height: 30.0,
-                              color: HexColor(data.last['colour_user']),
+                            const SizedBox(
+                              height: 2.0,
                             ),
-                          ),
-                        ],
+                            Center(
+                              child: SvgPicture.asset(
+                                'assets/icons/map-marker.svg',
+                                width: 30.0,
+                                height: 30.0,
+                                color: HexColor(data.last['colour_user']),
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
-                  ),
-                  // finish last index
-                  Marker(
-                    alignment: Alignment.topCenter,
-                    rotate: true,
-                    width: 200,
-                    height: 45,
-                    point: LatLng(
-                      double.parse(
-                            data.last['lat_finish'],
-                          ) -
-                          0.00005,
-                      double.parse(data.last['lng_finish']),
-                    ),
-                    child: InkWell(
-                      onTap: () {
-                        controller.attachmentList.clear();
-                        controller.getImage(data.last['trans_dtsc_id']);
-                        controller.listElement.clear();
+                    // finish last index
+                    Marker(
+                      alignment: Alignment.topCenter,
+                      rotate: true,
+                      width: 200,
+                      height: 45,
+                      point: LatLng(
+                        double.parse(
+                              data.last['lat_finish'],
+                            ) -
+                            0.00005,
+                        double.parse(data.last['lng_finish']),
+                      ),
+                      child: InkWell(
+                        onTap: () {
+                          controller.attachmentList.clear();
+                          controller.getImage(data.last['trans_dtsc_id']);
+                          controller.listElement.clear();
+                          controller.detailVehicle.clear();
 
-                        controller.gotoLocation(
-                          double.parse(
-                            data.last['lat_finish'],
-                          ),
-                          double.parse(data.last['lng_finish']),
-                          17,
-                        );
-
-                        controller.listElement.add({
-                          'lat': double.parse(
-                            data.last['lat_finish'],
-                          ),
-                          'lng': double.parse(data.last['lng_finish']),
-                          'userAssigment':
-                              '${data.last['location_start']} - ${data.last['location_end']}',
-                          'status': data.last['status'],
-                        });
-                      },
-                      child: Column(
-                        children: [
-                          Container(
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(5.0),
-                              color: HexColor(
-                                data.last['status'] == '1'
-                                    ? ColorWidget().green
-                                    : data.last['colour_user'],
-                              ),
+                          controller.gotoLocation(
+                            double.parse(
+                              data.last['lat_finish'],
                             ),
-                            child: Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 5.0),
-                              child: Text(
-                                data.last['location_end'].length > 20
-                                    ? '${data.last['location_end'].substring(0, 20)}...'
-                                    : data.last['location_end'],
-                                style: GoogleFonts.poppins(
-                                  fontSize: 8.0,
-                                  fontWeight: FontWeight.bold,
-                                  color: HexColor(ColorWidget().white),
+                            double.parse(data.last['lng_finish']),
+                            17,
+                          );
+
+                          controller.listElement.add({
+                            'lat': double.parse(
+                              data.last['lat_finish'],
+                            ),
+                            'lng': double.parse(data.last['lng_finish']),
+                            'userAssigment':
+                                '${data.last['location_start']} - ${data.last['location_end']}',
+                            'status': data.last['status'],
+                          });
+                        },
+                        child: Column(
+                          children: [
+                            Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(5.0),
+                                color: HexColor(
+                                  data.last['status'] == '1'
+                                      ? ColorWidget().green
+                                      : data.last['colour_user'],
                                 ),
-                                textAlign: TextAlign.center,
+                              ),
+                              child: Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 5.0),
+                                child: Text(
+                                  data.last['location_end'].length > 20
+                                      ? '${data.last['location_end'].substring(0, 20)}...'
+                                      : data.last['location_end'],
+                                  style: GoogleFonts.poppins(
+                                    fontSize: 8.0,
+                                    fontWeight: FontWeight.bold,
+                                    color: HexColor(ColorWidget().white),
+                                  ),
+                                  textAlign: TextAlign.center,
+                                ),
                               ),
                             ),
-                          ),
-                          const SizedBox(
-                            height: 2.0,
-                          ),
-                          Center(
-                            child: SvgPicture.asset(
-                              'assets/icons/map-marker.svg',
-                              width: 30.0,
-                              height: 30.0,
-                              color: HexColor(data.last['colour_user']),
+                            const SizedBox(
+                              height: 2.0,
                             ),
-                          ),
-                        ],
+                            Center(
+                              child: SvgPicture.asset(
+                                'assets/icons/map-marker.svg',
+                                width: 30.0,
+                                height: 30.0,
+                                color: HexColor(data.last['colour_user']),
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
-                  ),
-                ] else ...[
-                  Marker(
-                    alignment: Alignment.topCenter,
-                    rotate: true,
-                    width: 200,
-                    height: 45,
-                    point: LatLng(
-                      double.parse(
-                            element['lat_start'],
-                          ) -
-                          0.00005,
-                      double.parse(element['lng_start']),
-                    ),
-                    child: InkWell(
-                      onTap: () {
-                        controller.attachmentList.clear();
-                        controller.getImage(element['trans_dtsc_id']);
-                        controller.listElement.clear();
+                  ] else ...[
+                    Marker(
+                      alignment: Alignment.topCenter,
+                      rotate: true,
+                      width: 200,
+                      height: 45,
+                      point: LatLng(
+                        double.parse(
+                              element['lat_start'],
+                            ) -
+                            0.00005,
+                        double.parse(element['lng_start']),
+                      ),
+                      child: InkWell(
+                        onTap: () {
+                          controller.attachmentList.clear();
+                          controller.getImage(element['trans_dtsc_id']);
+                          controller.listElement.clear();
+                          controller.detailVehicle.clear();
 
-                        controller.gotoLocation(
-                          double.parse(
-                            element['lat_start'],
-                          ),
-                          double.parse(element['lng_start']),
-                          17,
-                        );
-
-                        controller.listElement.add({
-                          'lat': double.parse(
-                            element['lat_start'],
-                          ),
-                          'lng': double.parse(element['lng_start']),
-                          'userAssigment':
-                              '${element['location_start']} - ${element['location_end']}',
-                          'status': element['status'],
-                        });
-                      },
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Container(
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(5.0),
-                              color: HexColor(
-                                element['status'] == '1'
-                                    ? ColorWidget().green
-                                    : element['colour_user'],
-                              ),
+                          controller.gotoLocation(
+                            double.parse(
+                              element['lat_start'],
                             ),
-                            child: Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 5.0),
-                              child: Text(
-                                element['location_start'].length > 20
-                                    ? '${element['location_start'].substring(0, 20)}...'
-                                    : element['location_start'],
-                                style: GoogleFonts.poppins(
-                                  fontSize: 8.0,
-                                  fontWeight: FontWeight.bold,
-                                  color: HexColor(ColorWidget().white),
+                            double.parse(element['lng_start']),
+                            17,
+                          );
+
+                          controller.listElement.add({
+                            'lat': double.parse(
+                              element['lat_start'],
+                            ),
+                            'lng': double.parse(element['lng_start']),
+                            'userAssigment':
+                                '${element['location_start']} - ${element['location_end']}',
+                            'status': element['status'],
+                          });
+                        },
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(5.0),
+                                color: HexColor(
+                                  element['status'] == '1'
+                                      ? ColorWidget().green
+                                      : element['colour_user'],
                                 ),
-                                textAlign: TextAlign.center,
+                              ),
+                              child: Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 5.0),
+                                child: Text(
+                                  element['location_start'].length > 20
+                                      ? '${element['location_start'].substring(0, 20)}...'
+                                      : element['location_start'],
+                                  style: GoogleFonts.poppins(
+                                    fontSize: 8.0,
+                                    fontWeight: FontWeight.bold,
+                                    color: HexColor(ColorWidget().white),
+                                  ),
+                                  textAlign: TextAlign.center,
+                                ),
                               ),
                             ),
-                          ),
-                          const SizedBox(
-                            height: 2.0,
-                          ),
-                          Center(
-                            child: SvgPicture.asset(
-                              'assets/icons/map-marker.svg',
-                              width: 30.0,
-                              height: 30.0,
-                              color: HexColor(element['colour_user']),
+                            const SizedBox(
+                              height: 2.0,
                             ),
-                          ),
-                        ],
+                            Center(
+                              child: SvgPicture.asset(
+                                'assets/icons/map-marker.svg',
+                                width: 30.0,
+                                height: 30.0,
+                                color: HexColor(element['colour_user']),
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
-                  ),
-                ]
+                  ]
+                ],
               ],
 
               // vehicle
@@ -382,32 +390,54 @@ class MapsSc extends GetView<MapsStreetCleaningController> {
                     latLngNow[i]['lat'],
                     latLngNow[i]['lng'],
                   ),
-                  child: Column(
-                    children: [
-                      Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(5.0),
-                          color: HexColor(ColorWidget().primarySC),
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 5.0),
-                          child: Text(
-                            vehicleName[i].length > 10
-                                ? '${vehicleName[i].substring(0, 10)}...'
-                                : vehicleName[i],
-                            style: GoogleFonts.poppins(
-                              fontSize: 8.0,
-                              fontWeight: FontWeight.bold,
-                              color: HexColor(ColorWidget().white),
+                  child: InkWell(
+                    onTap: () {
+                      controller.listElement.clear();
+                      controller.detailVehicle.clear();
+
+                      controller.gotoLocation(
+                        latLngNow[i]['lat'],
+                        latLngNow[i]['lng'],
+                        18,
+                      );
+
+                      controller.detailVehicle.add({
+                        'images': vehicleProfile[i]['images'],
+                        'name': vehicleProfile[i]['name'],
+                        'nopol': vehicleProfile[i]['nopol'],
+                      });
+                    },
+                    child: Column(
+                      children: [
+                        Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(5.0),
+                            color: HexColor(ColorWidget().primarySC),
+                          ),
+                          child: Padding(
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 5.0),
+                            child: Text(
+                              vehicleName[i].length > 10
+                                  ? '${vehicleName[i].substring(0, 10)}...'
+                                  : vehicleName[i],
+                              style: GoogleFonts.poppins(
+                                fontSize: 8.0,
+                                fontWeight: FontWeight.bold,
+                                color: HexColor(ColorWidget().white),
+                              ),
+                              textAlign: TextAlign.center,
                             ),
-                            textAlign: TextAlign.center,
                           ),
                         ),
-                      ),
-                      Image.asset(
-                        'assets/images/compactor.png',
-                      ),
-                    ],
+                        Padding(
+                          padding: const EdgeInsets.only(top: 2.0),
+                          child: Image.network(
+                            '${vehicleProfile[i]['images']}',
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ],

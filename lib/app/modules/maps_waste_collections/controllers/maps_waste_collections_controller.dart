@@ -60,6 +60,11 @@ class MapsWasteCollectionsController extends GetxController
   var allTracking = [].obs;
   var tracking = [].obs;
 
+  // vehicle
+  var vehicleProfile = [].obs;
+  var detailVehicle = [].obs;
+  var justShowCar = false.obs;
+
   var firstHourFilter = 0.obs;
   var firstMinuteFilter = 0.obs;
   var lastHourFilter = 0.obs;
@@ -258,6 +263,8 @@ class MapsWasteCollectionsController extends GetxController
     routePoints = [const LatLng(-7.2875894, 112.632185)];
 
     animateMapMove(routePoints[0], 15);
+    justShowCar(false);
+    detailVehicle.clear();
     isLoading.value = false;
   }
 

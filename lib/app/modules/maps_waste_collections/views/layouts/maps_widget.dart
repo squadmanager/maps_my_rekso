@@ -12,10 +12,12 @@ class MapsWidget extends GetView<MapsWasteCollectionsController> {
   final data;
   final List vehicleName;
   final List latLngNow;
+  final List vehicleProfile;
   const MapsWidget(
       {required this.data,
       required this.vehicleName,
       required this.latLngNow,
+      required this.vehicleProfile,
       super.key});
 
   @override
@@ -122,85 +124,88 @@ class MapsWidget extends GetView<MapsWasteCollectionsController> {
                 ),
               ] else ...[
                 // collection point
-                for (int i = 0; i < data.length; i++) ...[
-                  Marker(
-                    rotate: true,
-                    width: 80,
-                    height: 60,
-                    point: LatLng(
-                      double.parse(
-                        data[i]['latitude'],
+                if (controller.justShowCar.isFalse) ...[
+                  for (int i = 0; i < data.length; i++) ...[
+                    Marker(
+                      rotate: true,
+                      width: 80,
+                      height: 60,
+                      point: LatLng(
+                        double.parse(
+                          data[i]['latitude'],
+                        ),
+                        double.parse(data[i]['longititude']),
                       ),
-                      double.parse(data[i]['longititude']),
-                    ),
-                    child: InkWell(
-                      onTap: () {
-                        controller.attachmentList.clear();
-                        controller.getImage(data[i]['trans_dta_id']);
-                        controller.listElement.clear();
+                      child: InkWell(
+                        onTap: () {
+                          controller.attachmentList.clear();
+                          controller.getImage(data[i]['trans_dta_id']);
+                          controller.listElement.clear();
+                          controller.detailVehicle.clear();
 
-                        controller.gotoLocation(
-                          double.parse(
-                            data[i]['latitude'],
-                          ),
-                          double.parse(data[i]['longititude']),
-                          18,
-                        );
-
-                        controller.listElement.add({
-                          'lat': double.parse(
-                            data[i]['latitude'],
-                          ),
-                          'lng': double.parse(data[i]['longititude']),
-                          'userAssigment': data[i]['user_assigment'],
-                          'status': data[i]['status'],
-                        });
-                      },
-                      child: Column(
-                        children: [
-                          Container(
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(5.0),
-                              color: HexColor(
-                                data[i]['status'] == '1'
-                                    ? ColorWidget().green
-                                    : data[i]['colour_user'],
-                              ),
+                          controller.gotoLocation(
+                            double.parse(
+                              data[i]['latitude'],
                             ),
-                            child: Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 5.0),
-                              child: Text(
-                                data[i]['location_task'].length > 25
-                                    ? '${data[i]['location_task'].substring(0, 25)}...'
-                                    : data[i]['location_task'],
-                                style: GoogleFonts.poppins(
-                                  fontSize: 8.0,
-                                  fontWeight: FontWeight.bold,
-                                  color: HexColor(ColorWidget().white),
+                            double.parse(data[i]['longititude']),
+                            18,
+                          );
+
+                          controller.listElement.add({
+                            'lat': double.parse(
+                              data[i]['latitude'],
+                            ),
+                            'lng': double.parse(data[i]['longititude']),
+                            'userAssigment': data[i]['user_assigment'],
+                            'status': data[i]['status'],
+                          });
+                        },
+                        child: Column(
+                          children: [
+                            Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(5.0),
+                                color: HexColor(
+                                  data[i]['status'] == '1'
+                                      ? ColorWidget().green
+                                      : data[i]['colour_user'],
                                 ),
-                                textAlign: TextAlign.center,
+                              ),
+                              child: Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 5.0),
+                                child: Text(
+                                  data[i]['location_task'].length > 25
+                                      ? '${data[i]['location_task'].substring(0, 25)}...'
+                                      : data[i]['location_task'],
+                                  style: GoogleFonts.poppins(
+                                    fontSize: 8.0,
+                                    fontWeight: FontWeight.bold,
+                                    color: HexColor(ColorWidget().white),
+                                  ),
+                                  textAlign: TextAlign.center,
+                                ),
                               ),
                             ),
-                          ),
-                          const SizedBox(
-                            height: 2.0,
-                          ),
-                          Center(
-                            child: Image.asset(
-                              controller.typeForm.value == 'dragonfly'
-                                  ? 'assets/images/cp_dragonfly.png'
-                                  : controller.typeForm.value == 'compactor'
-                                      ? 'assets/images/cp_compactor.png'
-                                      : 'assets/images/cp_pruning.png',
-                              width: 30.0,
-                              height: 30.0,
+                            const SizedBox(
+                              height: 2.0,
                             ),
-                          ),
-                        ],
+                            Center(
+                              child: Image.asset(
+                                controller.typeForm.value == 'dragonfly'
+                                    ? 'assets/images/cp_dragonfly.png'
+                                    : controller.typeForm.value == 'compactor'
+                                        ? 'assets/images/cp_compactor.png'
+                                        : 'assets/images/cp_pruning.png',
+                                width: 30.0,
+                                height: 30.0,
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
-                  ),
+                  ],
                 ],
               ],
 
@@ -214,33 +219,55 @@ class MapsWidget extends GetView<MapsWasteCollectionsController> {
                     latLngNow[i]['lat'],
                     latLngNow[i]['lng'],
                   ),
-                  child: Column(
-                    children: [
-                      Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(5.0),
-                          color:
-                              HexColor(ColorWidget().primaryWasteCollections),
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 5.0),
-                          child: Text(
-                            vehicleName[i].length > 10
-                                ? '${vehicleName[i].substring(0, 10)}...'
-                                : vehicleName[i],
-                            style: GoogleFonts.poppins(
-                              fontSize: 8.0,
-                              fontWeight: FontWeight.bold,
-                              color: HexColor(ColorWidget().white),
+                  child: InkWell(
+                    onTap: () {
+                      controller.listElement.clear();
+                      controller.detailVehicle.clear();
+
+                      controller.gotoLocation(
+                        latLngNow[i]['lat'],
+                        latLngNow[i]['lng'],
+                        18,
+                      );
+
+                      controller.detailVehicle.add({
+                        'images': vehicleProfile[i]['images'],
+                        'name': vehicleProfile[i]['name'],
+                        'nopol': vehicleProfile[i]['nopol'],
+                      });
+                    },
+                    child: Column(
+                      children: [
+                        Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(5.0),
+                            color:
+                                HexColor(ColorWidget().primaryWasteCollections),
+                          ),
+                          child: Padding(
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 5.0),
+                            child: Text(
+                              vehicleName[i].length > 10
+                                  ? '${vehicleName[i].substring(0, 10)}...'
+                                  : vehicleName[i],
+                              style: GoogleFonts.poppins(
+                                fontSize: 8.0,
+                                fontWeight: FontWeight.bold,
+                                color: HexColor(ColorWidget().white),
+                              ),
+                              textAlign: TextAlign.center,
                             ),
-                            textAlign: TextAlign.center,
                           ),
                         ),
-                      ),
-                      Image.asset(
-                        'assets/images/compactor.png',
-                      ),
-                    ],
+                        Padding(
+                          padding: const EdgeInsets.only(top: 2.0),
+                          child: Image.network(
+                            '${vehicleProfile[i]['images']}',
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ],

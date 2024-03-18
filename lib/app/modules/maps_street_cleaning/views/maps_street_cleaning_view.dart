@@ -5,6 +5,7 @@ import 'package:flutter_svg/svg.dart';
 
 import 'package:get/get.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:maps_my_rekso/app/modules/maps_street_cleaning/views/layouts/detail_vehicle_sc.dart';
 
 import '../../../widgets/color_widget.dart';
 import '../../../widgets/modal_bottom_sheet_widget.dart';
@@ -161,6 +162,28 @@ class MapsStreetCleaningView extends GetView<MapsStreetCleaningController> {
                               height: 40,
                               child: ElevatedButton(
                                 onPressed: () {
+                                  controller.justShowCar.value = true;
+                                },
+                                style: ElevatedButton.styleFrom(
+                                  shape: const CircleBorder(),
+                                  padding: const EdgeInsets.all(5),
+                                  backgroundColor:
+                                      HexColor(ColorWidget().primarySC),
+                                ),
+                                child: SvgPicture.asset(
+                                  'assets/icons/car.svg',
+                                  color: HexColor(ColorWidget().white),
+                                  fit: BoxFit.scaleDown,
+                                ),
+                              ),
+                            ),
+                            Container(
+                              margin:
+                                  const EdgeInsets.only(top: 10.0, right: 20.0),
+                              width: 40,
+                              height: 40,
+                              child: ElevatedButton(
+                                onPressed: () {
                                   ModalBottomSheetWidget().showModal(
                                     context,
                                     0.6,
@@ -196,13 +219,14 @@ class MapsStreetCleaningView extends GetView<MapsStreetCleaningController> {
                               height: 40,
                               child: ElevatedButton(
                                 onPressed: () {
-                                  controller.changeFilterTypeForm('road_sweeper');
+                                  controller
+                                      .changeFilterTypeForm('road_sweeper');
                                 },
                                 style: ElevatedButton.styleFrom(
                                   shape: const CircleBorder(),
                                   padding: const EdgeInsets.all(5),
-                                  backgroundColor: HexColor(
-                                      ColorWidget().primarySC),
+                                  backgroundColor:
+                                      HexColor(ColorWidget().primarySC),
                                 ),
                                 child: Padding(
                                   padding: const EdgeInsets.all(5.0),
@@ -221,13 +245,14 @@ class MapsStreetCleaningView extends GetView<MapsStreetCleaningController> {
                               height: 40,
                               child: ElevatedButton(
                                 onPressed: () {
-                                  controller.changeFilterTypeForm('manual_sweeper');
+                                  controller
+                                      .changeFilterTypeForm('manual_sweeper');
                                 },
                                 style: ElevatedButton.styleFrom(
                                   shape: const CircleBorder(),
                                   padding: const EdgeInsets.all(5),
-                                  backgroundColor: HexColor(
-                                      ColorWidget().primarySC),
+                                  backgroundColor:
+                                      HexColor(ColorWidget().primarySC),
                                 ),
                                 child: Padding(
                                   padding: const EdgeInsets.all(5.0),
@@ -289,7 +314,56 @@ class MapsStreetCleaningView extends GetView<MapsStreetCleaningController> {
                             ),
                           ),
                         ]
-                      ]
+                      ],
+                      // detail vehicle
+                      if (controller.detailVehicle.isNotEmpty) ...[
+                        if (controller.isDevice.value == 'phone') ...[
+                          Container(
+                            alignment:
+                                MediaQuery.of(context).size.height < 500.0
+                                    ? Alignment.centerLeft
+                                    : Alignment.bottomCenter,
+                            child: Container(
+                              height: MediaQuery.of(context).size.height < 500.0
+                                  ? MediaQuery.of(context).size.height
+                                  : MediaQuery.of(context).size.height / 2,
+                              width: MediaQuery.of(context).size.height < 500.0
+                                  ? MediaQuery.of(context).size.width / 3
+                                  : MediaQuery.of(context).size.width,
+                              margin: const EdgeInsets.symmetric(
+                                horizontal: 20.0,
+                                vertical: 10.0,
+                              ),
+                              child: DetailVehicleSc(
+                                element: controller.detailVehicle,
+                              ),
+                            ),
+                          ),
+                        ] else ...[
+                          Container(
+                            alignment:
+                                MediaQuery.of(context).size.height < 1000.0
+                                    ? Alignment.centerLeft
+                                    : Alignment.bottomCenter,
+                            child: Container(
+                              height:
+                                  MediaQuery.of(context).size.height < 1000.0
+                                      ? MediaQuery.of(context).size.height
+                                      : MediaQuery.of(context).size.height / 3,
+                              width: MediaQuery.of(context).size.height < 1000.0
+                                  ? MediaQuery.of(context).size.width / 3
+                                  : MediaQuery.of(context).size.width,
+                              margin: const EdgeInsets.symmetric(
+                                horizontal: 20.0,
+                                vertical: 10.0,
+                              ),
+                              child: DetailVehicleSc(
+                                element: controller.detailVehicle,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ],
                     ],
                   ),
             floatingActionButton: FloatingActionButton(
@@ -310,4 +384,3 @@ class MapsStreetCleaningView extends GetView<MapsStreetCleaningController> {
     );
   }
 }
-
