@@ -14,6 +14,7 @@ import 'layouts/detail_pin_sc.dart';
 import 'layouts/list_directions_sc.dart';
 import 'layouts/list_location_sc.dart';
 import 'layouts/list_team_sc.dart';
+import 'layouts/search_map_sc.dart';
 
 class MapsStreetCleaningView extends GetView<MapsStreetCleaningController> {
   const MapsStreetCleaningView({Key? key}) : super(key: key);
@@ -66,6 +67,36 @@ class MapsStreetCleaningView extends GetView<MapsStreetCleaningController> {
                             Container(
                               margin:
                                   const EdgeInsets.only(top: 20.0, right: 20.0),
+                              width: 40,
+                              height: 40,
+                              child: ElevatedButton(
+                                onPressed: () {
+                                  ModalBottomSheetWidget().showModal(
+                                    context,
+                                    0.9,
+                                    0.0,
+                                    0.9,
+                                    const SearchMapSc(),
+                                    Container(),
+                                    Container(),
+                                  );
+                                },
+                                style: ElevatedButton.styleFrom(
+                                  shape: const CircleBorder(),
+                                  padding: const EdgeInsets.all(5),
+                                  backgroundColor: HexColor(
+                                      ColorWidget().primarySC),
+                                ),
+                                child: SvgPicture.asset(
+                                  'assets/icons/search.svg',
+                                  color: HexColor(ColorWidget().white),
+                                  fit: BoxFit.scaleDown,
+                                ),
+                              ),
+                            ),
+                            Container(
+                              margin:
+                                  const EdgeInsets.only(top: 10.0, right: 20.0),
                               width: 40,
                               height: 40,
                               child: ElevatedButton(

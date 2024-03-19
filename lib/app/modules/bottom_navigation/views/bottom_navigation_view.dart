@@ -29,8 +29,8 @@ class BottomNavigationView extends GetView<BottomNavigationController> {
               alignment: Alignment.bottomCenter,
               child: Container(
                 margin: EdgeInsets.only(
-                    left: MediaQuery.of(context).size.width / 3,
-                    right: MediaQuery.of(context).size.width / 3,
+                    left: MediaQuery.of(context).size.width / 2.5,
+                    right: MediaQuery.of(context).size.width / 2.5,
                     bottom: 10.0),
                 width: double.infinity,
                 child: Container(
@@ -58,28 +58,36 @@ class BottomNavigationView extends GetView<BottomNavigationController> {
                             onTap: () {
                               controller.tabIndex(0);
                             },
-                            child: SvgPicture.asset(
-                              'assets/icons/3-wheel-1.svg',
-                              color: HexColor(controller.tabIndex.value == 0
-                                  ? ColorWidget().primary
-                                  : ColorWidget().grey),
-                              width: 35,
-                              fit: BoxFit.contain,
-                            ),
+                            child: controller.tabIndex.value == 0
+                                ? SvgPicture.asset(
+                                    'assets/icons/dragonfly.svg',
+                                    width: 35,
+                                    fit: BoxFit.contain,
+                                  )
+                                : SvgPicture.asset(
+                                    'assets/icons/dragonfly.svg',
+                                    color: HexColor(ColorWidget().grey),
+                                    width: 35,
+                                    fit: BoxFit.contain,
+                                  ),
                           ),
                           InkWell(
                             borderRadius: BorderRadius.circular(50.0),
                             onTap: () {
                               controller.tabIndex(1);
                             },
-                            child: SvgPicture.asset(
-                              'assets/icons/road-sweeper.svg',
-                              color: HexColor(controller.tabIndex.value == 1
-                                  ? ColorWidget().primary
-                                  : ColorWidget().grey),
-                              width: 35,
-                              fit: BoxFit.contain,
-                            ),
+                            child: controller.tabIndex.value == 1
+                                ? SvgPicture.asset(
+                                    'assets/icons/road-sweeper-bottom-nav.svg',
+                                    width: 35,
+                                    fit: BoxFit.contain,
+                                  )
+                                : SvgPicture.asset(
+                                    'assets/icons/road-sweeper-bottom-nav.svg',
+                                    color: HexColor(ColorWidget().grey),
+                                    width: 35,
+                                    fit: BoxFit.contain,
+                                  ),
                           ),
                         ],
                       ),

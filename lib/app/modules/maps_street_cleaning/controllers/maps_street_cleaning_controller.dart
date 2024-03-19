@@ -35,6 +35,7 @@ class MapsStreetCleaningController extends GetxController
   final TextEditingController filterDateC = TextEditingController();
   final TextEditingController firstTimeC = TextEditingController();
   final TextEditingController lastTimeC = TextEditingController();
+  final TextEditingController searchC = TextEditingController();
   MapController mapController = MapController();
   final attachmentList = List<DataAttachmentScModel>.empty().obs;
   List<LatLng> routePoints = [const LatLng(-7.2875894, 112.632185)].obs;
@@ -88,6 +89,10 @@ class MapsStreetCleaningController extends GetxController
   var latCurrentLocation = 0.0.obs;
   var lngCurrentLocation = 0.0.obs;
 
+  // search
+  var listCp = [].obs;
+  var listCpSearch = [].obs;
+
   @override
   void onInit() {
     final box = GetStorage();
@@ -120,7 +125,48 @@ class MapsStreetCleaningController extends GetxController
       (Timer t) => getCurrentLocation(),
     );
 
+    searchLocation('');
+
     super.onInit();
+  }
+
+  searchLocation(String text) {
+    final Stream<QuerySnapshot<Object?>> location;
+    if (typeForm.value == 'road_sweeper') {
+      location = FirebaseProvider().locationCollectionRs.snapshots();
+    } else {
+      location = FirebaseProvider().locationCollectionMs.snapshots();
+    }
+
+    listCpSearch.clear();
+    listCp.clear();
+
+    DateTime now = DateTime.now();
+    // tipe format tanggalnya ini jangan diubah
+    String dayNow = DateFormat("EEEE", "en_US").format(now);
+
+    location.forEach((e) {
+      for (var element in e.docs) {
+        String locationStart =
+            element['location_start'].toString().toLowerCase();
+        String locationEnd = element['location_end'].toString().toLowerCase();
+
+        if (text.isEmpty) {
+          listCp.add(element);
+          if (typeForm.value == 'road_sweeper') {
+            listCp.value =
+                listCp.where((e) => e['name_days'] == dayNow).toList();
+          }
+        } else if (locationStart.contains(text.toLowerCase()) ||
+            locationEnd.contains(text.toLowerCase())) {
+          listCpSearch.add(element);
+          if (typeForm.value == 'road_sweeper') {
+            listCpSearch.value =
+                listCpSearch.where((e) => e['name_days'] == dayNow).toList();
+          }
+        }
+      }
+    });
   }
 
   void changeFilterTypeForm(String name) {
@@ -277,6 +323,8 @@ class MapsStreetCleaningController extends GetxController
 
     justShowCar(false);
     detailVehicle.clear();
+    searchC.text = '';
+    searchLocation('');
 
     // routePoints = [const LatLng(-7.2875894, 112.632185)];
 

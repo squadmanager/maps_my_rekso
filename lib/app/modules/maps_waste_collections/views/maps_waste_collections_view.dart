@@ -5,6 +5,7 @@ import 'package:flutter_svg/svg.dart';
 
 import 'package:get/get.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:maps_my_rekso/app/modules/maps_waste_collections/views/layouts/search_map_widget.dart';
 
 import '../../../widgets/color_widget.dart';
 import '../../../widgets/modal_bottom_sheet_widget.dart';
@@ -65,6 +66,36 @@ class MapsWasteCollectionsView extends GetView<MapsWasteCollectionsController> {
                             Container(
                               margin:
                                   const EdgeInsets.only(top: 20.0, right: 20.0),
+                              width: 40,
+                              height: 40,
+                              child: ElevatedButton(
+                                onPressed: () {
+                                  ModalBottomSheetWidget().showModal(
+                                    context,
+                                    0.9,
+                                    0.0,
+                                    0.9,
+                                    const SearchMapWidget(),
+                                    Container(),
+                                    Container(),
+                                  );
+                                },
+                                style: ElevatedButton.styleFrom(
+                                  shape: const CircleBorder(),
+                                  padding: const EdgeInsets.all(5),
+                                  backgroundColor: HexColor(
+                                      ColorWidget().primaryWasteCollections),
+                                ),
+                                child: SvgPicture.asset(
+                                  'assets/icons/search.svg',
+                                  color: HexColor(ColorWidget().white),
+                                  fit: BoxFit.scaleDown,
+                                ),
+                              ),
+                            ),
+                            Container(
+                              margin:
+                                  const EdgeInsets.only(top: 10.0, right: 20.0),
                               width: 40,
                               height: 40,
                               child: ElevatedButton(

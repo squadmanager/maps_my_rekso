@@ -28,6 +28,7 @@ class MapsWasteCollectionsController extends GetxController
   final TextEditingController filterDateC = TextEditingController();
   final TextEditingController firstTimeC = TextEditingController();
   final TextEditingController lastTimeC = TextEditingController();
+  final TextEditingController searchC = TextEditingController();
   MapController mapController = MapController();
   final attachmentList = List<DataAttachmentDailyTaskModel>.empty().obs;
   List<LatLng> routePoints = [const LatLng(-7.2875894, 112.632185)].obs;
@@ -76,6 +77,10 @@ class MapsWasteCollectionsController extends GetxController
   var latCurrentLocation = 0.0.obs;
   var lngCurrentLocation = 0.0.obs;
 
+  // search
+  var listCp = [].obs;
+  var listCpSearch = [].obs;
+
   @override
   void onInit() async {
     final box = GetStorage();
@@ -105,7 +110,35 @@ class MapsWasteCollectionsController extends GetxController
       (Timer t) => getCurrentLocation(),
     );
 
+    searchLocation('');
+
     super.onInit();
+  }
+
+  searchLocation(String text) {
+    final Stream<QuerySnapshot<Object?>> location;
+    if (typeForm.value == 'dragonfly') {
+      location = FirebaseProvider().locationCollectionDragonfly.snapshots();
+    } else if (typeForm.value == 'compactor') {
+      location = FirebaseProvider().locationCollectionCompactor.snapshots();
+    } else {
+      location = FirebaseProvider().locationCollectionPruning.snapshots();
+    }
+
+    listCpSearch.clear();
+    listCp.clear();
+
+    location.forEach((e) {
+      for (var element in e.docs) {
+        String locationTask = element['location_task'].toString().toLowerCase();
+
+        if (text.isEmpty) {
+          listCp.add(element);
+        } else if (locationTask.contains(text.toLowerCase())) {
+          listCpSearch.add(element);
+        }
+      }
+    });
   }
 
   void changeFilterTypeForm(String name) {
@@ -265,6 +298,8 @@ class MapsWasteCollectionsController extends GetxController
     animateMapMove(routePoints[0], 15);
     justShowCar(false);
     detailVehicle.clear();
+    searchC.text = '';
+    searchLocation('');
     isLoading.value = false;
   }
 
