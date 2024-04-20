@@ -29,6 +29,7 @@ dependencies:
   flutter_map_marker_cluster: any
   flutter_map_location_marker: ^8.0.2
   geolocator: ^10.1.0
+  flutter_map_compass: ^1.0.1
   get: 4.6.6
 
   hexcolor: ^3.0.1

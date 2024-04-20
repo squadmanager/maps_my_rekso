@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
+import 'package:flutter_map_compass/flutter_map_compass.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -168,6 +169,7 @@ class MapsSc extends GetView<MapsStreetCleaningController> {
                               data.last['lat_start'],
                             ),
                             'lng': double.parse(data.last['lng_start']),
+                            'taskName': data.last['task_name'],
                             'userAssigment':
                                 '${data.last['location_start']} - ${data.last['location_end']}',
                             'status': data.last['status'],
@@ -248,6 +250,7 @@ class MapsSc extends GetView<MapsStreetCleaningController> {
                               data.last['lat_finish'],
                             ),
                             'lng': double.parse(data.last['lng_finish']),
+                            'taskName': data.last['task_name'],
                             'userAssigment':
                                 '${data.last['location_start']} - ${data.last['location_end']}',
                             'status': data.last['status'],
@@ -328,6 +331,7 @@ class MapsSc extends GetView<MapsStreetCleaningController> {
                               element['lat_start'],
                             ),
                             'lng': double.parse(element['lng_start']),
+                            'taskName': element['task_name'],
                             'userAssigment':
                                 '${element['location_start']} - ${element['location_end']}',
                             'status': element['status'],
@@ -385,7 +389,7 @@ class MapsSc extends GetView<MapsStreetCleaningController> {
                 Marker(
                   rotate: true,
                   width: 50,
-                  height: 70,
+                  height: 90,
                   point: LatLng(
                     latLngNow[i]['lat'],
                     latLngNow[i]['lng'],
@@ -442,6 +446,11 @@ class MapsSc extends GetView<MapsStreetCleaningController> {
                 ),
               ],
             ],
+          ),
+          const MapCompass.cupertino(
+            hideIfRotatedNorth: false,
+            padding: EdgeInsets.only(top: 40.0, right: 18.0),
+            animationCurve: Curves.easeInOut,
           ),
         ],
       ),

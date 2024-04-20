@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
+import 'package:flutter_map_compass/flutter_map_compass.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
@@ -157,6 +158,7 @@ class MapsWidget extends GetView<MapsWasteCollectionsController> {
                             ),
                             'lng': double.parse(data[i]['longititude']),
                             'userAssigment': data[i]['user_assigment'],
+                            'locationTask': data[i]['location_task'],
                             'status': data[i]['status'],
                           });
                         },
@@ -214,7 +216,7 @@ class MapsWidget extends GetView<MapsWasteCollectionsController> {
                 Marker(
                   rotate: true,
                   width: 50,
-                  height: 70,
+                  height: 90,
                   point: LatLng(
                     latLngNow[i]['lat'],
                     latLngNow[i]['lng'],
@@ -272,6 +274,11 @@ class MapsWidget extends GetView<MapsWasteCollectionsController> {
                 ),
               ],
             ],
+          ),
+          const MapCompass.cupertino(
+            hideIfRotatedNorth: false,
+            padding: EdgeInsets.only(top: 40.0, right: 18.0),
+            animationCurve: Curves.easeInOut,
           ),
         ],
       ),

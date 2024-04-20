@@ -165,6 +165,14 @@ class DetailPinWidget extends GetView<MapsWasteCollectionsController> {
                 height: 10.0,
               ),
               DetailWidget(
+                title: 'Location Task',
+                isStatus: false,
+                textContent: element[0]['locationTask'],
+              ),
+              const SizedBox(
+                height: 10.0,
+              ),
+              DetailWidget(
                 title: 'Team',
                 isStatus: false,
                 textContent: element[0]['userAssigment'],

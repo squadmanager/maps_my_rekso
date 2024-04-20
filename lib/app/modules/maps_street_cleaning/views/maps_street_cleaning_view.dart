@@ -65,8 +65,8 @@ class MapsStreetCleaningView extends GetView<MapsStreetCleaningController> {
                         child: Column(
                           children: [
                             Container(
-                              margin:
-                                  const EdgeInsets.only(top: 20.0, right: 20.0),
+                              margin: const EdgeInsets.only(
+                                  top: 150.0, right: 20.0),
                               width: 40,
                               height: 40,
                               child: ElevatedButton(
@@ -84,8 +84,8 @@ class MapsStreetCleaningView extends GetView<MapsStreetCleaningController> {
                                 style: ElevatedButton.styleFrom(
                                   shape: const CircleBorder(),
                                   padding: const EdgeInsets.all(5),
-                                  backgroundColor: HexColor(
-                                      ColorWidget().primarySC),
+                                  backgroundColor:
+                                      HexColor(ColorWidget().primarySC),
                                 ),
                                 child: SvgPicture.asset(
                                   'assets/icons/search.svg',
@@ -193,7 +193,9 @@ class MapsStreetCleaningView extends GetView<MapsStreetCleaningController> {
                               height: 40,
                               child: ElevatedButton(
                                 onPressed: () {
-                                  controller.justShowCar.value = true;
+                                  controller.justShowCar.value == true
+                                      ? controller.justShowCar.value = false
+                                      : controller.justShowCar.value = true;
                                 },
                                 style: ElevatedButton.styleFrom(
                                   shape: const CircleBorder(),

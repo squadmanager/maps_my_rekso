@@ -86,8 +86,7 @@ class DetailPinSc extends GetView<MapsStreetCleaningController> {
                               style: GoogleFonts.poppins(
                                 fontSize: 20.0,
                                 fontWeight: FontWeight.bold,
-                                color: HexColor(
-                                    ColorWidget().primarySC),
+                                color: HexColor(ColorWidget().primarySC),
                               ),
                             ),
                             Text(
@@ -97,8 +96,7 @@ class DetailPinSc extends GetView<MapsStreetCleaningController> {
                               style: GoogleFonts.poppins(
                                 fontSize: 12.0,
                                 fontWeight: FontWeight.normal,
-                                color: HexColor(
-                                    ColorWidget().primarySC),
+                                color: HexColor(ColorWidget().primarySC),
                               ),
                             ),
                           ],
@@ -165,6 +163,14 @@ class DetailPinSc extends GetView<MapsStreetCleaningController> {
                 title: 'Location Name',
                 isStatus: false,
                 textContent: '${element[0]['userAssigment']}',
+              ),
+              const SizedBox(
+                height: 10.0,
+              ),
+              DetailWidget(
+                title: 'Team',
+                isStatus: false,
+                textContent: '${element[0]['taskName']}',
               ),
               const SizedBox(
                 height: 10.0,

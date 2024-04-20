@@ -64,8 +64,8 @@ class MapsWasteCollectionsView extends GetView<MapsWasteCollectionsController> {
                         child: Column(
                           children: [
                             Container(
-                              margin:
-                                  const EdgeInsets.only(top: 20.0, right: 20.0),
+                              margin: const EdgeInsets.only(
+                                  top: 150.0, right: 20.0),
                               width: 40,
                               height: 40,
                               child: ElevatedButton(
@@ -192,7 +192,9 @@ class MapsWasteCollectionsView extends GetView<MapsWasteCollectionsController> {
                               height: 40,
                               child: ElevatedButton(
                                 onPressed: () {
-                                  controller.justShowCar.value = true;
+                                  controller.justShowCar.value == true
+                                      ? controller.justShowCar.value = false
+                                      : controller.justShowCar.value = true;
                                 },
                                 style: ElevatedButton.styleFrom(
                                   shape: const CircleBorder(),
