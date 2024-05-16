@@ -422,9 +422,9 @@ class MapsSc extends GetView<MapsStreetCleaningController> {
                             padding:
                                 const EdgeInsets.symmetric(horizontal: 5.0),
                             child: Text(
-                              vehicleName[i].length > 10
-                                  ? '${vehicleName[i].substring(0, 10)}...'
-                                  : vehicleName[i],
+                              vehicleProfile[i]['name'].length > 10
+                                  ? '${vehicleProfile[i]['name'].substring(0, 10)}...'
+                                  : vehicleProfile[i]['name'],
                               style: GoogleFonts.poppins(
                                 fontSize: 8.0,
                                 fontWeight: FontWeight.bold,
