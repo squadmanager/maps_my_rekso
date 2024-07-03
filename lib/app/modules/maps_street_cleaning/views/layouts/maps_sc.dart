@@ -87,7 +87,7 @@ class MapsSc extends GetView<MapsStreetCleaningController> {
                   Polyline(
                     points: controller.routePoints,
                     color: HexColor(ColorWidget().green),
-                    strokeWidth: 9,
+                    strokeWidth: 5,
                   ),
                 ],
               ),
