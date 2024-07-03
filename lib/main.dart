@@ -43,7 +43,7 @@ void main() async {
             return Obx(
               () => GetMaterialApp(
                   debugShowCheckedModeBanner: false,
-                  title: "My Rekso",
+                  title: "Rekso",
                   initialRoute: authC.isAuth.isTrue
                       ? Routes.BOTTOM_NAVIGATION
                       : Routes.HOME,

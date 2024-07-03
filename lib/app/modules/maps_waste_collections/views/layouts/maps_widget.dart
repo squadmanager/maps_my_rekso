@@ -1,25 +1,30 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_map_compass/flutter_map_compass.dart';
+import 'package:flutter_map_tappable_polyline/flutter_map_tappable_polyline.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:latlong2/latlong.dart';
 
 import '../../../../widgets/color_widget.dart';
+import '../../controllers/maps_mc_wc_controller.dart';
 import '../../controllers/maps_waste_collections_controller.dart';
 
 class MapsWidget extends GetView<MapsWasteCollectionsController> {
   final data;
-  final List vehicleName;
-  final List latLngNow;
-  final List vehicleProfile;
-  const MapsWidget(
+  // final List vehicleName;
+  // final List latLngNow;
+  // final List vehicleProfile;
+  MapsWidget(
       {required this.data,
-      required this.vehicleName,
-      required this.latLngNow,
-      required this.vehicleProfile,
+      // required this.vehicleName,
+      // required this.latLngNow,
+      // required this.vehicleProfile,
       super.key});
+
+  final MapsMcWcController mapsMcWcController = Get.put(MapsMcWcController());
 
   @override
   Widget build(BuildContext context) {
@@ -27,6 +32,12 @@ class MapsWidget extends GetView<MapsWasteCollectionsController> {
       () => FlutterMap(
         mapController: controller.mapController,
         options: MapOptions(
+          interactionOptions: controller.tracking.isNotEmpty
+              ? InteractionOptions(
+                  cursorKeyboardRotationOptions:
+                      CursorKeyboardRotationOptions.disabled(),
+                )
+              : const InteractionOptions(flags: InteractiveFlag.all),
           center: controller.routePoints[0],
           zoom: 15,
           // onTap: (tapPosition, point) {
@@ -45,10 +56,32 @@ class MapsWidget extends GetView<MapsWasteCollectionsController> {
               polylines: [
                 Polyline(
                   points: controller.routePoints,
-                  color: HexColor(ColorWidget().primaryWasteCollections),
-                  strokeWidth: 9,
+                  color: HexColor(ColorWidget().green),
+                  strokeWidth: 5,
                 ),
               ],
+            ),
+            TappablePolylineLayer(
+              polylineCulling: false,
+              polylines: [
+                for (int i = 0; i < controller.mcRouteLine.length; i++) ...[
+                  TaggedPolyline(
+                    tag: '${controller.mcRouteLine[i]['speed']}',
+                    points: [
+                      for (var e in controller.mcRouteLine[i]['data'])
+                        LatLng(e.latitude, e.longitude)
+                    ],
+                    color: controller.mcRouteLine[i]['color'],
+                    strokeWidth: 5.0,
+                  ),
+                ],
+              ],
+              onTap: (polylines, tapPosition) {
+                mapsMcWcController.showSpeed(
+                  context,
+                  '${polylines[0].tag} Km/Jam',
+                );
+              },
             ),
           ],
           MarkerLayer(
@@ -73,56 +106,38 @@ class MapsWidget extends GetView<MapsWasteCollectionsController> {
               // end current location user
               if (controller.tracking.isNotEmpty) ...[
                 // route tracking
-                Marker(
-                  rotate: true,
-                  width: 40,
-                  height: 40,
-                  point: LatLng(
-                    controller.latLngFilter.first['lat'],
-                    controller.latLngFilter.first['lng'],
-                  ),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: HexColor(ColorWidget().red),
-                    ),
-                    child: Center(
-                      child: Text(
-                        'A',
-                        style: GoogleFonts.poppins(
-                          fontSize: 12.0,
-                          fontWeight: FontWeight.w500,
-                          color: HexColor(ColorWidget().white),
+                if (controller.latLngStopVehicle.isNotEmpty) ...[
+                  for (int i = 0; i < controller.latLngStopVehicle.length; i++)
+                    Marker(
+                      rotate: true,
+                      width: 30,
+                      height: 30,
+                      point: LatLng(
+                        controller.latLngStopVehicle[i]['lat'],
+                        controller.latLngStopVehicle[i]['lng'],
+                      ),
+                      child: InkWell(
+                        onTap: () {
+                          mapsMcWcController.showDurationStop(
+                            context,
+                            controller.latLngStopVehicle[i]['totalHourStop'],
+                          );
+                        },
+                        child: Container(
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: HexColor(ColorWidget().red),
+                          ),
+                          child: Center(
+                            child: SvgPicture.asset(
+                              'assets/icons/stop-circle.svg',
+                              color: HexColor(ColorWidget().white),
+                            ),
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                ),
-                Marker(
-                  rotate: true,
-                  width: 40,
-                  height: 40,
-                  point: LatLng(
-                    controller.latLngFilter.last['lat'],
-                    controller.latLngFilter.last['lng'],
-                  ),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: HexColor(ColorWidget().red),
-                    ),
-                    child: Center(
-                      child: Text(
-                        'B',
-                        style: GoogleFonts.poppins(
-                          fontSize: 12.0,
-                          fontWeight: FontWeight.w500,
-                          color: HexColor(ColorWidget().white),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
+                ],
               ] else ...[
                 // collection point
                 if (controller.justShowCar.isFalse) ...[
@@ -211,68 +226,106 @@ class MapsWidget extends GetView<MapsWasteCollectionsController> {
                 ],
               ],
 
-              // vehicle
-              for (int i = 0; i < vehicleName.length; i++) ...[
-                Marker(
-                  rotate: true,
-                  width: 50,
-                  height: 90,
-                  point: LatLng(
-                    latLngNow[i]['lat'],
-                    latLngNow[i]['lng'],
-                  ),
-                  child: InkWell(
-                    onTap: () {
-                      controller.listElement.clear();
-                      controller.detailVehicle.clear();
-
-                      controller.gotoLocation(
-                        latLngNow[i]['lat'],
-                        latLngNow[i]['lng'],
-                        18,
-                      );
-
-                      controller.detailVehicle.add({
-                        'images': vehicleProfile[i]['images'],
-                        'name': vehicleProfile[i]['name'],
-                        'nopol': vehicleProfile[i]['nopol'],
-                      });
-                    },
-                    child: Column(
-                      children: [
-                        Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(5.0),
-                            color:
-                                HexColor(ColorWidget().primaryWasteCollections),
-                          ),
-                          child: Padding(
-                            padding:
-                                const EdgeInsets.symmetric(horizontal: 5.0),
-                            child: Text(
-                              vehicleProfile[i]['name'].length > 10
-                                  ? '${vehicleProfile[i]['name'].substring(0, 10)}...'
-                                  : vehicleProfile[i]['name'],
-                              style: GoogleFonts.poppins(
-                                fontSize: 8.0,
-                                fontWeight: FontWeight.bold,
-                                color: HexColor(ColorWidget().white),
+              // mc vehicle
+              if (mapsMcWcController.mcVehicleStatusesList.isNotEmpty)
+                for (int i = 0;
+                    i < mapsMcWcController.mcVehicleStatusesList.length;
+                    i++) ...[
+                  Marker(
+                    alignment: Alignment.topCenter,
+                    rotate: true,
+                    width: 80,
+                    height: 75,
+                    point: LatLng(
+                      mapsMcWcController.mcVehicleStatusesList[i].latitude,
+                      mapsMcWcController.mcVehicleStatusesList[i].longitude,
+                    ),
+                    child: InkWell(
+                      onTap: () {
+                        controller.mcOpenVehicleDetail(true);
+                        controller.mcVehicleDetail.clear();
+                        controller.gotoLocation(
+                          mapsMcWcController.mcVehicleStatusesList[i].latitude,
+                          mapsMcWcController.mcVehicleStatusesList[i].longitude,
+                          18,
+                        );
+                        controller.mcVehicleDetail.add({
+                          'vehicleId': mapsMcWcController
+                              .mcVehicleStatusesList[i].vehicleId,
+                          'licensePlate': mapsMcWcController
+                              .mcVehicleStatusesList[i].licensePlate,
+                          'hullNo': mapsMcWcController
+                              .mcVehicleStatusesList[i].hullNo,
+                          'engineOn': mapsMcWcController
+                              .mcVehicleStatusesList[i].engineOn,
+                          'address': mapsMcWcController
+                              .mcVehicleStatusesList[i].address,
+                          'speed':
+                              mapsMcWcController.mcVehicleStatusesList[i].speed,
+                          'motionStatus': mapsMcWcController
+                              .mcVehicleStatusesList[i].motionStatus,
+                          'imei':
+                              mapsMcWcController.mcVehicleStatusesList[i].imei,
+                          'sumDistance': mapsMcWcController
+                              .mcVehicleStatusesList[i].sumDistance,
+                          'sumDrivetimeFormatted': mapsMcWcController
+                              .mcVehicleStatusesList[i].sumDrivetimeFormatted,
+                        });
+                      },
+                      child: Column(
+                        children: [
+                          Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(5.0),
+                              color: HexColor(
+                                mapsMcWcController.mcVehicleStatusesList[i]
+                                            .motionStatus ==
+                                        'M'
+                                    ? ColorWidget().blue
+                                    : mapsMcWcController
+                                                .mcVehicleStatusesList[i]
+                                                .motionStatus ==
+                                            'I'
+                                        ? ColorWidget().yellow
+                                        : ColorWidget().red,
                               ),
-                              textAlign: TextAlign.center,
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.all(5.0),
+                              child: Text(
+                                mapsMcWcController
+                                    .mcVehicleStatusesList[i].licensePlate,
+                                style: GoogleFonts.poppins(
+                                  fontSize: 12.0,
+                                  fontWeight: FontWeight.w500,
+                                  color: HexColor(
+                                    ColorWidget().white,
+                                  ),
+                                ),
+                              ),
                             ),
                           ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(top: 2.0),
-                          child: Image.network(
-                            '${vehicleProfile[i]['images']}',
+                          Padding(
+                            padding: const EdgeInsets.only(top: 5.0),
+                            child: Image.asset(
+                              mapsMcWcController.mcVehicleStatusesList[i]
+                                          .motionStatus ==
+                                      'M'
+                                  ? 'assets/images/pin-map-car-blue.png'
+                                  : mapsMcWcController.mcVehicleStatusesList[i]
+                                              .motionStatus ==
+                                          'I'
+                                      ? 'assets/images/pin-map-car-yellow.png'
+                                      : 'assets/images/pin-map-car-red.png',
+                              height: 40,
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              // end mc vehicle
             ],
           ),
           const MapCompass.cupertino(
@@ -285,3 +338,66 @@ class MapsWidget extends GetView<MapsWasteCollectionsController> {
     );
   }
 }
+
+//  // vehicle
+// for (int i = 0; i < vehicleName.length; i++) ...[
+//   Marker(
+//     rotate: true,
+//     width: 50,
+//     height: 90,
+//     point: LatLng(
+//       latLngNow[i]['lat'],
+//       latLngNow[i]['lng'],
+//     ),
+//     child: InkWell(
+//       onTap: () {
+//         controller.listElement.clear();
+//         controller.detailVehicle.clear();
+
+//         controller.gotoLocation(
+//           latLngNow[i]['lat'],
+//           latLngNow[i]['lng'],
+//           18,
+//         );
+
+//         controller.detailVehicle.add({
+//           'images': vehicleProfile[i]['images'],
+//           'name': vehicleProfile[i]['name'],
+//           'nopol': vehicleProfile[i]['nopol'],
+//         });
+//       },
+//       child: Column(
+//         children: [
+//           Container(
+//             decoration: BoxDecoration(
+//               borderRadius: BorderRadius.circular(5.0),
+//               color:
+//                   HexColor(ColorWidget().primaryWasteCollections),
+//             ),
+//             child: Padding(
+//               padding:
+//                   const EdgeInsets.symmetric(horizontal: 5.0),
+//               child: Text(
+//                 vehicleProfile[i]['name'].length > 10
+//                     ? '${vehicleProfile[i]['name'].substring(0, 10)}...'
+//                     : vehicleProfile[i]['name'],
+//                 style: GoogleFonts.poppins(
+//                   fontSize: 8.0,
+//                   fontWeight: FontWeight.bold,
+//                   color: HexColor(ColorWidget().white),
+//                 ),
+//                 textAlign: TextAlign.center,
+//               ),
+//             ),
+//           ),
+//           Padding(
+//             padding: const EdgeInsets.only(top: 2.0),
+//             child: Image.network(
+//               '${vehicleProfile[i]['images']}',
+//             ),
+//           ),
+//         ],
+//       ),
+//     ),
+//   ),
+// ],

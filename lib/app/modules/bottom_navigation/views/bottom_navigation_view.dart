@@ -17,6 +17,9 @@ class BottomNavigationView extends GetView<BottomNavigationController> {
   final MapsStreetCleaningController mapsScC =
       Get.put(MapsStreetCleaningController());
 
+  // final MapsMcWcController mapsMcWcController =
+  //     Get.put(MapsMcWcController());
+
   @override
   Widget build(BuildContext context) {
     return Obx(

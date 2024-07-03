@@ -35,8 +35,14 @@ class ColorWidget {
   String yellow = '#D0D400';
   String secondaryYellow = '#FEFFD3';
 
+  String orange = '#D47F00';
+  String secondaryOrange = '#FFEBD3';
+
   String red = '#D40000';
   String secondaryRed = '#FFE1E1';
+
+  String blackRed = '#6C0000';
+  String secondaryBlackRed = '#A56C6C';
 
   String pink = '#D400BF';
   String secondaryPink = '#FFD8FB';

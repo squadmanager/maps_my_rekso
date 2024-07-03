@@ -25,12 +25,12 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.MAPS_WASTE_COLLECTIONS,
-      page: () => const MapsWasteCollectionsView(),
+      page: () => MapsWasteCollectionsView(),
       binding: MapsWasteCollectionsBinding(),
     ),
     GetPage(
       name: _Paths.MAPS_STREET_CLEANING,
-      page: () => const MapsStreetCleaningView(),
+      page: () => MapsStreetCleaningView(),
       binding: MapsStreetCleaningBinding(),
     ),
     GetPage(

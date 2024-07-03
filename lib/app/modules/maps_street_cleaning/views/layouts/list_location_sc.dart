@@ -44,7 +44,9 @@ class ListLocationSc extends GetView<MapsStreetCleaningController> {
             ),
           );
 
-          return vehicle(listData);
+          return MapsSc(
+            data: listData,
+          );
         } else {
           return Container();
         }
@@ -83,7 +85,9 @@ class ListLocationSc extends GetView<MapsStreetCleaningController> {
             ),
           );
 
-          return vehicle(listData);
+          return MapsSc(
+            data: listData,
+          );
         } else {
           return Container();
         }
@@ -137,9 +141,9 @@ class ListLocationSc extends GetView<MapsStreetCleaningController> {
 
           return MapsSc(
             data: data,
-            vehicleName: controller.vehicleName,
-            latLngNow: controller.latLngNow,
-            vehicleProfile: controller.vehicleProfile,
+            // vehicleName: controller.vehicleName,
+            // latLngNow: controller.latLngNow,
+            // vehicleProfile: controller.vehicleProfile,
           );
         } else {
           return Container();

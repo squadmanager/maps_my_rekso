@@ -81,6 +81,18 @@ class MapsWasteCollectionsController extends GetxController
   var listCp = [].obs;
   var listCpSearch = [].obs;
 
+  late Timer timer;
+
+  List latLngStopVehicle = [].obs;
+
+  var mcVehicleStatuses = [].obs;
+  var mcVehicleTrips = [].obs;
+  var mcVehicleTripsDetail = [].obs;
+  var mcVehicleDetail = [].obs;
+  var mcOpenVehicleDetail = false.obs;
+  var mcVehicleTripData = [].obs;
+  var mcRouteLine = [].obs;
+
   @override
   void onInit() async {
     final box = GetStorage();
@@ -105,14 +117,24 @@ class MapsWasteCollectionsController extends GetxController
     filterDateC.text = singleDateView.value;
 
     getDeviceType();
-    Timer.periodic(
-      const Duration(seconds: 10),
-      (Timer t) => getCurrentLocation(),
-    );
 
     searchLocation('');
 
     super.onInit();
+  }
+
+  @override
+  void onReady() {
+    timer = Timer.periodic(
+      const Duration(seconds: 10),
+      (Timer t) => getCurrentLocation(),
+    );
+  }
+
+  @override
+  void onClose() {
+    timer.cancel();
+    super.onClose();
   }
 
   searchLocation(String text) {
@@ -281,6 +303,9 @@ class MapsWasteCollectionsController extends GetxController
     tracking.clear();
     listLatLng.clear();
     latLngFilter.clear();
+    latLngStopVehicle.clear();
+    mcVehicleTripData.clear();
+    mcRouteLine.clear();
     firstHourFilter.value = 0;
     firstMinuteFilter.value = 0;
     lastHourFilter.value = 0;

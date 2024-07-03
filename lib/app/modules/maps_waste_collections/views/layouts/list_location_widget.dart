@@ -37,7 +37,9 @@ class ListLocationWidget extends GetView<MapsWasteCollectionsController> {
         if (snapshot.hasData) {
           List listData = snapshot.data!.docs;
 
-          return vehicle(listData);
+          return MapsWidget(
+            data: listData,
+          );
         } else {
           return Container();
         }
@@ -64,7 +66,9 @@ class ListLocationWidget extends GetView<MapsWasteCollectionsController> {
         if (snapshot.hasData) {
           List listData = snapshot.data!.docs;
 
-          return vehicle(listData);
+          return MapsWidget(
+            data: listData,
+          );
         } else {
           return Container();
         }
@@ -91,7 +95,9 @@ class ListLocationWidget extends GetView<MapsWasteCollectionsController> {
         if (snapshot.hasData) {
           List listData = snapshot.data!.docs;
 
-          return vehicle(listData);
+          return MapsWidget(
+            data: listData,
+          );
         } else {
           return Container();
         }
@@ -145,9 +151,9 @@ class ListLocationWidget extends GetView<MapsWasteCollectionsController> {
 
           return MapsWidget(
             data: data,
-            vehicleName: controller.vehicleName,
-            latLngNow: controller.latLngNow,
-            vehicleProfile: controller.vehicleProfile,
+            // vehicleName: controller.vehicleName,
+            // latLngNow: controller.latLngNow,
+            // vehicleProfile: controller.vehicleProfile,
           );
         } else {
           return Container();

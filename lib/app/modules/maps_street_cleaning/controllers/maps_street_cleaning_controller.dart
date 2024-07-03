@@ -93,6 +93,18 @@ class MapsStreetCleaningController extends GetxController
   var listCp = [].obs;
   var listCpSearch = [].obs;
 
+  List latLngStopVehicle = [].obs;
+
+  var mcVehicleStatuses = [].obs;
+  var mcVehicleTrips = [].obs;
+  var mcVehicleTripsDetail = [].obs;
+  var mcVehicleDetail = [].obs;
+  var mcOpenVehicleDetail = false.obs;
+  var mcVehicleTripData = [].obs;
+  var mcRouteLine = [].obs;
+
+  late Timer timer;
+
   @override
   void onInit() {
     final box = GetStorage();
@@ -120,14 +132,23 @@ class MapsStreetCleaningController extends GetxController
     getDirectionRoute();
     getTaskGroupTeams();
 
-    Timer.periodic(
-      const Duration(seconds: 10),
-      (Timer t) => getCurrentLocation(),
-    );
-
     searchLocation('');
 
     super.onInit();
+  }
+
+   @override
+  void onReady() {
+    timer = Timer.periodic(
+      const Duration(seconds: 10),
+      (Timer t) => getCurrentLocation(),
+    );
+  }
+
+  @override
+  void onClose() {
+    timer.cancel();
+    super.onClose();
   }
 
   searchLocation(String text) {
@@ -308,6 +329,9 @@ class MapsStreetCleaningController extends GetxController
     tracking.clear();
     listLatLng.clear();
     latLngFilter.clear();
+    latLngStopVehicle.clear();
+    mcVehicleTripData.clear();
+    mcRouteLine.clear();
     firstHourFilter.value = 0;
     firstMinuteFilter.value = 0;
     lastHourFilter.value = 0;

@@ -5,7 +5,8 @@ import 'color_widget.dart';
 
 class ModalBottomSheetWidget {
   void showModal(context, initialChildSize, minChildSize, maxChildSize,
-      widgetContent, widgetButton, isClose) {
+      widgetContent, widgetButton, isClose,
+      {widgetTop}) {
     showModalBottomSheet(
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.only(
@@ -55,6 +56,7 @@ class ModalBottomSheetWidget {
                       ),
                     ),
                   ),
+                  widgetTop ?? Container(),
                   Expanded(
                     child: Stack(
                       children: [

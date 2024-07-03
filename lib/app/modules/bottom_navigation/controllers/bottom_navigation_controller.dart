@@ -7,8 +7,8 @@ class BottomNavigationController extends GetxController {
   var tabIndex = 0.obs;
 
   final pages = <Widget>[
-    const MapsWasteCollectionsView(),
-    const MapsStreetCleaningView(),
+    MapsWasteCollectionsView(),
+    MapsStreetCleaningView(),
   ];
 
   Widget get currentPage => pages[tabIndex()];

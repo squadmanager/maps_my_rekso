@@ -5,19 +5,25 @@ import 'package:flutter_svg/svg.dart';
 
 import 'package:get/get.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:maps_my_rekso/app/modules/maps_street_cleaning/controllers/maps_mc_sc_controller.dart';
 import 'package:maps_my_rekso/app/modules/maps_street_cleaning/views/layouts/detail_vehicle_sc.dart';
+import 'package:maps_my_rekso/app/modules/maps_street_cleaning/views/layouts/lay_detail_mc_vehicle_sc.dart';
 
 import '../../../widgets/color_widget.dart';
+import '../../../widgets/input_widget.dart';
 import '../../../widgets/modal_bottom_sheet_widget.dart';
 import '../controllers/maps_street_cleaning_controller.dart';
 import 'layouts/detail_pin_sc.dart';
-import 'layouts/list_directions_sc.dart';
+import 'layouts/lay_card_mc_vehicle_directions_sc.dart';
+import 'layouts/lay_list_mc_vehicle_sc.dart';
 import 'layouts/list_location_sc.dart';
 import 'layouts/list_team_sc.dart';
 import 'layouts/search_map_sc.dart';
 
 class MapsStreetCleaningView extends GetView<MapsStreetCleaningController> {
-  const MapsStreetCleaningView({Key? key}) : super(key: key);
+  MapsStreetCleaningView({Key? key}) : super(key: key);
+  final MapsMcScController mapsMcScController = Get.put(MapsMcScController());
+
   @override
   Widget build(BuildContext context) {
     return AnnotatedRegion<SystemUiOverlayStyle>(
@@ -168,9 +174,51 @@ class MapsStreetCleaningView extends GetView<MapsStreetCleaningController> {
                                     0.6,
                                     0.0,
                                     0.6,
-                                    const ListDirectionsSc(),
+                                    // const ListDirectionsSc(),
+                                    LayListMcVehicleSc(),
                                     Container(),
                                     Container(),
+                                    widgetTop: Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 15.0),
+                                      child: Column(
+                                        children: [
+                                          InputWidget(
+                                            title: 'Travel History',
+                                            controllerText:
+                                                mapsMcScController.filterDateC,
+                                            hintText: 'Enter Date Range',
+                                            messageError: 'Date Range Required',
+                                            prefixIcon: SvgPicture.asset(
+                                              'assets/icons/calendar-alt.svg',
+                                              color:
+                                                  HexColor(ColorWidget().grey),
+                                              fit: BoxFit.scaleDown,
+                                            ),
+                                            readOnly: true,
+                                            obscureText: false,
+                                            textRequired: true,
+                                            onTap: () => mapsMcScController
+                                                .dialogPickerFilterDate(
+                                                    context),
+                                            maxLines: 1,
+                                            paddingVertical: 0,
+                                          ),
+                                          const SizedBox(
+                                            height: 10.0,
+                                          ),
+                                          LayListMcVehicleSc()
+                                              .listTime(context),
+                                          const SizedBox(
+                                            height: 10.0,
+                                          ),
+                                          Divider(
+                                            thickness: 1.0,
+                                            color: HexColor(ColorWidget().grey),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
                                   );
                                 },
                                 style: ElevatedButton.styleFrom(
@@ -397,20 +445,129 @@ class MapsStreetCleaningView extends GetView<MapsStreetCleaningController> {
                           ),
                         ],
                       ],
+                      // card detail vehicle directions
+                      if (controller.mcVehicleTripData.isNotEmpty) ...[
+                        if (controller.isDevice.value == 'phone') ...[
+                          Container(
+                            alignment:
+                                MediaQuery.of(context).size.height < 500.0
+                                    ? Alignment.centerLeft
+                                    : Alignment.bottomCenter,
+                            child: Container(
+                              height: MediaQuery.of(context).size.height < 500.0
+                                  ? MediaQuery.of(context).size.height
+                                  : MediaQuery.of(context).size.height / 3,
+                              width: MediaQuery.of(context).size.height < 500.0
+                                  ? MediaQuery.of(context).size.width / 3
+                                  : MediaQuery.of(context).size.width,
+                              margin: const EdgeInsets.symmetric(
+                                horizontal: 20.0,
+                                vertical: 10.0,
+                              ),
+                              child: LayCardMcVehicleDirectionsSc(
+                                element: controller.mcVehicleTripData,
+                              ),
+                            ),
+                          ),
+                        ] else ...[
+                          Container(
+                            alignment:
+                                MediaQuery.of(context).size.height < 1000.0
+                                    ? Alignment.centerLeft
+                                    : Alignment.bottomCenter,
+                            child: Container(
+                              height:
+                                  MediaQuery.of(context).size.height < 1000.0
+                                      ? MediaQuery.of(context).size.height
+                                      : MediaQuery.of(context).size.height / 3,
+                              width: MediaQuery.of(context).size.height < 1000.0
+                                  ? MediaQuery.of(context).size.width / 3
+                                  : MediaQuery.of(context).size.width,
+                              margin: const EdgeInsets.symmetric(
+                                horizontal: 20.0,
+                                vertical: 10.0,
+                              ),
+                              child: LayCardMcVehicleDirectionsSc(
+                                element: controller.mcVehicleTripData,
+                              ),
+                            ),
+                          ),
+                        ]
+                      ],
+                      // detail mc vehicle
+                      if (controller.mcVehicleDetail.isNotEmpty) ...[
+                        if (controller.isDevice.value == 'phone') ...[
+                          Container(
+                            alignment:
+                                MediaQuery.of(context).size.height < 500.0
+                                    ? Alignment.centerLeft
+                                    : Alignment.bottomCenter,
+                            child: Container(
+                              height: MediaQuery.of(context).size.height < 500.0
+                                  ? MediaQuery.of(context).size.height
+                                  : MediaQuery.of(context).size.height / 2,
+                              width: MediaQuery.of(context).size.height < 500.0
+                                  ? MediaQuery.of(context).size.width / 3
+                                  : MediaQuery.of(context).size.width,
+                              margin: const EdgeInsets.symmetric(
+                                horizontal: 20.0,
+                                vertical: 10.0,
+                              ),
+                              child: LayDetailMcVehicleSc(
+                                element: controller.mcVehicleDetail,
+                              ),
+                            ),
+                          ),
+                        ] else ...[
+                          Container(
+                            alignment:
+                                MediaQuery.of(context).size.height < 1000.0
+                                    ? Alignment.centerLeft
+                                    : Alignment.bottomCenter,
+                            child: Container(
+                              height:
+                                  MediaQuery.of(context).size.height < 1000.0
+                                      ? MediaQuery.of(context).size.height
+                                      : MediaQuery.of(context).size.height / 3,
+                              width: MediaQuery.of(context).size.height < 1000.0
+                                  ? MediaQuery.of(context).size.width / 3
+                                  : MediaQuery.of(context).size.width,
+                              margin: const EdgeInsets.symmetric(
+                                horizontal: 20.0,
+                                vertical: 10.0,
+                              ),
+                              child: LayDetailMcVehicleSc(
+                                element: controller.mcVehicleDetail,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ],
                     ],
                   ),
-            floatingActionButton: FloatingActionButton(
-              onPressed: () {
-                controller.listElement.clear();
-                controller.animateMapMove(controller.routePoints[0], 15);
-              },
-              backgroundColor: HexColor(ColorWidget().primarySC),
-              child: SvgPicture.asset(
-                'assets/icons/map-pin-alt.svg',
-                color: HexColor(ColorWidget().white),
-                fit: BoxFit.scaleDown,
-              ),
-            ),
+            floatingActionButton: controller.listElement.isNotEmpty ||
+                    controller.mcVehicleTripData.isNotEmpty ||
+                    controller.mcVehicleDetail.isNotEmpty
+                ? Container()
+                : Align(
+                    alignment: Alignment.bottomLeft,
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 40.0),
+                      child: FloatingActionButton(
+                        onPressed: () {
+                          controller.listElement.clear();
+                          controller.animateMapMove(
+                              controller.routePoints[0], 15);
+                        },
+                        backgroundColor: HexColor(ColorWidget().primarySC),
+                        child: SvgPicture.asset(
+                          'assets/icons/map-pin-alt.svg',
+                          color: HexColor(ColorWidget().white),
+                          fit: BoxFit.scaleDown,
+                        ),
+                      ),
+                    ),
+                  ),
           ),
         ),
       ),
