@@ -138,91 +138,93 @@ class MapsWidget extends GetView<MapsWasteCollectionsController> {
                       ),
                     ),
                 ],
-              ] else ...[
-                // collection point
-                if (controller.justShowCar.isFalse) ...[
-                  for (int i = 0; i < data.length; i++) ...[
-                    Marker(
-                      rotate: true,
-                      width: 80,
-                      height: 60,
-                      point: LatLng(
-                        double.parse(
-                          data[i]['latitude'],
-                        ),
-                        double.parse(data[i]['longititude']),
+              ],
+              // collection point
+              if (controller.justShowCar.isFalse) ...[
+                for (int i = 0; i < data.length; i++) ...[
+                  Marker(
+                    rotate: true,
+                    width: 80,
+                    height: 60,
+                    point: LatLng(
+                      double.parse(
+                        data[i]['latitude'],
                       ),
-                      child: InkWell(
-                        onTap: () {
-                          controller.attachmentList.clear();
-                          controller.getImage(data[i]['trans_dta_id']);
-                          controller.listElement.clear();
-                          controller.detailVehicle.clear();
+                      double.parse(data[i]['longititude']),
+                    ),
+                    child: InkWell(
+                      onTap: () {
+                        controller.attachmentList.clear();
+                        controller.getImage(data[i]['trans_dta_id']);
+                        controller.listElement.clear();
+                        controller.detailVehicle.clear();
 
-                          controller.gotoLocation(
-                            double.parse(
-                              data[i]['latitude'],
-                            ),
-                            double.parse(data[i]['longititude']),
-                            18,
-                          );
+                        controller.mcOpenVehicleDetail(false);
+                        controller.mcVehicleDetail.clear();
 
-                          controller.listElement.add({
-                            'lat': double.parse(
-                              data[i]['latitude'],
+                        controller.gotoLocation(
+                          double.parse(
+                            data[i]['latitude'],
+                          ),
+                          double.parse(data[i]['longititude']),
+                          18,
+                        );
+
+                        controller.listElement.add({
+                          'lat': double.parse(
+                            data[i]['latitude'],
+                          ),
+                          'lng': double.parse(data[i]['longititude']),
+                          'userAssigment': data[i]['user_assigment'],
+                          'locationTask': data[i]['location_task'],
+                          'status': data[i]['status'],
+                        });
+                      },
+                      child: Column(
+                        children: [
+                          Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(5.0),
+                              color: HexColor(
+                                data[i]['status'] == '1'
+                                    ? ColorWidget().green
+                                    : data[i]['colour_user'],
+                              ),
                             ),
-                            'lng': double.parse(data[i]['longititude']),
-                            'userAssigment': data[i]['user_assigment'],
-                            'locationTask': data[i]['location_task'],
-                            'status': data[i]['status'],
-                          });
-                        },
-                        child: Column(
-                          children: [
-                            Container(
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(5.0),
-                                color: HexColor(
-                                  data[i]['status'] == '1'
-                                      ? ColorWidget().green
-                                      : data[i]['colour_user'],
+                            child: Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 5.0),
+                              child: Text(
+                                data[i]['location_task'].length > 25
+                                    ? '${data[i]['location_task'].substring(0, 25)}...'
+                                    : data[i]['location_task'],
+                                style: GoogleFonts.poppins(
+                                  fontSize: 8.0,
+                                  fontWeight: FontWeight.bold,
+                                  color: HexColor(ColorWidget().white),
                                 ),
-                              ),
-                              child: Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 5.0),
-                                child: Text(
-                                  data[i]['location_task'].length > 25
-                                      ? '${data[i]['location_task'].substring(0, 25)}...'
-                                      : data[i]['location_task'],
-                                  style: GoogleFonts.poppins(
-                                    fontSize: 8.0,
-                                    fontWeight: FontWeight.bold,
-                                    color: HexColor(ColorWidget().white),
-                                  ),
-                                  textAlign: TextAlign.center,
-                                ),
+                                textAlign: TextAlign.center,
                               ),
                             ),
-                            const SizedBox(
-                              height: 2.0,
+                          ),
+                          const SizedBox(
+                            height: 2.0,
+                          ),
+                          Center(
+                            child: Image.asset(
+                              controller.typeForm.value == 'dragonfly'
+                                  ? 'assets/images/cp_dragonfly.png'
+                                  : controller.typeForm.value == 'compactor'
+                                      ? 'assets/images/cp_compactor.png'
+                                      : 'assets/images/cp_pruning.png',
+                              width: 30.0,
+                              height: 30.0,
                             ),
-                            Center(
-                              child: Image.asset(
-                                controller.typeForm.value == 'dragonfly'
-                                    ? 'assets/images/cp_dragonfly.png'
-                                    : controller.typeForm.value == 'compactor'
-                                        ? 'assets/images/cp_compactor.png'
-                                        : 'assets/images/cp_pruning.png',
-                                width: 30.0,
-                                height: 30.0,
-                              ),
-                            ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
                     ),
-                  ],
+                  ),
                 ],
               ],
 
@@ -242,6 +244,10 @@ class MapsWidget extends GetView<MapsWasteCollectionsController> {
                     ),
                     child: InkWell(
                       onTap: () {
+                        controller.attachmentList.clear();
+                        controller.listElement.clear();
+                        controller.detailVehicle.clear();
+
                         controller.mcOpenVehicleDetail(true);
                         controller.mcVehicleDetail.clear();
                         controller.gotoLocation(

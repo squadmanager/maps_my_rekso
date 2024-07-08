@@ -172,6 +172,9 @@ class MapsSc extends GetView<MapsStreetCleaningController> {
                           controller.listElement.clear();
                           controller.detailVehicle.clear();
 
+                          controller.mcOpenVehicleDetail(false);
+                          controller.mcVehicleDetail.clear();
+
                           controller.gotoLocation(
                             double.parse(
                               data.last['lat_start'],
@@ -253,6 +256,9 @@ class MapsSc extends GetView<MapsStreetCleaningController> {
                           controller.listElement.clear();
                           controller.detailVehicle.clear();
 
+                          controller.mcOpenVehicleDetail(false);
+                          controller.mcVehicleDetail.clear();
+
                           controller.gotoLocation(
                             double.parse(
                               data.last['lat_finish'],
@@ -333,6 +339,9 @@ class MapsSc extends GetView<MapsStreetCleaningController> {
                           controller.getImage(element['trans_dtsc_id']);
                           controller.listElement.clear();
                           controller.detailVehicle.clear();
+
+                          controller.mcOpenVehicleDetail(false);
+                          controller.mcVehicleDetail.clear();
 
                           controller.gotoLocation(
                             double.parse(
@@ -416,6 +425,10 @@ class MapsSc extends GetView<MapsStreetCleaningController> {
                     ),
                     child: InkWell(
                       onTap: () {
+                        controller.attachmentList.clear();
+                        controller.listElement.clear();
+                        controller.detailVehicle.clear();
+
                         controller.mcOpenVehicleDetail(true);
                         controller.mcVehicleDetail.clear();
                         controller.gotoLocation(
