@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:http/http.dart' as http;
 
 import '../../models/mceasy/mc_trips_detail_model.dart';
@@ -107,6 +109,8 @@ class McProvider {
         // 'Access-Control-Allow-Headers': 'X-Requested-With',
         'Accept': 'application/json',
         'Authorization': 'Bearer $token',
+        HttpHeaders.authorizationHeader: 'Bearer $token',
+
       },
     );
 
