@@ -273,22 +273,26 @@ class DetailPinSc extends GetView<MapsStreetCleaningController> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(
-                              'Image ${i + 1}',
+                            DefaultTextStyle(
                               style: GoogleFonts.poppins(
                                 fontSize: 20.0,
                                 fontWeight: FontWeight.bold,
                                 color: HexColor(ColorWidget().primarySC),
                               ),
+                              child: Text(
+                                'Image ${i + 1}',
+                              ),
                             ),
-                            Text(
-                              'Created : ${DateFormat("d MMMM y hh:mm", "id_ID").format(
-                                controller.attachmentList[i].createdAt,
-                              )}',
+                            DefaultTextStyle(
                               style: GoogleFonts.poppins(
                                 fontSize: 12.0,
                                 fontWeight: FontWeight.normal,
                                 color: HexColor(ColorWidget().primarySC),
+                              ),
+                              child: Text(
+                                'Created : ${DateFormat("d MMMM y hh:mm", "id_ID").format(
+                                  controller.attachmentList[i].createdAt,
+                                )}',
                               ),
                             ),
                           ],

@@ -120,7 +120,7 @@ class MapsWasteCollectionsController extends GetxController
     singleDateView.value = DateFormat("d MMMM y", "id_ID").format(dateTimeNow);
     filterDateC.text = singleDateView.value;
 
-    pageCarouselController = PageController(viewportFraction: 0.8);
+    pageCarouselController = PageController(viewportFraction: 0.9);
 
     getDeviceType();
 

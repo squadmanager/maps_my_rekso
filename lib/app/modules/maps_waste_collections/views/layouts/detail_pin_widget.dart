@@ -291,29 +291,35 @@ class DetailPinWidget extends GetView<MapsWasteCollectionsController> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(
-                              'Image ${i + 1}',
+                            DefaultTextStyle(
                               style: GoogleFonts.poppins(
                                 fontSize: 20.0,
                                 fontWeight: FontWeight.bold,
                                 color: HexColor(
                                     ColorWidget().primaryWasteCollections),
                               ),
+                              child: Text(
+                                'Image ${i + 1}',
+                              ),
                             ),
-                            Text(
-                              controller.attachmentList[i].createdAt != null ||
-                                      controller.attachmentList[i].createdAt !=
-                                          ''
-                                  ? 'Created : ${DateFormat("d MMMM y hh:mm", "id_ID").format(
-                                      DateTime.parse(controller
-                                          .attachmentList[i].createdAt),
-                                    )}'
-                                  : 'Created : -',
+                            DefaultTextStyle(
                               style: GoogleFonts.poppins(
                                 fontSize: 12.0,
                                 fontWeight: FontWeight.normal,
                                 color: HexColor(
                                     ColorWidget().primaryWasteCollections),
+                              ),
+                              child: Text(
+                                controller.attachmentList[i].createdAt !=
+                                            null ||
+                                        controller
+                                                .attachmentList[i].createdAt !=
+                                            ''
+                                    ? 'Created : ${DateFormat("d MMMM y hh:mm", "id_ID").format(
+                                        DateTime.parse(controller
+                                            .attachmentList[i].createdAt),
+                                      )}'
+                                    : 'Created : -',
                               ),
                             ),
                           ],
