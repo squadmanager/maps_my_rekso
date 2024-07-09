@@ -109,7 +109,7 @@ class McProvider {
         'Accept': 'application/json',
         'Authorization': 'Bearer $token',
         // HttpHeaders.authorizationHeader: 'Bearer $token',
-        'Access-Control-Allow-Origin': '*',
+        // 'Access-Control-Allow-Origin': '*',
       },
     );
 
