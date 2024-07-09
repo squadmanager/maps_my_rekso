@@ -30,6 +30,8 @@ class MapsWasteCollectionsController extends GetxController
   final TextEditingController lastTimeC = TextEditingController();
   final TextEditingController searchC = TextEditingController();
   MapController mapController = MapController();
+  late PageController pageCarouselController;
+
   final attachmentList = List<DataAttachmentDailyTaskModel>.empty().obs;
   List<LatLng> routePoints = [const LatLng(-7.2875894, 112.632185)].obs;
   List<Marker> markers = List.empty();
@@ -117,6 +119,8 @@ class MapsWasteCollectionsController extends GetxController
     singleDateFilter.value = DateFormat('yyyy-MM-dd').format(dateTimeNow);
     singleDateView.value = DateFormat("d MMMM y", "id_ID").format(dateTimeNow);
     filterDateC.text = singleDateView.value;
+
+    pageCarouselController = PageController(viewportFraction: 0.8);
 
     getDeviceType();
 
