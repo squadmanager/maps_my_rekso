@@ -3,7 +3,6 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:maps_my_rekso/app/widgets/color_widget.dart';
-import 'package:photo_view/photo_view.dart';
 
 class PhotoViewWidget extends StatelessWidget {
   final String image;
@@ -28,10 +27,30 @@ class PhotoViewWidget extends StatelessWidget {
       body: SafeArea(
         child: Stack(
           children: [
-            PhotoView(
-              imageProvider: NetworkImage('$image'),
-              enableRotation: true,
+            Image.network(
+              image,
+              width: Get.width,
+              height: Get.height,
+              loadingBuilder: (BuildContext context, Widget child,
+                  ImageChunkEvent? loadingProgress) {
+                if (loadingProgress == null) {
+                  return child;
+                }
+                return Align(
+                  alignment: Alignment.centerLeft,
+                  child: CircularProgressIndicator(
+                    value: loadingProgress.expectedTotalBytes != null
+                        ? loadingProgress.cumulativeBytesLoaded /
+                            loadingProgress.expectedTotalBytes!
+                        : null,
+                  ),
+                );
+              },
             ),
+            // PhotoView(
+            //   imageProvider: NetworkImage('$image'),
+            //   enableRotation: true,
+            // ),
           ],
         ),
       ),
