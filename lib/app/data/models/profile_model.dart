@@ -46,6 +46,7 @@ class DataProfileModel {
   dynamic createdAt;
   dynamic updatedAt;
   dynamic deviceToken;
+  dynamic GPSGroup;
 
   DataProfileModel({
     required this.userId,
@@ -60,6 +61,7 @@ class DataProfileModel {
     required this.createdAt,
     required this.updatedAt,
     required this.deviceToken,
+    required this.GPSGroup,
   });
 
   factory DataProfileModel.fromJson(Map<String, dynamic> json) =>
@@ -80,6 +82,7 @@ class DataProfileModel {
             ? DateTime.parse(json["updated_at"])
             : json["updated_at"],
         deviceToken: json["device_token"],
+        GPSGroup: json["GPSGroup"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -95,5 +98,6 @@ class DataProfileModel {
         "created_at": createdAt.toIso8601String(),
         "updated_at": updatedAt.toIso8601String(),
         "device_token": deviceToken,
+        "GPSGroup": GPSGroup,
       };
 }

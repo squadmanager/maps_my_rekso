@@ -42,6 +42,7 @@ class MapsWasteCollectionsController extends GetxController
   var role = ''.obs;
   var roleString = ''.obs;
   var token = ''.obs;
+  var gpsGroup = ''.obs;
 
   var isLoading = false.obs;
   var isLoadingImage = false.obs;
@@ -102,6 +103,7 @@ class MapsWasteCollectionsController extends GetxController
       fullName.value = data['fullName'];
       role.value = data['role'];
       token.value = data['token'];
+      gpsGroup.value = data['gpsGroup'];
     }
 
     if (role.value == '0') {

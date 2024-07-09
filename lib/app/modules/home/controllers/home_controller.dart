@@ -54,6 +54,7 @@ class HomeController extends GetxController {
                 'type': profile.data.type,
                 'deviceToken': profile.data.deviceToken,
                 'token': dataLogin['token'],
+                'gpsGroup': profile.data.GPSGroup,
               },
             );
           }

@@ -171,9 +171,9 @@ class MapsWasteCollectionsView extends GetView<MapsWasteCollectionsController> {
                                 onPressed: () {
                                   ModalBottomSheetWidget().showModal(
                                     context,
-                                    0.6,
+                                    0.8,
                                     0.0,
-                                    0.6,
+                                    0.8,
                                     // const ListDirectionsWidget(),
                                     LayListMcVehicle(),
                                     Container(),

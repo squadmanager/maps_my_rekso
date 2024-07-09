@@ -54,6 +54,7 @@ class MapsStreetCleaningController extends GetxController
   var role = ''.obs;
   var roleString = ''.obs;
   var token = ''.obs;
+  var gpsGroup = ''.obs;
 
   var isLoading = false.obs;
   var isLoadingGroupTeams = false.obs;
@@ -114,6 +115,7 @@ class MapsStreetCleaningController extends GetxController
       fullName.value = data['fullName'];
       role.value = data['role'];
       token.value = data['token'];
+      gpsGroup.value = data['gpsGroup'];
     }
 
     if (role.value == '0') {
@@ -137,7 +139,7 @@ class MapsStreetCleaningController extends GetxController
     super.onInit();
   }
 
-   @override
+  @override
   void onReady() {
     timer = Timer.periodic(
       const Duration(seconds: 10),
@@ -425,10 +427,9 @@ class MapsStreetCleaningController extends GetxController
       isLoading.value = false;
     } catch (e) {
       isLoading.value = false;
-      // SnackbarWidget().getSnackbar(
-      //     'Something went wrong', 'Please Reload this page ', 'error');
-      SnackbarWidget()
-          .getSnackbar('Something went wrong', '${e.toString}', 'error');
+      print(e.toString());
+      // SnackbarWidget()
+      //     .getSnackbar('Something went wrong', '${e.toString}', 'error');
     }
   }
 

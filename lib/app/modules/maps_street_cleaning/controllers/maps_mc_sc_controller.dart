@@ -136,7 +136,15 @@ class MapsMcScController extends GetxController {
     try {
       var data =
           await McProvider().getVehicleStatuses(KeyConfiguration().keyMcEasy);
-      mcVehicleStatusesList.value = data;
+      // mcVehicleStatusesList.value = data;
+
+      mcVehicleStatusesList.value = data.where((element) {
+        return element.vehicleGroups
+                .where((vg) => vg == mapsMonitoringScC.gpsGroup.value)
+                .isNotEmpty
+            ? true
+            : false;
+      }).toList();
 
       if (mcVehicleStatusesList.isNotEmpty) {
         isEmptyVehicleStatuses.value = false;

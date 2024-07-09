@@ -147,47 +147,54 @@ class MapsMcWcController extends GetxController {
   Future<void> getMcVehiclesStatuses() async {
     // isLoadingVehicleStatuses(true);
     try {
-    var data =
-        await McProvider().getVehicleStatuses(KeyConfiguration().keyMcEasy);
-    
-    mcVehicleStatusesList.value = data;
+      var data =
+          await McProvider().getVehicleStatuses(KeyConfiguration().keyMcEasy);
 
+      // mcVehicleStatusesList.value = data;
 
-    if (mcVehicleStatusesList.isNotEmpty) {
-      isEmptyVehicleStatuses.value = false;
-    } else {
-      isEmptyVehicleStatuses.value = true;
-    }
+      mcVehicleStatusesList.value = data.where((element) {
+        return element.vehicleGroups
+                .where((vg) => vg == mapsMonitoringC.gpsGroup.value)
+                .isNotEmpty
+            ? true
+            : false;
+      }).toList();
 
-    if (mapsMonitoringC.mcOpenVehicleDetail.isTrue) {
-      for (var i = 0; i < mcVehicleStatusesList.length; i++) {
-        for (var e in mapsMonitoringC.mcVehicleDetail) {
-          if (e['vehicleId'] == mcVehicleStatusesList[i].vehicleId) {
-            mapsMonitoringC.gotoLocation(
-              mcVehicleStatusesList[i].latitude,
-              mcVehicleStatusesList[i].longitude,
-              18,
-            );
-            mapsMonitoringC.mcVehicleDetail.clear();
-            mapsMonitoringC.mcVehicleDetail.add({
-              'vehicleId': mcVehicleStatusesList[i].vehicleId,
-              'licensePlate': mcVehicleStatusesList[i].licensePlate,
-              'hullNo': mcVehicleStatusesList[i].hullNo,
-              'engineOn': mcVehicleStatusesList[i].engineOn,
-              'address': mcVehicleStatusesList[i].address,
-              'speed': mcVehicleStatusesList[i].speed,
-              'motionStatus': mcVehicleStatusesList[i].motionStatus,
-              'imei': mcVehicleStatusesList[i].imei,
-              'sumDistance': mcVehicleStatusesList[i].sumDistance,
-              'sumDrivetimeFormatted':
-                  mcVehicleStatusesList[i].sumDrivetimeFormatted,
-            });
+      if (mcVehicleStatusesList.isNotEmpty) {
+        isEmptyVehicleStatuses.value = false;
+      } else {
+        isEmptyVehicleStatuses.value = true;
+      }
+
+      if (mapsMonitoringC.mcOpenVehicleDetail.isTrue) {
+        for (var i = 0; i < mcVehicleStatusesList.length; i++) {
+          for (var e in mapsMonitoringC.mcVehicleDetail) {
+            if (e['vehicleId'] == mcVehicleStatusesList[i].vehicleId) {
+              mapsMonitoringC.gotoLocation(
+                mcVehicleStatusesList[i].latitude,
+                mcVehicleStatusesList[i].longitude,
+                18,
+              );
+              mapsMonitoringC.mcVehicleDetail.clear();
+              mapsMonitoringC.mcVehicleDetail.add({
+                'vehicleId': mcVehicleStatusesList[i].vehicleId,
+                'licensePlate': mcVehicleStatusesList[i].licensePlate,
+                'hullNo': mcVehicleStatusesList[i].hullNo,
+                'engineOn': mcVehicleStatusesList[i].engineOn,
+                'address': mcVehicleStatusesList[i].address,
+                'speed': mcVehicleStatusesList[i].speed,
+                'motionStatus': mcVehicleStatusesList[i].motionStatus,
+                'imei': mcVehicleStatusesList[i].imei,
+                'sumDistance': mcVehicleStatusesList[i].sumDistance,
+                'sumDrivetimeFormatted':
+                    mcVehicleStatusesList[i].sumDrivetimeFormatted,
+              });
+            }
           }
         }
       }
-    }
 
-    isLoadingVehicleStatuses(false);
+      isLoadingVehicleStatuses(false);
     } catch (e) {
       isLoadingVehicleStatuses(false);
     }
