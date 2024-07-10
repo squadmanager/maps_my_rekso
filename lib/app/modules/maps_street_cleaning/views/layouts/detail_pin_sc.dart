@@ -7,6 +7,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:intl/intl.dart';
 import 'package:maps_my_rekso/app/modules/maps_street_cleaning/controllers/maps_street_cleaning_controller.dart';
+import 'package:photo_view/photo_view.dart';
 
 import '../../../../components/app_scroll_behavior.dart';
 import '../../../../widgets/color_widget.dart';
@@ -225,11 +226,21 @@ class DetailPinSc extends GetView<MapsStreetCleaningController> {
                 onTap: () {
                   Get.defaultDialog(
                     title: 'Image ${i + 1}',
-                    content: Image.network(
-                      controller.attachmentList[i].url,
+                    content: SizedBox(
                       width: Get.width / 1.5,
                       height: Get.height / 1.5,
+                      child: PhotoView(
+                        imageProvider: NetworkImage(
+                          controller.attachmentList[i].url,
+                        ),
+                        enableRotation: true,
+                      ),
                     ),
+                    // content: Image.network(
+                    //   controller.attachmentList[i].url,
+                    //   width: Get.width / 1.5,
+                    //   height: Get.height / 1.5,
+                    // ),
                   );
                 },
                 child: Stack(
