@@ -15,7 +15,6 @@ import '../../../data/models/mceasy/mc_trips_detail_model.dart';
 import '../../../data/models/mceasy/mc_trips_model.dart';
 import '../../../data/models/mceasy/mc_vehicle_model.dart';
 import '../../../data/models/mceasy/mc_vehicle_statuses_model.dart';
-import '../../../data/providers/key_configuration.dart';
 import '../../../data/providers/mceasy/mc_provider.dart';
 import '../../../widgets/default_dialog_widget.dart';
 
@@ -147,8 +146,7 @@ class MapsMcWcController extends GetxController {
   Future<void> getMcVehiclesStatuses() async {
     // isLoadingVehicleStatuses(true);
     try {
-      var data =
-          await McProvider().getVehicleStatuses(KeyConfiguration().keyMcEasy);
+      var data = await McProvider().getVehicleStatuses();
 
       // mcVehicleStatusesList.value = data;
 
@@ -200,19 +198,6 @@ class MapsMcWcController extends GetxController {
     }
   }
 
-  Future<void> mcVehicles() async {
-    isLoadingMcVehicle(true);
-
-    try {
-      var data = await McProvider().getVehicles(KeyConfiguration().keyMcEasy);
-      mcVehicleList.value = data;
-
-      isLoadingMcVehicle(false);
-    } catch (e) {
-      isLoadingMcVehicle(false);
-    }
-  }
-
   Future<void> submitDirections(form, vehicleId) async {
     final isValid = form.currentState.validate();
     if (!isValid) {
@@ -231,127 +216,130 @@ class MapsMcWcController extends GetxController {
     mapsMonitoringC.routePoints.clear();
     mapsMonitoringC.mcRouteLine.clear();
     mapsMonitoringC.mcVehicleTripData.clear();
-    try {
-      var dataTrip = await McProvider().getTrips(
-          KeyConfiguration().keyMcEasy, vehicleId, startDate, endDate);
-      mcTripList.value = dataTrip.summaryTrips;
+    // var dataTrip = await McProvider().getTrips(vehicleId, startDate, endDate);
+    // mcTripList.value = dataTrip.summaryTrips;
 
-      if (mcTripList.isEmpty) {
-        mapsMonitoringC.refreshData();
-        mapsMonitoringC.isLoading(false);
-        WarningWidget().dialog('There are no vehicle routes');
+    // print('${dataTrip} data trip ==========');
+    // try {
+    var dataTrip = await McProvider().getTrips(vehicleId, startDate, endDate);
+    mcTripList.value = dataTrip.summaryTrips;
 
-        return;
+    if (mcTripList.isEmpty) {
+      mapsMonitoringC.refreshData();
+      mapsMonitoringC.isLoading(false);
+      WarningWidget().dialog('There are no vehicle routes');
+
+      return;
+    }
+
+    var vehicleDetail = await McProvider().getVehicleDetail(vehicleId);
+
+    mapsMonitoringC.mcVehicleTripData.add({
+      'licensePlate': vehicleDetail.licensePlate,
+      'hullNo': vehicleDetail.hullNo,
+      'imei': vehicleDetail.imei,
+      'totalTrip': dataTrip.totalTrip,
+      'totalMovingTripDuration': dataTrip.totalMovingTripDuration,
+      'totalMovingTripDistance': dataTrip.totalMovingTripDistance,
+      'totalHourStart': dataTrip.totalHourStart,
+      'totalHourStop': dataTrip.totalHourStop,
+    });
+
+    // mcTripList.where((p0) => p0.startLat == p0.stopLat)
+
+    for (var i = 0; i < mcTripList.length; i++) {
+      mapsMonitoringC.latLngStopVehicle.add({
+        'lat': mcTripList[i].startLat,
+        'lng': mcTripList[i].startLong,
+        'totalHourStop': mcTripList[i].totalHourStop,
+      });
+    }
+
+    var dataTripDetail =
+        await McProvider().getTripsDetail(vehicleId, startDate, endDate);
+    mcTripsDetailList.value = dataTripDetail;
+
+    int chunkSize = 2;
+    for (var i = 0; i < mcTripsDetailList.length; i += chunkSize) {
+      if (mcTripsDetailList[i].speed < 15) {
+        mapsMonitoringC.mcRouteLine.add({
+          'speed': mcTripsDetailList[i].speed,
+          'color': HexColor(ColorWidget().green),
+          'data': mcTripsDetailList.sublist(
+              i,
+              i + chunkSize > mcTripsDetailList.length
+                  ? mcTripsDetailList.length
+                  : i + chunkSize),
+        });
+      } else if (mcTripsDetailList[i].speed > 15 &&
+          mcTripsDetailList[i].speed < 20) {
+        mapsMonitoringC.mcRouteLine.add({
+          'speed': mcTripsDetailList[i].speed,
+          'color': HexColor(ColorWidget().yellow),
+          'data': mcTripsDetailList.sublist(
+              i,
+              i + chunkSize > mcTripsDetailList.length
+                  ? mcTripsDetailList.length
+                  : i + chunkSize),
+        });
+      } else if (mcTripsDetailList[i].speed > 20 &&
+          mcTripsDetailList[i].speed < 30) {
+        mapsMonitoringC.mcRouteLine.add({
+          'speed': mcTripsDetailList[i].speed,
+          'color': HexColor(ColorWidget().orange),
+          'data': mcTripsDetailList.sublist(
+              i,
+              i + chunkSize > mcTripsDetailList.length
+                  ? mcTripsDetailList.length
+                  : i + chunkSize),
+        });
+      } else if (mcTripsDetailList[i].speed > 30 &&
+          mcTripsDetailList[i].speed < 40) {
+        mapsMonitoringC.mcRouteLine.add({
+          'speed': mcTripsDetailList[i].speed,
+          'color': HexColor(ColorWidget().red),
+          'data': mcTripsDetailList.sublist(
+              i,
+              i + chunkSize > mcTripsDetailList.length
+                  ? mcTripsDetailList.length
+                  : i + chunkSize),
+        });
+      } else if (mcTripsDetailList[i].speed > 40) {
+        mapsMonitoringC.mcRouteLine.add({
+          'speed': mcTripsDetailList[i].speed,
+          'color': HexColor(ColorWidget().blackRed),
+          'data': mcTripsDetailList.sublist(
+              i,
+              i + chunkSize > mcTripsDetailList.length
+                  ? mcTripsDetailList.length
+                  : i + chunkSize),
+        });
       }
+    }
 
-      var vehicleDetail = await McProvider()
-          .getVehicleDetail(KeyConfiguration().keyMcEasy, vehicleId);
-
-      mapsMonitoringC.mcVehicleTripData.add({
-        'licensePlate': vehicleDetail.licensePlate,
-        'hullNo': vehicleDetail.hullNo,
-        'imei': vehicleDetail.imei,
-        'totalTrip': dataTrip.totalTrip,
-        'totalMovingTripDuration': dataTrip.totalMovingTripDuration,
-        'totalMovingTripDistance': dataTrip.totalMovingTripDistance,
-        'totalHourStart': dataTrip.totalHourStart,
-        'totalHourStop': dataTrip.totalHourStop,
+    for (var i = 0; i < mcTripsDetailList.length; i++) {
+      mapsMonitoringC.latLngFilter.add({
+        'datetime': mcTripsDetailList[i].lastReceive,
+        'lng': mcTripsDetailList[i].longitude,
+        'lat': mcTripsDetailList[i].latitude,
       });
 
-      // mcTripList.where((p0) => p0.startLat == p0.stopLat)
-
-      for (var i = 0; i < mcTripList.length; i++) {
-        mapsMonitoringC.latLngStopVehicle.add({
-          'lat': mcTripList[i].startLat,
-          'lng': mcTripList[i].startLong,
-          'totalHourStop': mcTripList[i].totalHourStop,
-        });
-      }
-
-      var dataTripDetail = await McProvider().getTripsDetail(
-          KeyConfiguration().keyMcEasy, vehicleId, startDate, endDate);
-      mcTripsDetailList.value = dataTripDetail;
-
-      int chunkSize = 2;
-      for (var i = 0; i < mcTripsDetailList.length; i += chunkSize) {
-        if (mcTripsDetailList[i].speed < 15) {
-          mapsMonitoringC.mcRouteLine.add({
-            'speed': mcTripsDetailList[i].speed,
-            'color': HexColor(ColorWidget().green),
-            'data': mcTripsDetailList.sublist(
-                i,
-                i + chunkSize > mcTripsDetailList.length
-                    ? mcTripsDetailList.length
-                    : i + chunkSize),
-          });
-        } else if (mcTripsDetailList[i].speed > 15 &&
-            mcTripsDetailList[i].speed < 20) {
-          mapsMonitoringC.mcRouteLine.add({
-            'speed': mcTripsDetailList[i].speed,
-            'color': HexColor(ColorWidget().yellow),
-            'data': mcTripsDetailList.sublist(
-                i,
-                i + chunkSize > mcTripsDetailList.length
-                    ? mcTripsDetailList.length
-                    : i + chunkSize),
-          });
-        } else if (mcTripsDetailList[i].speed > 20 &&
-            mcTripsDetailList[i].speed < 30) {
-          mapsMonitoringC.mcRouteLine.add({
-            'speed': mcTripsDetailList[i].speed,
-            'color': HexColor(ColorWidget().orange),
-            'data': mcTripsDetailList.sublist(
-                i,
-                i + chunkSize > mcTripsDetailList.length
-                    ? mcTripsDetailList.length
-                    : i + chunkSize),
-          });
-        } else if (mcTripsDetailList[i].speed > 30 &&
-            mcTripsDetailList[i].speed < 40) {
-          mapsMonitoringC.mcRouteLine.add({
-            'speed': mcTripsDetailList[i].speed,
-            'color': HexColor(ColorWidget().red),
-            'data': mcTripsDetailList.sublist(
-                i,
-                i + chunkSize > mcTripsDetailList.length
-                    ? mcTripsDetailList.length
-                    : i + chunkSize),
-          });
-        } else if (mcTripsDetailList[i].speed > 40) {
-          mapsMonitoringC.mcRouteLine.add({
-            'speed': mcTripsDetailList[i].speed,
-            'color': HexColor(ColorWidget().blackRed),
-            'data': mcTripsDetailList.sublist(
-                i,
-                i + chunkSize > mcTripsDetailList.length
-                    ? mcTripsDetailList.length
-                    : i + chunkSize),
-          });
-        }
-      }
-
-      for (var i = 0; i < mcTripsDetailList.length; i++) {
-        mapsMonitoringC.latLngFilter.add({
-          'datetime': mcTripsDetailList[i].lastReceive,
-          'lng': mcTripsDetailList[i].longitude,
-          'lat': mcTripsDetailList[i].latitude,
-        });
-
-        mapsMonitoringC.routePoints.add(
-          LatLng(
-            mcTripsDetailList[i].latitude,
-            mcTripsDetailList[i].longitude,
-          ),
-        );
-        mapsMonitoringC.tracking.add(mcTripsDetailList[i].licensePlate);
-      }
-
-      mapsMonitoringC.animateMapMove(mapsMonitoringC.routePoints[0], 15);
-
-      mapsMonitoringC.isLoading(false);
-    } catch (e) {
-      mapsMonitoringC.isLoading(false);
+      mapsMonitoringC.routePoints.add(
+        LatLng(
+          mcTripsDetailList[i].latitude,
+          mcTripsDetailList[i].longitude,
+        ),
+      );
+      mapsMonitoringC.tracking.add(mcTripsDetailList[i].licensePlate);
     }
+
+    mapsMonitoringC.animateMapMove(mapsMonitoringC.routePoints[0], 15);
+
+    mapsMonitoringC.isLoading(false);
+    // } catch (e) {
+    //   print('${e.toString()} error =======');
+    //   mapsMonitoringC.isLoading(false);
+    // }
   }
 
   void onSelectionChanged(DateRangePickerSelectionChangedArgs args) {

@@ -14,7 +14,6 @@ import '../../../data/models/mceasy/mc_trips_detail_model.dart';
 import '../../../data/models/mceasy/mc_trips_model.dart';
 import '../../../data/models/mceasy/mc_vehicle_model.dart';
 import '../../../data/models/mceasy/mc_vehicle_statuses_model.dart';
-import '../../../data/providers/key_configuration.dart';
 import '../../../data/providers/mceasy/mc_provider.dart';
 import '../../../widgets/default_dialog_widget.dart';
 
@@ -134,8 +133,7 @@ class MapsMcScController extends GetxController {
   Future<void> getMcVehiclesStatuses() async {
     isLoadingVehicleStatuses(true);
     try {
-      var data =
-          await McProvider().getVehicleStatuses(KeyConfiguration().keyMcEasy);
+      var data = await McProvider().getVehicleStatuses();
       // mcVehicleStatusesList.value = data;
 
       mcVehicleStatusesList.value = data.where((element) {
@@ -205,12 +203,10 @@ class MapsMcScController extends GetxController {
     mapsMonitoringScC.mcRouteLine.clear();
     mapsMonitoringScC.mcVehicleTripData.clear();
     try {
-      var dataTrip = await McProvider().getTrips(
-          KeyConfiguration().keyMcEasy, vehicleId, startDate, endDate);
+      var dataTrip = await McProvider().getTrips(vehicleId, startDate, endDate);
       mcTripList.value = dataTrip.summaryTrips;
 
-      var vehicleDetail = await McProvider()
-          .getVehicleDetail(KeyConfiguration().keyMcEasy, vehicleId);
+      var vehicleDetail = await McProvider().getVehicleDetail(vehicleId);
 
       mapsMonitoringScC.mcVehicleTripData.add({
         'licensePlate': vehicleDetail.licensePlate,
@@ -233,8 +229,8 @@ class MapsMcScController extends GetxController {
         });
       }
 
-      var dataTripDetail = await McProvider().getTripsDetail(
-          KeyConfiguration().keyMcEasy, vehicleId, startDate, endDate);
+      var dataTripDetail =
+          await McProvider().getTripsDetail(vehicleId, startDate, endDate);
       mcTripsDetailList.value = dataTripDetail;
 
       int chunkSize = 2;
