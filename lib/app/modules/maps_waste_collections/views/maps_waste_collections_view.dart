@@ -5,6 +5,7 @@ import 'package:flutter_svg/svg.dart';
 
 import 'package:get/get.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:maps_my_rekso/app/modules/maps_waste_collections/views/layouts/lay_mc_vehicle_directions_minimize.dart';
 import 'package:maps_my_rekso/app/modules/maps_waste_collections/views/layouts/search_map_widget.dart';
 
 import '../../../widgets/color_widget.dart';
@@ -347,7 +348,7 @@ class MapsWasteCollectionsView extends GetView<MapsWasteCollectionsController> {
                                 horizontal: 20.0,
                                 vertical: 10.0,
                               ),
-                              child: const McVehicleDirectionsMinimize(),
+                              child: const LayMcVehicleDirectionsMinimize(),
                             ),
                           )
                         else
