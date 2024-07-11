@@ -114,8 +114,8 @@ class MapsWidget extends GetView<MapsWasteCollectionsController> {
                 Marker(
                   alignment: Alignment.topCenter,
                   rotate: true,
-                  width: 80,
-                  height: 75,
+                  width: 50,
+                  height: 60,
                   point: LatLng(
                     mapsMcWcController.mcTripsDetailList.last.latitude,
                     mapsMcWcController.mcTripsDetailList.last.longitude,
@@ -143,8 +143,8 @@ class MapsWidget extends GetView<MapsWasteCollectionsController> {
                         child: SvgPicture.asset(
                           'assets/icons/windsock.svg',
                           color: HexColor(ColorWidget().primary),
-                          height: 50,
-                          width: 50,
+                          height: 40,
+                          width: 40,
                         ),
                       ),
                     ],
@@ -153,8 +153,8 @@ class MapsWidget extends GetView<MapsWasteCollectionsController> {
                 Marker(
                   alignment: Alignment.topCenter,
                   rotate: true,
-                  width: 80,
-                  height: 75,
+                  width: 50,
+                  height: 60,
                   point: LatLng(
                     mapsMcWcController.mcTripsDetailList.first.latitude,
                     mapsMcWcController.mcTripsDetailList.first.longitude,
@@ -182,8 +182,8 @@ class MapsWidget extends GetView<MapsWasteCollectionsController> {
                         child: SvgPicture.asset(
                           'assets/icons/windsock.svg',
                           color: HexColor(ColorWidget().primary),
-                          height: 50,
-                          width: 50,
+                          height: 40,
+                          width: 40,
                         ),
                       ),
                     ],
