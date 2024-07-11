@@ -5,7 +5,6 @@ import 'package:flutter_svg/svg.dart';
 
 import 'package:get/get.dart';
 import 'package:hexcolor/hexcolor.dart';
-import 'package:maps_my_rekso/app/modules/maps_waste_collections/views/layouts/lay_mc_vehicle_directions_minimize.dart';
 import 'package:maps_my_rekso/app/modules/maps_waste_collections/views/layouts/search_map_widget.dart';
 
 import '../../../widgets/color_widget.dart';
@@ -18,6 +17,7 @@ import 'layouts/detail_vehicle_widget.dart';
 import 'layouts/lay_card_mc_vehicle_directions.dart';
 import 'layouts/lay_detail_mc_vehicle.dart';
 import 'layouts/lay_list_mc_vehicle.dart';
+import 'layouts/lay_mc_vehicle_directions_minimize.dart';
 import 'layouts/list_location_widget.dart';
 
 class MapsWasteCollectionsView extends GetView<MapsWasteCollectionsController> {
@@ -338,40 +338,42 @@ class MapsWasteCollectionsView extends GetView<MapsWasteCollectionsController> {
                       ),
                       // card detail vehicle directions
                       if (controller.mcVehicleTripData.isNotEmpty) ...[
-                        // if (controller.mcMinimizeTripData.isTrue)
-                        //   Container(
-                        //     alignment: Alignment.topLeft,
-                        //     child: Container(
-                        //       width: 180,
-                        //       height: 30,
-                        //       margin: const EdgeInsets.symmetric(
-                        //         horizontal: 20.0,
-                        //         vertical: 10.0,
-                        //       ),
-                        //       child: const LayMcVehicleDirectionsMinimize(),
-                        //     ),
-                        //   )
-                        // else
-                        Container(
-                          alignment: MediaQuery.of(context).size.height < 1000.0
-                              ? Alignment.centerLeft
-                              : Alignment.bottomCenter,
-                          child: Container(
-                            height: MediaQuery.of(context).size.height < 1000.0
-                                ? MediaQuery.of(context).size.height
-                                : MediaQuery.of(context).size.height / 3,
-                            width: MediaQuery.of(context).size.height < 1000.0
-                                ? MediaQuery.of(context).size.width / 3
-                                : MediaQuery.of(context).size.width,
-                            margin: const EdgeInsets.symmetric(
-                              horizontal: 20.0,
-                              vertical: 10.0,
+                        if (controller.mcMinimizeTripData.isTrue)
+                          Container(
+                            alignment: Alignment.topLeft,
+                            child: Container(
+                              width: 180,
+                              height: 30,
+                              margin: const EdgeInsets.symmetric(
+                                horizontal: 20.0,
+                                vertical: 10.0,
+                              ),
+                              child: const LayMcVehicleDirectionsMinimize(),
                             ),
-                            child: LayCardMcVehicleDirections(
-                              element: controller.mcVehicleTripData,
+                          )
+                        else
+                          Container(
+                            alignment:
+                                MediaQuery.of(context).size.height < 1000.0
+                                    ? Alignment.centerLeft
+                                    : Alignment.bottomCenter,
+                            child: Container(
+                              height:
+                                  MediaQuery.of(context).size.height < 1000.0
+                                      ? MediaQuery.of(context).size.height
+                                      : MediaQuery.of(context).size.height / 3,
+                              width: MediaQuery.of(context).size.height < 1000.0
+                                  ? MediaQuery.of(context).size.width / 3
+                                  : MediaQuery.of(context).size.width,
+                              margin: const EdgeInsets.symmetric(
+                                horizontal: 20.0,
+                                vertical: 10.0,
+                              ),
+                              child: LayCardMcVehicleDirections(
+                                element: controller.mcVehicleTripData,
+                              ),
                             ),
                           ),
-                        ),
                       ],
 
                       if (controller.listElement.isNotEmpty) ...[

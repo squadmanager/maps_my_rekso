@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:maps_my_rekso/app/modules/maps_waste_collections/controllers/maps_waste_collections_controller.dart';
@@ -21,92 +22,110 @@ class LayCardMcVehicleDirections
         ),
         child: Padding(
           padding: const EdgeInsets.all(10.0),
-          child: SingleChildScrollView(
-            scrollDirection: Axis.vertical,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const SizedBox(
-                  height: 10.0,
+          child: Stack(
+            children: [
+              Align(
+                alignment: Alignment.topRight,
+                child: InkWell(
+                  onTap: () {
+                    controller.mcMinimizeTripData(true);
+                  },
+                  child: SvgPicture.asset(
+                    'assets/icons/minus.svg',
+                    color: HexColor(ColorWidget().grey),
+                    fit: BoxFit.scaleDown,
+                  ),
                 ),
-                Row(
-                  children: [
-                    Expanded(
-                      child: DetailWidget(
-                        title: 'Vehicle',
-                        isStatus: false,
-                        textContent: '${element[0]['licensePlate']}',
+              ),
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 40.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        children: [
+                          Expanded(
+                            child: DetailWidget(
+                              title: 'Vehicle',
+                              isStatus: false,
+                              textContent: '${element[0]['licensePlate']}',
+                            ),
+                          ),
+                          Expanded(
+                            child: DetailWidget(
+                              title: 'Hull Number',
+                              isStatus: false,
+                              textContent: '${element[0]['hullNo']}',
+                            ),
+                          ),
+                        ],
                       ),
-                    ),
-                    Expanded(
-                      child: DetailWidget(
-                        title: 'Hull Number',
-                        isStatus: false,
-                        textContent: '${element[0]['hullNo']}',
+                      const SizedBox(
+                        height: 10.0,
                       ),
-                    ),
-                  ],
-                ),
-                const SizedBox(
-                  height: 10.0,
-                ),
-                DetailWidget(
-                  title: 'IMEI',
-                  isStatus: false,
-                  textContent: '${element[0]['imei']}',
-                ),
-                const SizedBox(
-                  height: 10.0,
-                ),
-                Divider(
-                  thickness: 1,
-                  color: HexColor(ColorWidget().black),
-                  height: 10,
-                ),
-                const SizedBox(
-                  height: 10.0,
-                ),
-                Row(
-                  children: [
-                    Expanded(
-                      child: DetailWidget(
-                        title: 'Total Moving Trip Duration',
+                      DetailWidget(
+                        title: 'IMEI',
                         isStatus: false,
-                        textContent: '${element[0]['totalMovingTripDuration']}',
+                        textContent: '${element[0]['imei']}',
                       ),
-                    ),
-                    Expanded(
-                      child: DetailWidget(
-                        title: 'Total Moving Trip Distance',
-                        isStatus: false,
-                        textContent: '${element[0]['totalMovingTripDistance']}',
+                      const SizedBox(
+                        height: 10.0,
                       ),
-                    ),
-                  ],
+                      Divider(
+                        thickness: 1,
+                        color: HexColor(ColorWidget().black),
+                        height: 10,
+                      ),
+                      const SizedBox(
+                        height: 10.0,
+                      ),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: DetailWidget(
+                              title: 'Total Moving Trip Duration',
+                              isStatus: false,
+                              textContent:
+                                  '${element[0]['totalMovingTripDuration']}',
+                            ),
+                          ),
+                          Expanded(
+                            child: DetailWidget(
+                              title: 'Total Moving Trip Distance',
+                              isStatus: false,
+                              textContent:
+                                  '${element[0]['totalMovingTripDistance']}',
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(
+                        height: 10.0,
+                      ),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: DetailWidget(
+                              title: 'Total Hour Start',
+                              isStatus: false,
+                              textContent: element[0]['totalHourStart'],
+                            ),
+                          ),
+                          Expanded(
+                            child: DetailWidget(
+                              title: 'Total Hour Stop',
+                              isStatus: false,
+                              textContent: element[0]['totalHourStop'],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
-                const SizedBox(
-                  height: 10.0,
-                ),
-                Row(
-                  children: [
-                    Expanded(
-                      child: DetailWidget(
-                        title: 'Total Hour Start',
-                        isStatus: false,
-                        textContent: element[0]['totalHourStart'],
-                      ),
-                    ),
-                    Expanded(
-                      child: DetailWidget(
-                        title: 'Total Hour Stop',
-                        isStatus: false,
-                        textContent: element[0]['totalHourStop'],
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
         // height: double.infinity,
