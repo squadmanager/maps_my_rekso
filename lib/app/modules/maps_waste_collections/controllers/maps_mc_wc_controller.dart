@@ -144,11 +144,9 @@ class MapsMcWcController extends GetxController {
   }
 
   Future<void> getMcVehiclesStatuses() async {
-    // isLoadingVehicleStatuses(true);
+    // isLoadingVehicleStatuses(true);    
     try {
       var data = await McProvider().getVehicleStatuses();
-
-      // mcVehicleStatusesList.value = data;
 
       mcVehicleStatusesList.value = data.where((element) {
         return element.vehicleGroups
@@ -156,7 +154,7 @@ class MapsMcWcController extends GetxController {
                 .isNotEmpty
             ? true
             : false;
-      }).toList();
+      }).toList();    
 
       if (mcVehicleStatusesList.isNotEmpty) {
         isEmptyVehicleStatuses.value = false;
@@ -208,6 +206,8 @@ class MapsMcWcController extends GetxController {
         '${rangeDateFilterStart.value}T${mapsMonitoringC.firstTimeC.text}:00.000Z';
     var endDate =
         '${rangeDateFilterEnd.value}T${mapsMonitoringC.lastTimeC.text}:00.000Z';
+
+    mapsMonitoringC.mcVehicleId.value = vehicleId;
 
     mapsMonitoringC.isLoading(true);
 
@@ -333,7 +333,10 @@ class MapsMcWcController extends GetxController {
       mapsMonitoringC.tracking.add(mcTripsDetailList[i].licensePlate);
     }
 
-    mapsMonitoringC.animateMapMove(mapsMonitoringC.routePoints[0], 15);
+    mapsMonitoringC.animateMapMove(
+        LatLng(
+            mcTripsDetailList.last.latitude, mcTripsDetailList.last.longitude),
+        15);
 
     mapsMonitoringC.isLoading(false);
     // } catch (e) {

@@ -195,6 +195,8 @@ class MapsMcScController extends GetxController {
     var endDate =
         '${rangeDateFilterEnd.value}T${mapsMonitoringScC.lastTimeC.text}:00.000Z';
 
+    mapsMonitoringScC.mcVehicleId.value = vehicleId;
+
     mapsMonitoringScC.isLoading(true);
 
     mapsMonitoringScC.latLngStopVehicle.clear();
@@ -308,7 +310,10 @@ class MapsMcScController extends GetxController {
         mapsMonitoringScC.tracking.add(mcTripsDetailList[i].licensePlate);
       }
 
-      mapsMonitoringScC.animateMapMove(mapsMonitoringScC.routePoints[0], 15);
+      mapsMonitoringScC.animateMapMove(
+          LatLng(mcTripsDetailList.last.latitude,
+              mcTripsDetailList.last.longitude),
+          15);
 
       mapsMonitoringScC.isLoading(false);
     } catch (e) {

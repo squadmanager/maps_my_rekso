@@ -17,6 +17,7 @@ dependencies:
   syncfusion_flutter_datepicker: ^22.2.10
   # time_range_picker: ^2.2.0
   dio: ^5.5.0+1
+  flutter_animate: ^4.5.0
 
   # firebase
   firebase_core: ^2.23.0

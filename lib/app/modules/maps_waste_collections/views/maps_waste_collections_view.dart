@@ -337,29 +337,20 @@ class MapsWasteCollectionsView extends GetView<MapsWasteCollectionsController> {
                       ),
                       // card detail vehicle directions
                       if (controller.mcVehicleTripData.isNotEmpty) ...[
-                        if (controller.isDevice.value == 'phone') ...[
+                        if (controller.mcMinimizeTripData.isTrue)
                           Container(
-                            alignment:
-                                MediaQuery.of(context).size.height < 500.0
-                                    ? Alignment.centerLeft
-                                    : Alignment.bottomCenter,
+                            alignment: Alignment.topLeft,
                             child: Container(
-                              height: MediaQuery.of(context).size.height < 500.0
-                                  ? MediaQuery.of(context).size.height
-                                  : MediaQuery.of(context).size.height / 3,
-                              width: MediaQuery.of(context).size.height < 500.0
-                                  ? MediaQuery.of(context).size.width / 3
-                                  : MediaQuery.of(context).size.width,
+                              width: 180,
+                              height: 30,
                               margin: const EdgeInsets.symmetric(
                                 horizontal: 20.0,
                                 vertical: 10.0,
                               ),
-                              child: LayCardMcVehicleDirections(
-                                element: controller.mcVehicleTripData,
-                              ),
+                              child: const McVehicleDirectionsMinimize(),
                             ),
-                          ),
-                        ] else ...[
+                          )
+                        else
                           Container(
                             alignment:
                                 MediaQuery.of(context).size.height < 1000.0
@@ -382,7 +373,6 @@ class MapsWasteCollectionsView extends GetView<MapsWasteCollectionsController> {
                               ),
                             ),
                           ),
-                        ]
                       ],
 
                       if (controller.listElement.isNotEmpty) ...[

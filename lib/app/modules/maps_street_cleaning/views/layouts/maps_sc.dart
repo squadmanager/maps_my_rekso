@@ -32,7 +32,12 @@ class MapsSc extends GetView<MapsStreetCleaningController> {
       () => FlutterMap(
         mapController: controller.mapController,
         options: MapOptions(
-          center: controller.routePoints[0],
+          center: controller.tracking.isNotEmpty
+              ? LatLng(
+                  mapsMcScController.mcTripsDetailList.last.latitude,
+                  mapsMcScController.mcTripsDetailList.last.longitude,
+                )
+              : controller.routePoints[0],
           zoom: 15,
           interactionOptions: controller.tracking.isNotEmpty
               ? InteractionOptions(
@@ -114,6 +119,85 @@ class MapsSc extends GetView<MapsStreetCleaningController> {
               // end current location user
               if (controller.tracking.isNotEmpty) ...[
                 // route tracking
+                Marker(
+                  alignment: Alignment.topCenter,
+                  rotate: true,
+                  width: 80,
+                  height: 75,
+                  point: LatLng(
+                    mapsMcScController.mcTripsDetailList.last.latitude,
+                    mapsMcScController.mcTripsDetailList.last.longitude,
+                  ),
+                  child: Column(
+                    children: [
+                      Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(5.0),
+                          color: HexColor(ColorWidget().primary),
+                        ),
+                        child: Center(
+                          child: Text(
+                            'Start',
+                            style: GoogleFonts.poppins(
+                              fontSize: 12.0,
+                              fontWeight: FontWeight.w500,
+                              color: HexColor(ColorWidget().white),
+                            ),
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 2.0),
+                        child: SvgPicture.asset(
+                          'assets/icons/windsock.svg',
+                          color: HexColor(ColorWidget().primary),
+                          height: 50,
+                          width: 50,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Marker(
+                  alignment: Alignment.topCenter,
+                  rotate: true,
+                  width: 80,
+                  height: 75,
+                  point: LatLng(
+                    mapsMcScController.mcTripsDetailList.first.latitude,
+                    mapsMcScController.mcTripsDetailList.first.longitude,
+                  ),
+                  child: Column(
+                    children: [
+                      Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(5.0),
+                          color: HexColor(ColorWidget().primary),
+                        ),
+                        child: Center(
+                          child: Text(
+                            'End',
+                            style: GoogleFonts.poppins(
+                              fontSize: 12.0,
+                              fontWeight: FontWeight.w500,
+                              color: HexColor(ColorWidget().white),
+                            ),
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 2.0),
+                        child: SvgPicture.asset(
+                          'assets/icons/windsock.svg',
+                          color: HexColor(ColorWidget().primary),
+                          height: 50,
+                          width: 50,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+
                 if (controller.latLngStopVehicle.isNotEmpty) ...[
                   for (int i = 0; i < controller.latLngStopVehicle.length; i++)
                     Marker(
@@ -411,17 +495,20 @@ class MapsSc extends GetView<MapsStreetCleaningController> {
 
               // mc vehicle
               if (mapsMcScController.mcVehicleStatusesList.isNotEmpty)
-                for (int i = 0;
-                    i < mapsMcScController.mcVehicleStatusesList.length;
-                    i++) ...[
+                for (var element in controller.tracking.isNotEmpty
+                    ? mapsMcScController.mcVehicleStatusesList
+                        .where(
+                            (e) => e.vehicleId == controller.mcVehicleId.value)
+                        .toList()
+                    : mapsMcScController.mcVehicleStatusesList) ...[
                   Marker(
                     alignment: Alignment.topCenter,
                     rotate: true,
                     width: 80,
                     height: 75,
                     point: LatLng(
-                      mapsMcScController.mcVehicleStatusesList[i].latitude,
-                      mapsMcScController.mcVehicleStatusesList[i].longitude,
+                      element.latitude,
+                      element.longitude,
                     ),
                     child: InkWell(
                       onTap: () {
@@ -432,31 +519,22 @@ class MapsSc extends GetView<MapsStreetCleaningController> {
                         controller.mcOpenVehicleDetail(true);
                         controller.mcVehicleDetail.clear();
                         controller.gotoLocation(
-                          mapsMcScController.mcVehicleStatusesList[i].latitude,
-                          mapsMcScController.mcVehicleStatusesList[i].longitude,
+                          element.latitude,
+                          element.longitude,
                           18,
                         );
                         controller.mcVehicleDetail.add({
-                          'vehicleId': mapsMcScController
-                              .mcVehicleStatusesList[i].vehicleId,
-                          'licensePlate': mapsMcScController
-                              .mcVehicleStatusesList[i].licensePlate,
-                          'hullNo': mapsMcScController
-                              .mcVehicleStatusesList[i].hullNo,
-                          'engineOn': mapsMcScController
-                              .mcVehicleStatusesList[i].engineOn,
-                          'address': mapsMcScController
-                              .mcVehicleStatusesList[i].address,
-                          'speed':
-                              mapsMcScController.mcVehicleStatusesList[i].speed,
-                          'motionStatus': mapsMcScController
-                              .mcVehicleStatusesList[i].motionStatus,
-                          'imei':
-                              mapsMcScController.mcVehicleStatusesList[i].imei,
-                          'sumDistance': mapsMcScController
-                              .mcVehicleStatusesList[i].sumDistance,
-                          'sumDrivetimeFormatted': mapsMcScController
-                              .mcVehicleStatusesList[i].sumDrivetimeFormatted,
+                          'vehicleId': element.vehicleId,
+                          'licensePlate': element.licensePlate,
+                          'hullNo': element.hullNo,
+                          'engineOn': element.engineOn,
+                          'address': element.address,
+                          'speed': element.speed,
+                          'motionStatus': element.motionStatus,
+                          'imei': element.imei,
+                          'sumDistance': element.sumDistance,
+                          'sumDrivetimeFormatted':
+                              element.sumDrivetimeFormatted,
                         });
                       },
                       child: Column(
@@ -465,14 +543,9 @@ class MapsSc extends GetView<MapsStreetCleaningController> {
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(5.0),
                               color: HexColor(
-                                mapsMcScController.mcVehicleStatusesList[i]
-                                            .motionStatus ==
-                                        'M'
+                                element.motionStatus == 'M'
                                     ? ColorWidget().blue
-                                    : mapsMcScController
-                                                .mcVehicleStatusesList[i]
-                                                .motionStatus ==
-                                            'I'
+                                    : element.motionStatus == 'I'
                                         ? ColorWidget().yellow
                                         : ColorWidget().red,
                               ),
@@ -480,8 +553,7 @@ class MapsSc extends GetView<MapsStreetCleaningController> {
                             child: Padding(
                               padding: const EdgeInsets.all(5.0),
                               child: Text(
-                                mapsMcScController
-                                    .mcVehicleStatusesList[i].licensePlate,
+                                element.licensePlate,
                                 style: GoogleFonts.poppins(
                                   fontSize: 12.0,
                                   fontWeight: FontWeight.w500,
@@ -495,13 +567,9 @@ class MapsSc extends GetView<MapsStreetCleaningController> {
                           Padding(
                             padding: const EdgeInsets.only(top: 5.0),
                             child: Image.asset(
-                              mapsMcScController.mcVehicleStatusesList[i]
-                                          .motionStatus ==
-                                      'M'
+                              element.motionStatus == 'M'
                                   ? 'assets/images/pin-map-car-blue.png'
-                                  : mapsMcScController.mcVehicleStatusesList[i]
-                                              .motionStatus ==
-                                          'I'
+                                  : element.motionStatus == 'I'
                                       ? 'assets/images/pin-map-car-yellow.png'
                                       : 'assets/images/pin-map-car-red.png',
                               height: 40,

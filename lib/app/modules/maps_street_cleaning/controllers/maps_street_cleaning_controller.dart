@@ -105,6 +105,8 @@ class MapsStreetCleaningController extends GetxController
   var mcOpenVehicleDetail = false.obs;
   var mcVehicleTripData = [].obs;
   var mcRouteLine = [].obs;
+  var mcVehicleId = 0.obs;
+  var mcMinimizeTripData = false.obs;
 
   late Timer timer;
 
@@ -338,6 +340,7 @@ class MapsStreetCleaningController extends GetxController
     latLngStopVehicle.clear();
     mcVehicleTripData.clear();
     mcRouteLine.clear();
+    mcVehicleId.value = 0;
     firstHourFilter.value = 0;
     firstMinuteFilter.value = 0;
     lastHourFilter.value = 0;
