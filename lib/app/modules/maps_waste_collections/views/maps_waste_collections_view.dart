@@ -17,7 +17,6 @@ import 'layouts/detail_vehicle_widget.dart';
 import 'layouts/lay_card_mc_vehicle_directions.dart';
 import 'layouts/lay_detail_mc_vehicle.dart';
 import 'layouts/lay_list_mc_vehicle.dart';
-import 'layouts/lay_mc_vehicle_directions_minimize.dart';
 import 'layouts/list_location_widget.dart';
 
 class MapsWasteCollectionsView extends GetView<MapsWasteCollectionsController> {
@@ -348,7 +347,7 @@ class MapsWasteCollectionsView extends GetView<MapsWasteCollectionsController> {
                                 horizontal: 20.0,
                                 vertical: 10.0,
                               ),
-                              child: const LayMcVehicleDirectionsMinimize(),
+                              child: const McVehicleDirectionsMinimize(),
                             ),
                           )
                         else

@@ -360,7 +360,7 @@ class MapsStreetCleaningView extends GetView<MapsStreetCleaningController> {
                                 horizontal: 20.0,
                                 vertical: 10.0,
                               ),
-                              child: const McVehicleDirectionsMinimize(),
+                              child: const McVehicleDirectionsMinimizeSc(),
                             ),
                           )
                         else

@@ -133,9 +133,9 @@ class LayCardMcVehicleDirectionsSc
   }
 }
 
-class McVehicleDirectionsMinimize
+class McVehicleDirectionsMinimizeSc
     extends GetView<MapsStreetCleaningController> {
-  const McVehicleDirectionsMinimize({super.key});
+  const McVehicleDirectionsMinimizeSc({super.key});
 
   @override
   Widget build(BuildContext context) {
