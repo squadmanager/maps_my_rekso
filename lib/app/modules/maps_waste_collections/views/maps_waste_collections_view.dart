@@ -338,42 +338,40 @@ class MapsWasteCollectionsView extends GetView<MapsWasteCollectionsController> {
                       ),
                       // card detail vehicle directions
                       if (controller.mcVehicleTripData.isNotEmpty) ...[
-                        if (controller.mcMinimizeTripData.isTrue)
-                          Container(
-                            alignment: Alignment.topLeft,
-                            child: Container(
-                              width: 180,
-                              height: 30,
-                              margin: const EdgeInsets.symmetric(
-                                horizontal: 20.0,
-                                vertical: 10.0,
-                              ),
-                              child: const LayMcVehicleDirectionsMinimize(),
+                        // if (controller.mcMinimizeTripData.isTrue)
+                        //   Container(
+                        //     alignment: Alignment.topLeft,
+                        //     child: Container(
+                        //       width: 180,
+                        //       height: 30,
+                        //       margin: const EdgeInsets.symmetric(
+                        //         horizontal: 20.0,
+                        //         vertical: 10.0,
+                        //       ),
+                        //       child: const LayMcVehicleDirectionsMinimize(),
+                        //     ),
+                        //   )
+                        // else
+                        Container(
+                          alignment: MediaQuery.of(context).size.height < 1000.0
+                              ? Alignment.centerLeft
+                              : Alignment.bottomCenter,
+                          child: Container(
+                            height: MediaQuery.of(context).size.height < 1000.0
+                                ? MediaQuery.of(context).size.height
+                                : MediaQuery.of(context).size.height / 3,
+                            width: MediaQuery.of(context).size.height < 1000.0
+                                ? MediaQuery.of(context).size.width / 3
+                                : MediaQuery.of(context).size.width,
+                            margin: const EdgeInsets.symmetric(
+                              horizontal: 20.0,
+                              vertical: 10.0,
                             ),
-                          )
-                        else
-                          Container(
-                            alignment:
-                                MediaQuery.of(context).size.height < 1000.0
-                                    ? Alignment.centerLeft
-                                    : Alignment.bottomCenter,
-                            child: Container(
-                              height:
-                                  MediaQuery.of(context).size.height < 1000.0
-                                      ? MediaQuery.of(context).size.height
-                                      : MediaQuery.of(context).size.height / 3,
-                              width: MediaQuery.of(context).size.height < 1000.0
-                                  ? MediaQuery.of(context).size.width / 3
-                                  : MediaQuery.of(context).size.width,
-                              margin: const EdgeInsets.symmetric(
-                                horizontal: 20.0,
-                                vertical: 10.0,
-                              ),
-                              child: LayCardMcVehicleDirections(
-                                element: controller.mcVehicleTripData,
-                              ),
+                            child: LayCardMcVehicleDirections(
+                              element: controller.mcVehicleTripData,
                             ),
                           ),
+                        ),
                       ],
 
                       if (controller.listElement.isNotEmpty) ...[
