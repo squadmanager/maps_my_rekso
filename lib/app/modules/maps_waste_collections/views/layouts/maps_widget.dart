@@ -112,9 +112,9 @@ class MapsWidget extends GetView<MapsWasteCollectionsController> {
               if (controller.tracking.isNotEmpty) ...[
                 // route tracking
                 Marker(
-                  alignment: Alignment.topCenter,
+                  alignment: Alignment.topRight,
                   rotate: true,
-                  width: 50,
+                  width: 40,
                   height: 60,
                   point: LatLng(
                     mapsMcWcController.mcTripsDetailList.last.latitude,
@@ -151,9 +151,9 @@ class MapsWidget extends GetView<MapsWasteCollectionsController> {
                   ),
                 ),
                 Marker(
-                  alignment: Alignment.topCenter,
+                  alignment: Alignment.topRight,
                   rotate: true,
-                  width: 50,
+                  width: 40,
                   height: 60,
                   point: LatLng(
                     mapsMcWcController.mcTripsDetailList.first.latitude,
