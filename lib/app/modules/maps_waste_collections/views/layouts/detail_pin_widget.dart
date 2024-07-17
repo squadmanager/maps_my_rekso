@@ -5,6 +5,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:image_network/image_network.dart';
 import 'package:intl/intl.dart';
 import 'package:maps_my_rekso/app/modules/maps_waste_collections/controllers/maps_waste_collections_controller.dart';
 import 'package:maps_my_rekso/app/widgets/color_widget.dart';
@@ -233,26 +234,7 @@ class DetailPinWidget extends GetView<MapsWasteCollectionsController> {
             child: ClipRRect(
               borderRadius: const BorderRadius.all(Radius.circular(5.0)),
               child: InkWell(
-                onTap: () {
-                  Get.defaultDialog(
-                    title: 'Image ${i + 1}',
-                    content: SizedBox(
-                      width: Get.width / 1.5,
-                      height: Get.height / 1.5,
-                      child: PhotoView(
-                        imageProvider: NetworkImage(
-                          controller.attachmentList[i].url,
-                        ),
-                        enableRotation: true,
-                      ),
-                    ),
-                    // content: Image.network(
-                    //   controller.attachmentList[i].url,
-                    //   width: Get.width / 1.5,
-                    //   height: Get.height / 1.5,
-                    // ),
-                  );
-                },
+                onTap: () {},
                 // onTap: () => Navigator.push(
                 //   context,
                 //   MaterialPageRoute(
@@ -263,25 +245,46 @@ class DetailPinWidget extends GetView<MapsWasteCollectionsController> {
                 // ),
                 child: Stack(
                   children: [
-                    Image.network(
-                      controller.attachmentList[i].url,
-                      fit: BoxFit.cover,
-                      width: 1000.0,
-                      loadingBuilder: (BuildContext context, Widget child,
-                          ImageChunkEvent? loadingProgress) {
-                        if (loadingProgress == null) {
-                          return child;
-                        }
-                        return Center(
-                          child: CircularProgressIndicator(
-                            value: loadingProgress.expectedTotalBytes != null
-                                ? loadingProgress.cumulativeBytesLoaded /
-                                    loadingProgress.expectedTotalBytes!
-                                : null,
+                    ImageNetwork(
+                      image: controller.attachmentList[i].url,
+                      width: 500.0,
+                      height: 500.0,
+                      fullScreen: true,
+                      onTap: () {
+                        Get.defaultDialog(
+                          title: 'Image ${i + 1}',
+                          content: SizedBox(
+                            width: Get.width / 1.5,
+                            height: Get.height / 1.5,
+                            child: PhotoView(
+                              imageProvider: NetworkImage(
+                                controller.attachmentList[i].url,
+                              ),
+                              enableRotation: true,
+                            ),
                           ),
                         );
                       },
                     ),
+                    // Image.network(
+                    //   controller.attachmentList[i].url,
+                    //   fit: BoxFit.cover,
+                    //   width: 1000.0,
+                    //   loadingBuilder: (BuildContext context, Widget child,
+                    //       ImageChunkEvent? loadingProgress) {
+                    //     if (loadingProgress == null) {
+                    //       return child;
+                    //     }
+                    //     return Center(
+                    //       child: CircularProgressIndicator(
+                    //         value: loadingProgress.expectedTotalBytes != null
+                    //             ? loadingProgress.cumulativeBytesLoaded /
+                    //                 loadingProgress.expectedTotalBytes!
+                    //             : null,
+                    //       ),
+                    //     );
+                    //   },
+                    // ),
                     Positioned(
                       bottom: 0.0,
                       left: 0.0,

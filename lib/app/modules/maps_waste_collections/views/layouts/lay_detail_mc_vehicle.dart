@@ -59,7 +59,7 @@ class LayDetailMcVehicle extends GetView<MapsWasteCollectionsController> {
                             child: DetailWidget(
                               title: 'Hull Number',
                               isStatus: false,
-                              textContent: element[0]['hullNo'],
+                              textContent: '${element[0]['hullNo']}',
                             ),
                           ),
                         ],
@@ -121,7 +121,7 @@ class LayDetailMcVehicle extends GetView<MapsWasteCollectionsController> {
                             child: DetailWidget(
                               title: 'Traveling Time',
                               isStatus: false,
-                              textContent: element[0]['sumDrivetimeFormatted'],
+                              textContent: '${element[0]['sumDrivetimeFormatted']}',
                             ),
                           ),
                         ],
@@ -142,7 +142,7 @@ class LayDetailMcVehicle extends GetView<MapsWasteCollectionsController> {
                             child: DetailWidget(
                               title: 'IMEI',
                               isStatus: false,
-                              textContent: element[0]['imei'],
+                              textContent: '${element[0]['imei']}',
                             ),
                           ),
                         ],

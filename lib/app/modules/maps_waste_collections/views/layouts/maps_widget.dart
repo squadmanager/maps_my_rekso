@@ -372,9 +372,11 @@ class MapsWidget extends GetView<MapsWasteCollectionsController> {
                             child: Padding(
                               padding: const EdgeInsets.all(5.0),
                               child: Text(
-                                element.licensePlate,
+                                element.licensePlate.length > 10
+                                    ? '${element.licensePlate.substring(0, 10)}...'
+                                    : element.licensePlate,
                                 style: GoogleFonts.poppins(
-                                  fontSize: 12.0,
+                                  fontSize: 10.0,
                                   fontWeight: FontWeight.w500,
                                   color: HexColor(
                                     ColorWidget().white,

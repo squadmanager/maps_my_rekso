@@ -1,15 +1,11 @@
 import 'dart:convert';
 
-import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:maps_my_rekso/app/data/models/attachment_daily_task_model.dart';
 import 'package:maps_my_rekso/app/data/providers/url_api.dart';
-import 'package:maps_my_rekso/app/modules/home/controllers/home_controller.dart';
 import 'package:maps_my_rekso/app/widgets/snackbar_widget.dart';
 
 class AttachmentProvider {
-  final HomeController loginC = Get.find<HomeController>();
-
   // waste collection
   // task dragonfly
   Future<List<DataAttachmentDailyTaskModel>> getImageWc(token, id) async {

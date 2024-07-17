@@ -35,11 +35,11 @@ class ExpiredSessionC {
               },
               color: HexColor(ColorWidget().red),
               child: Text(
-                'signOut'.tr,
+                'Sign Out',
                 style: GoogleFonts.poppins(
                   fontSize: 15.0,
                   fontWeight: FontWeight.w600,
-                  color: HexColor(ColorWidget().black),
+                  color: HexColor(ColorWidget().white),
                 ),
               ),
             ),

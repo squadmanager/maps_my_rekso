@@ -51,7 +51,7 @@ class DataMcVehicleStatusesModel {
     double tripDistance;
     int sumDrivetime;
     int tripDrivetime;
-    String sumDrivetimeFormatted;
+    dynamic sumDrivetimeFormatted;
     String tripDrivetimeFormatted;
     int speed;
     int calculatedSpeed;
@@ -75,17 +75,17 @@ class DataMcVehicleStatusesModel {
     DateTime tripstartOn;
     double tripstartLong;
     double tripstartLat;
-    String motionStatus;
+    dynamic motionStatus;
     String calculatedMotionStatus;
-    String licensePlate;
-    String? hullNo;
+    dynamic licensePlate;
+    dynamic hullNo;
     bool engineOn;
     bool batteryAlarmSet;
     bool gsmAlarmSet;
-    String address;
+    dynamic address;
     List<String> vehicleGroups;
     int altitude;
-    String imei;
+    dynamic imei;
     DateTime requestedDate;
 
     DataMcVehicleStatusesModel({
