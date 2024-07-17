@@ -10,6 +10,7 @@ import 'package:get_storage/get_storage.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:intl/intl.dart';
 import 'package:latlong2/latlong.dart';
+import 'package:maps_my_rekso/app/components/expired_session_c.dart';
 import 'package:maps_my_rekso/app/data/providers/attachment_wc_provider.dart';
 import 'package:maps_my_rekso/app/data/providers/directions_provider.dart';
 import 'package:maps_my_rekso/app/data/providers/firebase_provider.dart';
@@ -493,8 +494,7 @@ class MapsWasteCollectionsController extends GetxController
         isLoadingImage.value = false;
       } catch (e) {
         isLoadingImage.value = false;
-        SnackbarWidget().getSnackbar(
-            'Something went wrong', 'Please Reload this page ', 'error');
+        ExpiredSessionC().dialog();
       }
     } else if (typeForm.value == 'compactor') {
       try {
@@ -507,8 +507,7 @@ class MapsWasteCollectionsController extends GetxController
         isLoadingImage.value = false;
       } catch (e) {
         isLoadingImage.value = false;
-        SnackbarWidget().getSnackbar(
-            'Something went wrong', 'Please Reload this page ', 'error');
+        ExpiredSessionC().dialog();
       }
     } else if (typeForm.value == 'pruning') {
       try {
@@ -521,8 +520,7 @@ class MapsWasteCollectionsController extends GetxController
         isLoadingImage.value = false;
       } catch (e) {
         isLoadingImage.value = false;
-        SnackbarWidget().getSnackbar(
-            'Something went wrong', 'Please Reload this page ', 'error');
+        ExpiredSessionC().dialog();
       }
     }
   }

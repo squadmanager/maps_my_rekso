@@ -13,6 +13,7 @@ import 'package:latlong2/latlong.dart';
 import 'package:maps_my_rekso/app/data/models/task_group_teams_ms_model.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
+import '../../../components/expired_session_c.dart';
 import '../../../data/models/attachment_sc_model.dart';
 import '../../../data/models/daily_task_ms_model.dart';
 import '../../../data/models/daily_task_rs_model.dart';
@@ -746,8 +747,7 @@ class MapsStreetCleaningController extends GetxController
       isLoadingImage.value = false;
     } catch (e) {
       isLoadingImage.value = false;
-      SnackbarWidget().getSnackbar(
-          'Something went wrong', 'Please Reload this page ', 'error');
+      ExpiredSessionC().dialog();
     }
   }
 
