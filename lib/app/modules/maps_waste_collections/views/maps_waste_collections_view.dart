@@ -5,6 +5,7 @@ import 'package:flutter_svg/svg.dart';
 
 import 'package:get/get.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:maps_my_rekso/app/modules/login/controllers/auth_controller.dart';
 import 'package:maps_my_rekso/app/modules/maps_waste_collections/views/layouts/search_map_widget.dart';
 
 import '../../../widgets/color_widget.dart';
@@ -23,6 +24,7 @@ class MapsWasteCollectionsView extends GetView<MapsWasteCollectionsController> {
   MapsWasteCollectionsView({Key? key}) : super(key: key);
 
   final MapsMcWcController mapsMcWcController = Get.put(MapsMcWcController());
+  final AuthController authC = Get.find<AuthController>();
 
   @override
   Widget build(BuildContext context) {
@@ -44,28 +46,28 @@ class MapsWasteCollectionsView extends GetView<MapsWasteCollectionsController> {
                 : Stack(
                     children: [
                       const ListLocationWidget(),
-                      // Container(
-                      //   alignment: Alignment.topLeft,
-                      //   child: Container(
-                      //     margin: const EdgeInsets.only(left: 20.0, top: 20.0),
-                      //     width: 40,
-                      //     height: 40,
-                      //     child: ElevatedButton(
-                      //       onPressed: () => Get.back(),
-                      //       style: ElevatedButton.styleFrom(
-                      //         shape: const CircleBorder(),
-                      //         padding: const EdgeInsets.all(5),
-                      //         backgroundColor: HexColor(
-                      //             ColorWidget().primaryWasteCollections),
-                      //       ),
-                      //       child: SvgPicture.asset(
-                      //         'assets/icons/arrow-left.svg',
-                      //         color: HexColor(ColorWidget().white),
-                      //         fit: BoxFit.scaleDown,
-                      //       ),
-                      //     ),
-                      //   ),
-                      // ),
+                      Container(
+                        alignment: Alignment.topLeft,
+                        child: Container(
+                          margin: const EdgeInsets.only(left: 20.0, top: 20.0),
+                          width: 40,
+                          height: 40,
+                          child: ElevatedButton(
+                            onPressed: () => authC.logout(),
+                            style: ElevatedButton.styleFrom(
+                              shape: const CircleBorder(),
+                              padding: const EdgeInsets.all(5),
+                              backgroundColor: HexColor(
+                                  ColorWidget().red),
+                            ),
+                            child: SvgPicture.asset(
+                              'assets/icons/signout.svg',
+                              color: HexColor(ColorWidget().white),
+                              fit: BoxFit.scaleDown,
+                            ),
+                          ),
+                        ),
+                      ),
                       Container(
                         alignment: Alignment.topRight,
                         child: Column(

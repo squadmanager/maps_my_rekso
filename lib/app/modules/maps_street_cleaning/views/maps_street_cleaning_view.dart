@@ -12,6 +12,7 @@ import 'package:maps_my_rekso/app/modules/maps_street_cleaning/views/layouts/lay
 import '../../../widgets/color_widget.dart';
 import '../../../widgets/input_widget.dart';
 import '../../../widgets/modal_bottom_sheet_widget.dart';
+import '../../login/controllers/auth_controller.dart';
 import '../controllers/maps_street_cleaning_controller.dart';
 import 'layouts/detail_pin_sc.dart';
 import 'layouts/lay_card_mc_vehicle_directions_sc.dart';
@@ -23,6 +24,7 @@ import 'layouts/search_map_sc.dart';
 class MapsStreetCleaningView extends GetView<MapsStreetCleaningController> {
   MapsStreetCleaningView({Key? key}) : super(key: key);
   final MapsMcScController mapsMcScController = Get.put(MapsMcScController());
+  final AuthController authC = Get.find<AuthController>();
 
   @override
   Widget build(BuildContext context) {
@@ -44,28 +46,27 @@ class MapsStreetCleaningView extends GetView<MapsStreetCleaningController> {
                 : Stack(
                     children: [
                       const ListLocationSc(),
-                      // Container(
-                      //   alignment: Alignment.topLeft,
-                      //   child: Container(
-                      //     margin: const EdgeInsets.only(left: 20.0, top: 20.0),
-                      //     width: 40,
-                      //     height: 40,
-                      //     child: ElevatedButton(
-                      //       onPressed: () => Get.back(),
-                      //       style: ElevatedButton.styleFrom(
-                      //         shape: const CircleBorder(),
-                      //         padding: const EdgeInsets.all(5),
-                      //         backgroundColor:
-                      //             HexColor(ColorWidget().primarySC),
-                      //       ),
-                      //       child: SvgPicture.asset(
-                      //         'assets/icons/arrow-left.svg',
-                      //         color: HexColor(ColorWidget().white),
-                      //         fit: BoxFit.scaleDown,
-                      //       ),
-                      //     ),
-                      //   ),
-                      // ),
+                      Container(
+                        alignment: Alignment.topLeft,
+                        child: Container(
+                          margin: const EdgeInsets.only(left: 20.0, top: 20.0),
+                          width: 40,
+                          height: 40,
+                          child: ElevatedButton(
+                            onPressed: () => authC.logout(),
+                            style: ElevatedButton.styleFrom(
+                              shape: const CircleBorder(),
+                              padding: const EdgeInsets.all(5),
+                              backgroundColor: HexColor(ColorWidget().red),
+                            ),
+                            child: SvgPicture.asset(
+                              'assets/icons/signout.svg',
+                              color: HexColor(ColorWidget().white),
+                              fit: BoxFit.scaleDown,
+                            ),
+                          ),
+                        ),
+                      ),
                       Container(
                         alignment: Alignment.topRight,
                         child: Column(

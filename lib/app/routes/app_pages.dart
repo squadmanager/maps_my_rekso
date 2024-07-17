@@ -1,4 +1,6 @@
 import 'package:get/get.dart';
+import 'package:maps_my_rekso/app/modules/login/bindings/login_binding.dart';
+import 'package:maps_my_rekso/app/modules/login/views/login_view.dart';
 
 import '../modules/bottom_navigation/bindings/bottom_navigation_binding.dart';
 import '../modules/bottom_navigation/views/bottom_navigation_view.dart';
@@ -14,7 +16,7 @@ part 'app_routes.dart';
 class AppPages {
   AppPages._();
 
-  static const INITIAL = Routes.HOME;
+  static const INITIAL = Routes.LOGIN;
   static const MAPSWC = Routes.MAPS_WASTE_COLLECTIONS;
 
   static final routes = [
@@ -37,6 +39,11 @@ class AppPages {
       name: _Paths.BOTTOM_NAVIGATION,
       page: () => BottomNavigationView(),
       binding: BottomNavigationBinding(),
+    ),
+    GetPage(
+      name: _Paths.LOGIN,
+      page: () => const LoginView(),
+      binding: LoginBinding(),
     ),
   ];
 }

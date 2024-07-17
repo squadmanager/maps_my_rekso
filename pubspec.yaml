@@ -50,6 +50,11 @@ dev_dependencies:
     sdk: flutter
 
 flutter: 
+  fonts:
+      - family: BerlinSans
+        fonts:
+          - asset: assets/fonts/BRLNSDB.TTF
+            weight: 700
   assets:
     - assets/icons/
     - assets/images/

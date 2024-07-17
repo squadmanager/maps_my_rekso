@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:maps_my_rekso/app/modules/home/controllers/home_controller.dart';
+import 'package:maps_my_rekso/app/modules/login/controllers/auth_controller.dart';
 
 import 'app/routes/app_pages.dart';
 
@@ -33,7 +33,7 @@ void main() async {
   // ));
 
   await GetStorage.init();
-  final authC = Get.put(HomeController());
+  final authC = Get.put(AuthController());
   await initializeDateFormatting('id_ID', null).then(
     (_) => runApp(
       FutureBuilder(
@@ -46,7 +46,7 @@ void main() async {
                   title: "Rekso",
                   initialRoute: authC.isAuth.isTrue
                       ? Routes.BOTTOM_NAVIGATION
-                      : Routes.HOME,
+                      : Routes.LOGIN,
                   getPages: AppPages.routes,
                   theme: ThemeData.light(),
                   navigatorKey: Get.key),
