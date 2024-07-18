@@ -16,6 +16,7 @@ import '../../login/controllers/auth_controller.dart';
 import '../controllers/maps_street_cleaning_controller.dart';
 import 'layouts/detail_pin_sc.dart';
 import 'layouts/lay_card_mc_vehicle_directions_sc.dart';
+import 'layouts/lay_info_detail_sc.dart';
 import 'layouts/lay_list_mc_vehicle_sc.dart';
 import 'layouts/list_location_sc.dart';
 import 'layouts/list_team_sc.dart';
@@ -49,7 +50,7 @@ class MapsStreetCleaningView extends GetView<MapsStreetCleaningController> {
                       Container(
                         alignment: Alignment.topLeft,
                         child: Container(
-                          margin: const EdgeInsets.only(left: 20.0, top: 20.0),
+                          margin: const EdgeInsets.only(left: 20.0, top: 40.0),
                           width: 40,
                           height: 40,
                           child: ElevatedButton(
@@ -59,12 +60,103 @@ class MapsStreetCleaningView extends GetView<MapsStreetCleaningController> {
                               padding: const EdgeInsets.all(5),
                               backgroundColor: HexColor(ColorWidget().red),
                             ),
-                            child: SvgPicture.asset(
-                              'assets/icons/signout.svg',
-                              color: HexColor(ColorWidget().white),
-                              fit: BoxFit.scaleDown,
+                            child: Tooltip(
+                              message: 'Sign Out',
+                              child: SvgPicture.asset(
+                                'assets/icons/signout.svg',
+                                color: HexColor(ColorWidget().white),
+                                fit: BoxFit.scaleDown,
+                              ),
                             ),
                           ),
+                        ),
+                      ),
+                      Container(
+                        alignment: Alignment.topLeft,
+                        child: Column(
+                          children: [
+                            Container(
+                              margin:
+                                  const EdgeInsets.only(left: 20.0, top: 150.0),
+                              width: 40,
+                              height: 40,
+                              child: ElevatedButton(
+                                onPressed: () => controller.mcShowInfo(true),
+                                style: ElevatedButton.styleFrom(
+                                  shape: const CircleBorder(),
+                                  padding: const EdgeInsets.all(5),
+                                  backgroundColor:
+                                      HexColor(ColorWidget().primarySC),
+                                ),
+                                child: Tooltip(
+                                  message: 'Info',
+                                  child: SvgPicture.asset(
+                                    'assets/icons/info-circle.svg',
+                                    color: HexColor(ColorWidget().white),
+                                    fit: BoxFit.scaleDown,
+                                  ),
+                                ),
+                              ),
+                            ),
+                            Container(
+                              margin:
+                                  const EdgeInsets.only(top: 50.0, left: 20.0),
+                              width: 40,
+                              height: 40,
+                              child: ElevatedButton(
+                                onPressed: () {
+                                  controller
+                                      .changeFilterTypeForm('road_sweeper');
+                                },
+                                style: ElevatedButton.styleFrom(
+                                  shape: const CircleBorder(),
+                                  padding: const EdgeInsets.all(5),
+                                  backgroundColor:
+                                      HexColor(ColorWidget().primarySC),
+                                ),
+                                child: Tooltip(
+                                  message: 'Task Road Sweeper',
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(5.0),
+                                    child: SvgPicture.asset(
+                                      'assets/icons/road-sweeper.svg',
+                                      color: HexColor(ColorWidget().white),
+                                      fit: BoxFit.scaleDown,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            Container(
+                              margin:
+                                  const EdgeInsets.only(top: 10.0, left: 20.0),
+                              width: 40,
+                              height: 40,
+                              child: ElevatedButton(
+                                onPressed: () {
+                                  controller
+                                      .changeFilterTypeForm('manual_sweeper');
+                                },
+                                style: ElevatedButton.styleFrom(
+                                  shape: const CircleBorder(),
+                                  padding: const EdgeInsets.all(5),
+                                  backgroundColor:
+                                      HexColor(ColorWidget().primarySC),
+                                ),
+                                child: Tooltip(
+                                  message: 'Task Manual Sweeper',
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(5.0),
+                                    child: SvgPicture.asset(
+                                      'assets/icons/manual-sweeper.svg',
+                                      color: HexColor(ColorWidget().white),
+                                      fit: BoxFit.scaleDown,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                       Container(
@@ -94,10 +186,13 @@ class MapsStreetCleaningView extends GetView<MapsStreetCleaningController> {
                                   backgroundColor:
                                       HexColor(ColorWidget().primarySC),
                                 ),
-                                child: SvgPicture.asset(
-                                  'assets/icons/search.svg',
-                                  color: HexColor(ColorWidget().white),
-                                  fit: BoxFit.scaleDown,
+                                child: Tooltip(
+                                  message: 'Search Collection Point',
+                                  child: SvgPicture.asset(
+                                    'assets/icons/search.svg',
+                                    color: HexColor(ColorWidget().white),
+                                    fit: BoxFit.scaleDown,
+                                  ),
                                 ),
                               ),
                             ),
@@ -114,10 +209,13 @@ class MapsStreetCleaningView extends GetView<MapsStreetCleaningController> {
                                   backgroundColor:
                                       HexColor(ColorWidget().primarySC),
                                 ),
-                                child: SvgPicture.asset(
-                                  'assets/icons/plus-circle.svg',
-                                  color: HexColor(ColorWidget().white),
-                                  fit: BoxFit.scaleDown,
+                                child: Tooltip(
+                                  message: 'Zoom In',
+                                  child: SvgPicture.asset(
+                                    'assets/icons/plus-circle.svg',
+                                    color: HexColor(ColorWidget().white),
+                                    fit: BoxFit.scaleDown,
+                                  ),
                                 ),
                               ),
                             ),
@@ -134,10 +232,13 @@ class MapsStreetCleaningView extends GetView<MapsStreetCleaningController> {
                                   backgroundColor:
                                       HexColor(ColorWidget().primarySC),
                                 ),
-                                child: SvgPicture.asset(
-                                  'assets/icons/minus-circle.svg',
-                                  color: HexColor(ColorWidget().white),
-                                  fit: BoxFit.scaleDown,
+                                child: Tooltip(
+                                  message: 'Zoom Out',
+                                  child: SvgPicture.asset(
+                                    'assets/icons/minus-circle.svg',
+                                    color: HexColor(ColorWidget().white),
+                                    fit: BoxFit.scaleDown,
+                                  ),
                                 ),
                               ),
                             ),
@@ -156,10 +257,13 @@ class MapsStreetCleaningView extends GetView<MapsStreetCleaningController> {
                                   backgroundColor:
                                       HexColor(ColorWidget().primarySC),
                                 ),
-                                child: SvgPicture.asset(
-                                  'assets/icons/refresh.svg',
-                                  color: HexColor(ColorWidget().white),
-                                  fit: BoxFit.scaleDown,
+                                child: Tooltip(
+                                  message: 'Refresh',
+                                  child: SvgPicture.asset(
+                                    'assets/icons/refresh.svg',
+                                    color: HexColor(ColorWidget().white),
+                                    fit: BoxFit.scaleDown,
+                                  ),
                                 ),
                               ),
                             ),
@@ -228,10 +332,13 @@ class MapsStreetCleaningView extends GetView<MapsStreetCleaningController> {
                                   backgroundColor:
                                       HexColor(ColorWidget().primarySC),
                                 ),
-                                child: SvgPicture.asset(
-                                  'assets/icons/directions.svg',
-                                  color: HexColor(ColorWidget().white),
-                                  fit: BoxFit.scaleDown,
+                                child: Tooltip(
+                                  message: 'Trip Vehicles',
+                                  child: SvgPicture.asset(
+                                    'assets/icons/directions.svg',
+                                    color: HexColor(ColorWidget().white),
+                                    fit: BoxFit.scaleDown,
+                                  ),
                                 ),
                               ),
                             ),
@@ -252,10 +359,13 @@ class MapsStreetCleaningView extends GetView<MapsStreetCleaningController> {
                                   backgroundColor:
                                       HexColor(ColorWidget().primarySC),
                                 ),
-                                child: SvgPicture.asset(
-                                  'assets/icons/car.svg',
-                                  color: HexColor(ColorWidget().white),
-                                  fit: BoxFit.scaleDown,
+                                child: Tooltip(
+                                  message: 'Show Vehicles',
+                                  child: SvgPicture.asset(
+                                    'assets/icons/car.svg',
+                                    color: HexColor(ColorWidget().white),
+                                    fit: BoxFit.scaleDown,
+                                  ),
                                 ),
                               ),
                             ),
@@ -287,59 +397,10 @@ class MapsStreetCleaningView extends GetView<MapsStreetCleaningController> {
                                   backgroundColor:
                                       HexColor(ColorWidget().primarySC),
                                 ),
-                                child: SvgPicture.asset(
-                                  'assets/icons/filter.svg',
-                                  color: HexColor(ColorWidget().white),
-                                  fit: BoxFit.scaleDown,
-                                ),
-                              ),
-                            ),
-                            Container(
-                              margin:
-                                  const EdgeInsets.only(top: 10.0, right: 20.0),
-                              width: 40,
-                              height: 40,
-                              child: ElevatedButton(
-                                onPressed: () {
-                                  controller
-                                      .changeFilterTypeForm('road_sweeper');
-                                },
-                                style: ElevatedButton.styleFrom(
-                                  shape: const CircleBorder(),
-                                  padding: const EdgeInsets.all(5),
-                                  backgroundColor:
-                                      HexColor(ColorWidget().primarySC),
-                                ),
-                                child: Padding(
-                                  padding: const EdgeInsets.all(5.0),
+                                child: Tooltip(
+                                  message: 'Filter Route Team',
                                   child: SvgPicture.asset(
-                                    'assets/icons/road-sweeper.svg',
-                                    color: HexColor(ColorWidget().white),
-                                    fit: BoxFit.scaleDown,
-                                  ),
-                                ),
-                              ),
-                            ),
-                            Container(
-                              margin:
-                                  const EdgeInsets.only(top: 10.0, right: 20.0),
-                              width: 40,
-                              height: 40,
-                              child: ElevatedButton(
-                                onPressed: () {
-                                  controller
-                                      .changeFilterTypeForm('manual_sweeper');
-                                },
-                                style: ElevatedButton.styleFrom(
-                                  shape: const CircleBorder(),
-                                  padding: const EdgeInsets.all(5),
-                                  backgroundColor:
-                                      HexColor(ColorWidget().primarySC),
-                                ),
-                                child: Padding(
-                                  padding: const EdgeInsets.all(5.0),
-                                  child: SvgPicture.asset(
-                                    'assets/icons/manual-sweeper.svg',
+                                    'assets/icons/filter.svg',
                                     color: HexColor(ColorWidget().white),
                                     fit: BoxFit.scaleDown,
                                   ),
@@ -357,9 +418,10 @@ class MapsStreetCleaningView extends GetView<MapsStreetCleaningController> {
                             child: Container(
                               width: 180,
                               height: 30,
-                              margin: const EdgeInsets.symmetric(
-                                horizontal: 20.0,
-                                vertical: 10.0,
+                              margin: const EdgeInsets.only(
+                                left: 80.0,
+                                top: 10.0,
+                                bottom: 10.0,
                               ),
                               child: const McVehicleDirectionsMinimizeSc(),
                             ),
@@ -378,9 +440,10 @@ class MapsStreetCleaningView extends GetView<MapsStreetCleaningController> {
                               width: MediaQuery.of(context).size.height < 1000.0
                                   ? MediaQuery.of(context).size.width / 3
                                   : MediaQuery.of(context).size.width,
-                              margin: const EdgeInsets.symmetric(
-                                horizontal: 20.0,
-                                vertical: 10.0,
+                              margin: const EdgeInsets.only(
+                                left: 80.0,
+                                top: 10.0,
+                                bottom: 10.0,
                               ),
                               child: LayCardMcVehicleDirectionsSc(
                                 element: controller.mcVehicleTripData,
@@ -426,9 +489,10 @@ class MapsStreetCleaningView extends GetView<MapsStreetCleaningController> {
                               width: MediaQuery.of(context).size.height < 1000.0
                                   ? MediaQuery.of(context).size.width / 3
                                   : MediaQuery.of(context).size.width,
-                              margin: const EdgeInsets.symmetric(
-                                horizontal: 20.0,
-                                vertical: 10.0,
+                              margin: const EdgeInsets.only(
+                                left: 80.0,
+                                top: 10.0,
+                                bottom: 10.0,
                               ),
                               child: DetailPinSc(
                                 element: controller.listElement,
@@ -476,9 +540,10 @@ class MapsStreetCleaningView extends GetView<MapsStreetCleaningController> {
                               width: MediaQuery.of(context).size.height < 1000.0
                                   ? MediaQuery.of(context).size.width / 3
                                   : MediaQuery.of(context).size.width,
-                              margin: const EdgeInsets.symmetric(
-                                horizontal: 20.0,
-                                vertical: 10.0,
+                              margin: const EdgeInsets.only(
+                                left: 80.0,
+                                top: 10.0,
+                                bottom: 10.0,
                               ),
                               child: DetailVehicleSc(
                                 element: controller.detailVehicle,
@@ -526,9 +591,10 @@ class MapsStreetCleaningView extends GetView<MapsStreetCleaningController> {
                               width: MediaQuery.of(context).size.height < 1000.0
                                   ? MediaQuery.of(context).size.width / 3
                                   : MediaQuery.of(context).size.width,
-                              margin: const EdgeInsets.symmetric(
-                                horizontal: 20.0,
-                                vertical: 10.0,
+                              margin: const EdgeInsets.only(
+                                left: 80.0,
+                                top: 10.0,
+                                bottom: 10.0,
                               ),
                               child: LayDetailMcVehicleSc(
                                 element: controller.mcVehicleDetail,
@@ -537,6 +603,39 @@ class MapsStreetCleaningView extends GetView<MapsStreetCleaningController> {
                           ),
                         ],
                       ],
+
+                      // info vehicle
+                      if (controller.mcVehicleTripData.isNotEmpty) ...[
+                        if (controller.mcShowInfo.isTrue) ...[
+                          Container(
+                            alignment: Alignment.topLeft,
+                            child: Container(
+                              width: 450,
+                              height: 450,
+                              margin: const EdgeInsets.only(
+                                left: 80.0,
+                                top: 10.0,
+                                bottom: 10.0,
+                              ),
+                              child: const InfoDetailVehicleSc(),
+                            ),
+                          )
+                        ]
+                      ] else if (controller.mcShowInfo.isTrue) ...[
+                        Container(
+                          alignment: Alignment.topLeft,
+                          child: Container(
+                            width: 450,
+                            height: 250,
+                            margin: const EdgeInsets.only(
+                              left: 80.0,
+                              top: 10.0,
+                              bottom: 10.0,
+                            ),
+                            child: const LayInfoDetailSc(),
+                          ),
+                        )
+                      ]
                     ],
                   ),
             floatingActionButton: controller.listElement.isNotEmpty ||
@@ -548,6 +647,7 @@ class MapsStreetCleaningView extends GetView<MapsStreetCleaningController> {
                     child: Padding(
                       padding: const EdgeInsets.only(left: 40.0),
                       child: FloatingActionButton(
+                        tooltip: 'Back to center',
                         onPressed: () {
                           controller.listElement.clear();
                           controller.animateMapMove(

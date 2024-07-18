@@ -108,6 +108,7 @@ class MapsStreetCleaningController extends GetxController
   var mcRouteLine = [].obs;
   var mcVehicleId = 0.obs;
   var mcMinimizeTripData = false.obs;
+  var mcShowInfo = false.obs;
 
   late Timer timer;
 

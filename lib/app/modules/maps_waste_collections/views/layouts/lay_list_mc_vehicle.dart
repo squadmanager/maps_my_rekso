@@ -242,7 +242,7 @@ class LayListMcVehicle extends StatelessWidget {
                         color: HexColor(
                           controller.mcVehicleStatusesList[i].motionStatus ==
                                   'M'
-                              ? ColorWidget().green
+                              ? ColorWidget().blue
                               : controller.mcVehicleStatusesList[i]
                                           .motionStatus ==
                                       'I'
@@ -255,12 +255,12 @@ class LayListMcVehicle extends StatelessWidget {
                         child: Text(
                           controller.mcVehicleStatusesList[i].motionStatus ==
                                   'M'
-                              ? 'Berjalan'
+                              ? 'Move'
                               : controller.mcVehicleStatusesList[i]
                                           .motionStatus ==
                                       'I'
-                                  ? 'Diam'
-                                  : 'Parkir',
+                                  ? 'Idle'
+                                  : 'Parking',
                           style: GoogleFonts.poppins(
                             fontSize: 12.0,
                             fontWeight: FontWeight.w600,

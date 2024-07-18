@@ -20,7 +20,7 @@ class ListTeamSc extends GetView<MapsStreetCleaningController> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Select Team ${controller.typeForm.value}',
+              'Select Team ${controller.titleForm.value}',
               style: GoogleFonts.poppins(
                 fontSize: 15.0,
                 fontWeight: FontWeight.w600,

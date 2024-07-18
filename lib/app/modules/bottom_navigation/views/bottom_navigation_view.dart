@@ -61,36 +61,42 @@ class BottomNavigationView extends GetView<BottomNavigationController> {
                             onTap: () {
                               controller.tabIndex(0);
                             },
-                            child: controller.tabIndex.value == 0
-                                ? SvgPicture.asset(
-                                    'assets/icons/dragonfly.svg',
-                                    width: 35,
-                                    fit: BoxFit.contain,
-                                  )
-                                : SvgPicture.asset(
-                                    'assets/icons/dragonfly.svg',
-                                    color: HexColor(ColorWidget().grey),
-                                    width: 35,
-                                    fit: BoxFit.contain,
-                                  ),
+                            child: Tooltip(
+                              message: 'Waste Collections',
+                              child: controller.tabIndex.value == 0
+                                  ? SvgPicture.asset(
+                                      'assets/icons/dragonfly.svg',
+                                      width: 35,
+                                      fit: BoxFit.contain,
+                                    )
+                                  : SvgPicture.asset(
+                                      'assets/icons/dragonfly.svg',
+                                      color: HexColor(ColorWidget().grey),
+                                      width: 35,
+                                      fit: BoxFit.contain,
+                                    ),
+                            ),
                           ),
                           InkWell(
                             borderRadius: BorderRadius.circular(50.0),
                             onTap: () {
                               controller.tabIndex(1);
                             },
-                            child: controller.tabIndex.value == 1
-                                ? SvgPicture.asset(
-                                    'assets/icons/road-sweeper-bottom-nav.svg',
-                                    width: 35,
-                                    fit: BoxFit.contain,
-                                  )
-                                : SvgPicture.asset(
-                                    'assets/icons/road-sweeper-bottom-nav.svg',
-                                    color: HexColor(ColorWidget().grey),
-                                    width: 35,
-                                    fit: BoxFit.contain,
-                                  ),
+                            child: Tooltip(
+                              message: 'Street Cleaning',
+                              child: controller.tabIndex.value == 1
+                                  ? SvgPicture.asset(
+                                      'assets/icons/road-sweeper-bottom-nav.svg',
+                                      width: 35,
+                                      fit: BoxFit.contain,
+                                    )
+                                  : SvgPicture.asset(
+                                      'assets/icons/road-sweeper-bottom-nav.svg',
+                                      color: HexColor(ColorWidget().grey),
+                                      width: 35,
+                                      fit: BoxFit.contain,
+                                    ),
+                            ),
                           ),
                         ],
                       ),

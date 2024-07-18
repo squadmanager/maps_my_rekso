@@ -228,7 +228,7 @@ class MapsWidget extends GetView<MapsWasteCollectionsController> {
                 for (int i = 0; i < data.length; i++) ...[
                   Marker(
                     rotate: true,
-                    width: 80,
+                    width: 90,
                     height: 60,
                     point: LatLng(
                       double.parse(

@@ -50,14 +50,14 @@ class LayDetailMcVehicle extends GetView<MapsWasteCollectionsController> {
                         children: [
                           Expanded(
                             child: DetailWidget(
-                              title: 'Vehicle',
+                              title: 'License Plate',
                               isStatus: false,
                               textContent: element[0]['licensePlate'],
                             ),
                           ),
                           Expanded(
                             child: DetailWidget(
-                              title: 'Hull Number',
+                              title: 'Name',
                               isStatus: false,
                               textContent: '${element[0]['hullNo']}',
                             ),
@@ -82,7 +82,7 @@ class LayDetailMcVehicle extends GetView<MapsWasteCollectionsController> {
                               title: 'Machine Status',
                               isStatus: false,
                               textContent:
-                                  element[0]['engineOn'] ? 'Hidup' : 'Mati',
+                                  element[0]['engineOn'] ? 'On' : 'Off',
                             ),
                           ),
                           Expanded(
@@ -90,10 +90,10 @@ class LayDetailMcVehicle extends GetView<MapsWasteCollectionsController> {
                               title: 'Status',
                               isStatus: true,
                               textContent: element[0]['motionStatus'] == 'M'
-                                  ? 'Berjalan'
+                                  ? 'Move'
                                   : element[0]['motionStatus'] == 'I'
-                                      ? 'Diam'
-                                      : 'Parkir',
+                                      ? 'Idle'
+                                      : 'Parking',
                               colorTextStatus: HexColor(ColorWidget().white),
                               colorBackgroundStatus:
                                   HexColor(element[0]['motionStatus'] == 'M'

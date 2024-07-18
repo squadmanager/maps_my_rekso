@@ -144,17 +144,19 @@ class MapsMcWcController extends GetxController {
   }
 
   Future<void> getMcVehiclesStatuses() async {
-    // isLoadingVehicleStatuses(true);    
+    // isLoadingVehicleStatuses(true);
     try {
       var data = await McProvider().getVehicleStatuses();
 
       mcVehicleStatusesList.value = data.where((element) {
         return element.vehicleGroups
-                .where((vg) => vg == mapsMonitoringC.gpsGroup.value)
+                .where((vg) =>
+                    vg == mapsMonitoringC.gpsGroup.value &&
+                    element.licensePlate.contains('-') == false)
                 .isNotEmpty
             ? true
             : false;
-      }).toList();    
+      }).toList();
 
       if (mcVehicleStatusesList.isNotEmpty) {
         isEmptyVehicleStatuses.value = false;
@@ -224,14 +226,6 @@ class MapsMcWcController extends GetxController {
     var dataTrip = await McProvider().getTrips(vehicleId, startDate, endDate);
     mcTripList.value = dataTrip.summaryTrips;
 
-    if (mcTripList.isEmpty) {
-      mapsMonitoringC.refreshData();
-      mapsMonitoringC.isLoading(false);
-      WarningWidget().dialog('There are no vehicle routes');
-
-      return;
-    }
-
     var vehicleDetail = await McProvider().getVehicleDetail(vehicleId);
 
     mapsMonitoringC.mcVehicleTripData.add({
@@ -259,9 +253,17 @@ class MapsMcWcController extends GetxController {
         await McProvider().getTripsDetail(vehicleId, startDate, endDate);
     mcTripsDetailList.value = dataTripDetail;
 
+    if (mcTripsDetailList.isEmpty) {
+      mapsMonitoringC.refreshData();
+      mapsMonitoringC.isLoading(false);
+      WarningWidget().dialog('There are no vehicle routes');
+
+      return;
+    }
+
     int chunkSize = 2;
     for (var i = 0; i < mcTripsDetailList.length; i += chunkSize) {
-      if (mcTripsDetailList[i].speed < 15) {
+      if (mcTripsDetailList[i].speed <= 15) {
         mapsMonitoringC.mcRouteLine.add({
           'speed': mcTripsDetailList[i].speed,
           'color': HexColor(ColorWidget().green),
@@ -272,7 +274,7 @@ class MapsMcWcController extends GetxController {
                   : i + chunkSize),
         });
       } else if (mcTripsDetailList[i].speed > 15 &&
-          mcTripsDetailList[i].speed < 20) {
+          mcTripsDetailList[i].speed <= 30) {
         mapsMonitoringC.mcRouteLine.add({
           'speed': mcTripsDetailList[i].speed,
           'color': HexColor(ColorWidget().yellow),
@@ -282,8 +284,8 @@ class MapsMcWcController extends GetxController {
                   ? mcTripsDetailList.length
                   : i + chunkSize),
         });
-      } else if (mcTripsDetailList[i].speed > 20 &&
-          mcTripsDetailList[i].speed < 30) {
+      } else if (mcTripsDetailList[i].speed > 30 &&
+          mcTripsDetailList[i].speed <= 40) {
         mapsMonitoringC.mcRouteLine.add({
           'speed': mcTripsDetailList[i].speed,
           'color': HexColor(ColorWidget().orange),
@@ -293,8 +295,8 @@ class MapsMcWcController extends GetxController {
                   ? mcTripsDetailList.length
                   : i + chunkSize),
         });
-      } else if (mcTripsDetailList[i].speed > 30 &&
-          mcTripsDetailList[i].speed < 40) {
+      } else if (mcTripsDetailList[i].speed > 40 &&
+          mcTripsDetailList[i].speed <= 70) {
         mapsMonitoringC.mcRouteLine.add({
           'speed': mcTripsDetailList[i].speed,
           'color': HexColor(ColorWidget().red),
@@ -304,7 +306,7 @@ class MapsMcWcController extends GetxController {
                   ? mcTripsDetailList.length
                   : i + chunkSize),
         });
-      } else if (mcTripsDetailList[i].speed > 40) {
+      } else if (mcTripsDetailList[i].speed > 70) {
         mapsMonitoringC.mcRouteLine.add({
           'speed': mcTripsDetailList[i].speed,
           'color': HexColor(ColorWidget().blackRed),
@@ -368,25 +370,6 @@ class MapsMcWcController extends GetxController {
           initialSelectedRange: null,
           backgroundColor: HexColor(ColorWidget().white),
           selectionColor: HexColor(ColorWidget().primary),
-          monthCellStyle: DateRangePickerMonthCellStyle(
-            textStyle: GoogleFonts.poppins(
-              color: HexColor(ColorWidget().black),
-            ),
-          ),
-          rangeSelectionColor: HexColor(ColorWidget().secondary),
-          selectionTextStyle: GoogleFonts.poppins(
-            color: HexColor(ColorWidget().black),
-          ),
-          headerStyle: DateRangePickerHeaderStyle(
-            textStyle: GoogleFonts.poppins(
-              color: HexColor(ColorWidget().black),
-            ),
-          ),
-          yearCellStyle: DateRangePickerYearCellStyle(
-            textStyle: GoogleFonts.poppins(
-              color: HexColor(ColorWidget().black),
-            ),
-          ),
         ),
       ),
     );
