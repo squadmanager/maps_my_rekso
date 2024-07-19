@@ -55,14 +55,14 @@ class LayCardMcVehicleDirections
                           children: [
                             Expanded(
                               child: DetailWidget(
-                                title: 'Vehicle',
+                                title: 'License Plate',
                                 isStatus: false,
                                 textContent: '${element[0]['licensePlate']}',
                               ),
                             ),
                             Expanded(
                               child: DetailWidget(
-                                title: 'Hull Number',
+                                title: 'Name',
                                 isStatus: false,
                                 textContent: '${element[0]['hullNo']}',
                               ),
